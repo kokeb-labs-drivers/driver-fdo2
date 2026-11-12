@@ -70,6 +70,8 @@ inline std::string Feed(fdo2::LineAssembler& a, const std::string& bytes) {
       out += std::string(line.data(), line.size()) + "|";
     } else if (r == fdo2::PushResult::Bad) {
       out += "!";
+    } else {
+      // a partial line: more bytes are needed
     }
   }
   return out;

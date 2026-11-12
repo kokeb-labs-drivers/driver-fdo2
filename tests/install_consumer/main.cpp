@@ -4,6 +4,7 @@
  */
 #include <cstddef>
 #include <cstdint>
+#include <span>
 
 #include "fdo2.hpp"
 
@@ -21,8 +22,8 @@ public:
     return true;
   }
   std::size_t Read(uint8_t* data, std::size_t max, uint32_t timeout_ms) noexcept {
-    (void)data;
-    (void)max;
+    const std::span<uint8_t> out{data, max}; // the buffer the driver offers; nothing arrives
+    (void)out;
     (void)timeout_ms;
     return 0U;
   }

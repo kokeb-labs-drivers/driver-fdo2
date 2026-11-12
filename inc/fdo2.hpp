@@ -18,6 +18,7 @@
 #define FDO2_HPP
 
 #include <array>
+#include <bit>
 #include <cstddef>
 #include <cstdint>
 #include <limits>
@@ -121,6 +122,36 @@ enum class Phase : uint8_t {
 struct Step {
   bool ended{false};      ///< The operation ended (with `error`).
   Error error{Error::Ok}; ///< `Ok` unless the operation failed.
+};
+
+/// The operation being waited for, its arguments and its deadline.
+struct Op {
+  OperationKind kind{OperationKind::None};
+  Command command{Command::Vers};
+  detail::Phase phase{detail::Phase::Main};
+  std::array<int32_t, kMaxValues> args{};
+  std::size_t arg_count{0};
+  uint64_t deadline_us{0};
+  uint64_t elapsed_us{0};
+  uint32_t cmd_len{0};
+  uint32_t stale{0};
+  uint32_t new_baud{0};
+  int32_t crc_target{0};
+  int32_t expect_mhpa{0};              ///< Guard of a calibration: the pO2 the gas should have.
+  Command main_command{Command::Vers}; ///< Guard: the flash-writing command that follows.
+  std::size_t main_arg_count{0};       ///< Guard: its argument count.
+  uint8_t attempts_left{0};
+  bool tolerant{false};
+  bool sent{false};
+};
+
+/// What a start adds to the common checks.
+struct StartOptions {
+  bool supported{true};        ///< The firmware and family offer the command.
+  bool allow_streaming{false}; ///< The call may start while the module streams.
+  bool tolerant{false};        ///< Broadcast lines are ignored while waiting.
+  int32_t crc_target{0};       ///< `#CRCE`: the mode to verify.
+  uint32_t new_baud{0};        ///< `#BAUD`: the rate to switch to.
 };
 
 } // namespace detail
@@ -563,35 +594,8 @@ public:
   /// @}
 
 private:
-  /// The operation being waited for, its arguments and its deadline.
-  struct Op {
-    OperationKind kind{OperationKind::None};
-    Command command{Command::Vers};
-    detail::Phase phase{detail::Phase::Main};
-    std::array<int32_t, kMaxValues> args{};
-    std::size_t arg_count{0};
-    uint64_t deadline_us{0};
-    uint64_t elapsed_us{0};
-    uint32_t cmd_len{0};
-    uint32_t stale{0};
-    uint32_t new_baud{0};
-    int32_t crc_target{0};
-    int32_t expect_mhpa{0};              ///< Guard of a calibration: the pO2 the gas should have.
-    Command main_command{Command::Vers}; ///< Guard: the flash-writing command that follows.
-    std::size_t main_arg_count{0};       ///< Guard: its argument count.
-    uint8_t attempts_left{0};
-    bool tolerant{false};
-    bool sent{false};
-  };
-
-  /// What a start adds to the common checks.
-  struct StartOptions {
-    bool supported{true};        ///< The firmware and family offer the command.
-    bool allow_streaming{false}; ///< The call may start while the module streams.
-    bool tolerant{false};        ///< Broadcast lines are ignored while waiting.
-    int32_t crc_target{0};       ///< `#CRCE`: the mode to verify.
-    uint32_t new_baud{0};        ///< `#BAUD`: the rate to switch to.
-  };
+  using Op = detail::Op;
+  using StartOptions = detail::StartOptions;
 
   // Entry checks and the common start.
   [[nodiscard]] Error gate(bool allow_streaming) const noexcept;

@@ -260,7 +260,7 @@ Result<void> FDO2<Port>::BeginInitialize() noexcept {
   }
   power_set_ = detail::HasGpioSet<Port>;
   if (!port_.FlushInput()) {
-    failInit(Error::Bus);
+    (void)failInit(Error::Bus);
     return Result<void>::Failure(Error::Bus);
   }
   resetSession();
@@ -484,7 +484,7 @@ Error FDO2<Port>::transmit() noexcept {
   }
   std::array<uint8_t, kMaxCommandLength> bytes{};
   for (std::size_t i = 0U; i < n; ++i) {
-    bytes[i] = static_cast<uint8_t>(text[i]);
+    bytes[i] = std::bit_cast<uint8_t>(text[i]); // the byte, not the character's value
   }
   assembler_.Reset(config_.ignore_lf);
   rx_len_ = 0U;
@@ -879,8 +879,9 @@ Error FDO2<Port>::fillRx() noexcept {
   }
   rx_pos_ = 0U;
   rx_len_ = 0U;
-  const std::size_t got = port_.Read(rx_.data(), rx_.size(), 0_u32);
-  if (got > rx_.size()) {
+  const std::size_t room = rx_.size();
+  const std::size_t got = port_.Read(rx_.data(), room, 0_u32);
+  if (got > room) {
     return Error::Bus; // a port that returns more than it was asked for breaks its contract
   }
   rx_len_ = got;
@@ -1469,6 +1470,8 @@ detail::Step FDO2<Port>::completeGuard(const ParsedLine& parsed) noexcept {
     }
   } else if (!versionMatches(decodeVersion(parsed))) {
     return failUnknown(Error::DeviceIdMismatch);
+  } else {
+    // the identity matches: the write follows
   }
   op_.command = op_.main_command;
   op_.arg_count = op_.main_arg_count;
@@ -1605,13 +1608,13 @@ Error FDO2<Port>::checkStatus(const Status& status) const noexcept {
 }
 
 template <UartPort Port>
-Error FDO2<Port>::checkOxygen(const Oxygen& o) const noexcept {
-  if (const Error s = checkStatus(o.status); s != Error::Ok) {
+Error FDO2<Port>::checkOxygen(const Oxygen& oxygen) const noexcept {
+  if (const Error s = checkStatus(oxygen.status); s != Error::Ok) {
     return s;
   }
   const bool plausible =
-      detail::InWindowI32(o.o2_mhpa, config_.o2_min_mhpa, config_.o2_max_mhpa) &&
-      detail::InWindowI32(o.temperature_mc, config_.temp_min_mc, config_.temp_max_mc);
+      detail::InWindowI32(oxygen.o2_mhpa, config_.o2_min_mhpa, config_.o2_max_mhpa) &&
+      detail::InWindowI32(oxygen.temperature_mc, config_.temp_min_mc, config_.temp_max_mc);
   return plausible ? Error::Ok : Error::OutOfRange;
 }
 

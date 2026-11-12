@@ -720,6 +720,8 @@ private:
       status = scenario.status_override;
     } else if (scenario.temperature_c < 5.0 && scenario.o2_hpa < 10.0) {
       status = 1;
+    } else {
+      status = 0;
     }
     std::string out =
         std::string(raw ? "#MRAW " : "#MOXY ") + Dec(o) + " " + Dec(tm) + " " + Dec(status);

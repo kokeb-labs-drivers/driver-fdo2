@@ -17,7 +17,9 @@
 #ifndef FDO2_PROTOCOL_HPP
 #define FDO2_PROTOCOL_HPP
 
+#include <algorithm>
 #include <array>
+#include <bit>
 #include <cstddef>
 #include <cstdint>
 #include <span>
@@ -121,7 +123,8 @@ template <typename T>
 constexpr uint16_t Crc16Modbus(std::span<const T> data) noexcept {
   uint32_t crc = 0xFFFFU;
   for (const T item : data) {
-    crc ^= static_cast<uint32_t>(static_cast<uint8_t>(item));
+    crc ^=
+        static_cast<uint32_t>(std::bit_cast<uint8_t>(item)); // the byte, not the character's value
     for (uint32_t bit = 0U; bit < 8U; ++bit) {
       const bool lsb = (crc & 1U) != 0U;
       crc >>= 1U;
@@ -135,6 +138,26 @@ constexpr uint16_t Crc16Modbus(std::span<const T> data) noexcept {
 
 namespace detail {
 
+/// The decimal digits in order: a digit's value is its position (no arithmetic on characters).
+inline constexpr std::array<char, 10> kDecimalDigits{'0', '1', '2', '3', '4',
+                                                     '5', '6', '7', '8', '9'};
+
+/// The capital letters of a command header.
+inline constexpr std::array<char, 26> kCapitalLetters{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
+                                                      'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+                                                      'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+
+/// True when two characters are the same character. No character is used as a number (Rule 7.0.3).
+constexpr bool SameChar(char first, char second) noexcept {
+  return std::array<char, 1>{first} == std::array<char, 1>{second};
+}
+
+/// True when `c` is one of the characters of `set`.
+template <std::size_t N>
+constexpr bool OneOf(char c, const std::array<char, N>& set) noexcept {
+  return std::find(set.begin(), set.end(), c) != set.end();
+}
+
 /// Writes `value` in decimal at `out[pos...]`; false when it does not fit.
 constexpr bool PutInt(std::span<char> out, std::size_t& pos, int32_t value) noexcept {
   std::array<char, 12> digits{};
@@ -142,7 +165,7 @@ constexpr bool PutInt(std::span<char> out, std::size_t& pos, int32_t value) noex
   const bool neg = value < 0;
   uint32_t mag = neg ? (0U - static_cast<uint32_t>(value)) : static_cast<uint32_t>(value);
   do {
-    digits[n] = static_cast<char>('0' + static_cast<char>(mag % 10U));
+    digits[n] = kDecimalDigits[mag % 10U];
     ++n;
     mag /= 10U;
   } while (mag != 0U);
@@ -360,7 +383,7 @@ public:
       discarding_ = true;
       return PushResult::Bad;
     }
-    buf_[len_] = static_cast<char>(byte);
+    buf_[len_] = std::bit_cast<char>(byte);
     ++len_;
     return PushResult::Pending;
   }
@@ -446,7 +469,7 @@ constexpr bool ParseNumber(std::span<const char> token, bool& negative, uint64_t
   if (token.empty()) {
     return false;
   }
-  if (token[0] == '-') {
+  if (SameChar(token[0], '-')) {
     negative = true;
     i = 1U;
   }
@@ -454,15 +477,16 @@ constexpr bool ParseNumber(std::span<const char> token, bool& negative, uint64_t
   if ((digits == 0U) || (digits > 20U)) {
     return false;
   }
-  if ((token[i] == '0') && ((digits > 1U) || negative)) {
+  if (SameChar(token[i], '0') && ((digits > 1U) || negative)) {
     return false;
   }
   for (; i < token.size(); ++i) {
-    const char c = token[i];
-    if ((c < '0') || (c > '9')) {
+    const auto* const found = std::find(kDecimalDigits.begin(), kDecimalDigits.end(), token[i]);
+    if (found == kDecimalDigits.end()) {
       return false;
     }
-    const auto d = static_cast<uint64_t>(c - '0');
+    const auto d =
+        static_cast<uint64_t>(found - kDecimalDigits.begin()); // the digit's value is its place
     if (mag > ((0xFFFF'FFFF'FFFF'FFFFULL - d) / 10U)) {
       return false;
     }
@@ -523,8 +547,8 @@ constexpr bool FindCommand(std::span<const char> letters, Command& out) noexcept
   for (uint8_t i = 0U; i <= static_cast<uint8_t>(Command::Setm); ++i) {
     const auto candidate = static_cast<Command>(i);
     const char* header = HeaderOf(candidate);
-    if ((letters[0] == header[0]) && (letters[1] == header[1]) && (letters[2] == header[2]) &&
-        (letters[3] == header[3])) {
+    if (SameChar(letters[0], header[0]) && SameChar(letters[1], header[1]) &&
+        SameChar(letters[2], header[2]) && SameChar(letters[3], header[3])) {
       out = candidate;
       return true;
     }
@@ -537,12 +561,12 @@ constexpr bool ParseValues(std::span<const char> rest, bool strict, Command comm
                            ParsedLine& out) noexcept {
   std::size_t pos = 0U;
   while (pos < rest.size()) {
-    if (rest[pos] != ' ') {
+    if (!SameChar(rest[pos], ' ')) {
       return false;
     }
     ++pos;
     if (!strict) {
-      while ((pos < rest.size()) && (rest[pos] == ' ')) {
+      while ((pos < rest.size()) && (SameChar(rest[pos], ' '))) {
         ++pos;
       }
       if (pos >= rest.size()) {
@@ -550,7 +574,7 @@ constexpr bool ParseValues(std::span<const char> rest, bool strict, Command comm
       }
     }
     std::size_t end = pos;
-    while ((end < rest.size()) && (rest[end] != ' ')) {
+    while ((end < rest.size()) && (!SameChar(rest[end], ' '))) {
       ++end;
     }
     if ((end == pos) || (out.count >= kMaxValues)) {
@@ -576,7 +600,7 @@ constexpr ParseStatus SplitCrc(std::span<const char> line, std::span<const char>
   suffix = false;
   std::size_t colon = line.size();
   for (std::size_t i = 0U; i < line.size(); ++i) {
-    if (line[i] == ':') {
+    if (SameChar(line[i], ':')) {
       colon = i;
     }
   }
@@ -584,7 +608,7 @@ constexpr ParseStatus SplitCrc(std::span<const char> line, std::span<const char>
     return ParseStatus::Ok;
   }
   // `colon + 2` must lie inside the line before the digit count is taken: the count is unsigned.
-  if (((colon + 2U) >= line.size()) || (line[colon + 1U] != ' ')) {
+  if (((colon + 2U) >= line.size()) || (!SameChar(line[colon + 1U], ' '))) {
     return ParseStatus::Malformed;
   }
   const std::size_t digits = line.size() - colon - 2U;
@@ -628,21 +652,21 @@ constexpr bool TakeErrorCode(ParsedLine& line) noexcept {
 
 /// True when the body starts with `#ERRO`.
 constexpr bool IsErroHeader(std::span<const char> body) noexcept {
-  return (body.size() >= 5U) && (body[0] == '#') && (body[1] == 'E') && (body[2] == 'R') &&
-         (body[3] == 'R') && (body[4] == 'O');
+  return (body.size() >= 5U) && (SameChar(body[0], '#')) && (SameChar(body[1], 'E')) &&
+         (SameChar(body[2], 'R')) && (SameChar(body[3], 'R')) && (SameChar(body[4], 'O'));
 }
 
 /// True when the body starts with `#`, four capital letters and then ends or has a space.
 constexpr bool HasHeader(std::span<const char> body) noexcept {
-  if ((body.size() < 5U) || (body[0] != '#')) {
+  if ((body.size() < 5U) || (!SameChar(body[0], '#'))) {
     return false;
   }
   for (std::size_t i = 1U; i < 5U; ++i) {
-    if ((body[i] < 'A') || (body[i] > 'Z')) {
+    if (!OneOf(body[i], kCapitalLetters)) {
       return false;
     }
   }
-  return (body.size() == 5U) || (body[5] == ' ');
+  return (body.size() == 5U) || (SameChar(body[5], ' '));
 }
 } // namespace detail
 

@@ -46,6 +46,8 @@ extern "C" void app_main(void) {
       }
     } else if (sensor.IsInitialized() && (sensor.Pending() == fdo2::OperationKind::None)) {
       measuring = sensor.StartMeasureOxygen().ok();
+    } else {
+      // an operation is still running: wait
     }
     vTaskDelay(pdMS_TO_TICKS(10));
   }
