@@ -18,6 +18,7 @@
 #define FDO2_HPP
 
 #include <array>
+#include <bit>
 #include <cstddef>
 #include <cstdint>
 #include <limits>

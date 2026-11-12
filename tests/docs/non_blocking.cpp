@@ -55,6 +55,8 @@ public:
       state_ = Phase::Idle;
     } else if (sensor_.StartMeasureOxygen()) {
       state_ = Phase::Measuring;
+    } else {
+      // the start was refused (busy): try again at the next poll
     }
   }
 

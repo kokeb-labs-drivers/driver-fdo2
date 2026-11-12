@@ -484,7 +484,7 @@ Error FDO2<Port>::transmit() noexcept {
   }
   std::array<uint8_t, kMaxCommandLength> bytes{};
   for (std::size_t i = 0U; i < n; ++i) {
-    bytes[i] = static_cast<uint8_t>(text[i]);
+    bytes[i] = std::bit_cast<uint8_t>(text[i]); // the byte, not the character's value
   }
   assembler_.Reset(config_.ignore_lf);
   rx_len_ = 0U;
@@ -1470,6 +1470,8 @@ detail::Step FDO2<Port>::completeGuard(const ParsedLine& parsed) noexcept {
     }
   } else if (!versionMatches(decodeVersion(parsed))) {
     return failUnknown(Error::DeviceIdMismatch);
+  } else {
+    // the identity matches: the write follows
   }
   op_.command = op_.main_command;
   op_.arg_count = op_.main_arg_count;
