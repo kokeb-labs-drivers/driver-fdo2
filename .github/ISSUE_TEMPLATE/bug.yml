@@ -42,7 +42,7 @@ body:
     attributes:
       label: Board / MCU / port
       description: The board, the MCU and the port you run the driver on, or "host" for the tests or simulation.
-      placeholder: your board and MCU, and the port you use (for example examples/esp32)
+      placeholder: ESP32-S3 dev board, examples/esp32 port
     validations:
       required: true
   - type: input

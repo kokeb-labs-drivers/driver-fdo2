@@ -75,10 +75,8 @@ def card(page) -> str:
     docs, _ = _load()
     rows = ["| Document | Revision | Get it |", "| --- | --- | --- |"]
     for d in docs.values():
-        vendor_page = f"[vendor page]({d['url']})"
-        links = f"[PDF]({d['pdf']}) · {vendor_page}" if d.get("pdf") else vendor_page
-        name = f"{d['kind']}: {d['title']} ({d['vendor']} {d['number']})"
-        rows.append(f"| {name} | {d['revision']}, {d['date']} | {links} |")
+        links = f"[PDF]({d['pdf']}) · [vendor page]({d['url']})" if d.get("pdf") else f"[vendor page]({d['url']})"
+        rows.append(f"| {d['kind']}: {d['title']} ({d['vendor']} {d['number']}) | {d['revision']}, {d['date']} | {links} |")
     note = _wrap(
         f"Written against these revisions; the SHA-256 of each file is in [`{SOURCE}`]({page.rel(SOURCE)})."
         f" Where each part of the driver is in the datasheet: [Datasheet map]({page.rel('docs/datasheet.md')})."
@@ -94,8 +92,7 @@ def datasheet_map(page) -> str:
         d = docs[t["doc"]]
         where = ", ".join(f"[{_title(p)}]({page.rel(f'docs/{p}.md')})" for p in t["docs"])
         doc = "" if len(docs) == 1 else f"{d['number']}: "
-        cite = _page_link(d, int(t["page"]))
-        rows.append(f"| {t['topic']} | {doc}{t['section']} | {cite} | {t['driver']} | {where} |")
+        rows.append(f"| {t['topic']} | {doc}{t['section']} | {_page_link(d, int(t['page']))} | {t['driver']} | {where} |")
     lines = []
     for d in docs.values():
         get = f"[vendor page]({d['url']})" + (f" or as a [PDF]({d['pdf']})" if d.get("pdf") else "")
