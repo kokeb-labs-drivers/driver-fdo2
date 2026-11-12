@@ -1,0 +1,35 @@
+FDO2 driver on the host
+fdo2: initialised
+module: device 8, firmware 3.57, sensors 0xF
+unique id: 18446744073709551615
+family: FDO2-G2, #SETM yes, broadcast yes
+oxygen 211.717 hPa
+temperature 21.000 degC
+pressure 1013.000 mbar
+humidity 40.000 %RH
+oxygen fraction 20.900 %
+quality: good
+MeasureRaw: Ok
+MeasureOxygen with status 1: Ok
+quality: warning (detector amplification reduced)
+MeasureOxygen with status 2: SensorFault
+fdo2: the module reported an error
+ReadUserMemory with #ERRO -26: Unsupported
+module error code: -26
+CalibrateAir without consent: NotPermitted
+flash writes sent: 0
+fdo2: initialised
+CalibrateAir while warming up: NotReady
+CalibrateAir with consent: Ok
+flash writes sent: 1 of 3
+StartMeasureOxygen: Ok
+non-blocking measurement done after 4 ticks: yes
+SetBroadcast 200 ms: Ok
+frame oxygen 211.717 hPa
+frame oxygen 211.717 hPa
+frame oxygen 211.717 hPa
+frame oxygen 211.717 hPa
+frame oxygen 211.717 hPa
+DisableBroadcast: Ok
+flash writes sent: 3 of 3
+done

@@ -1,0 +1,20 @@
+---
+# How this repository was made from kokeb-labs/driver-template. The template's drift check
+# (tools/scaffold.py --check-drift, CI: kokeb-labs/ci-tools ru-template-drift) scaffolds the template again
+# with these arguments and compares the files it manages. List a file under `local` only when it differs on
+# purpose, with the reason.
+# template commit not a git repository: no first commit to match against the template
+template: unknown
+kind: "driver"
+name: "fdo2"
+bus: "uart"
+namespace: "fdo2"
+description: "C++20 driver for the PyroScience FDO2-G2 and FDO2 optical oxygen sensor modules on UART."
+include_root: null
+org: "kokeb-labs-drivers"
+repo: "driver-fdo2"
+author: "The driver-fdo2 authors"
+license: "MIT"
+datasheet: "https://www.pyroscience.com/en/products/all-meters/fdo2-g2"
+platforms: [host, esp32]
+local: []

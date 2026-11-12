@@ -1,0 +1,97 @@
+{
+  "chip-blocks": {
+    "title": "Inside the FDO2",
+    "alt": "Block diagram of the FDO2: its function blocks, how they connect and which package pins reach each block.",
+    "description": "The FDO2's function blocks inside its outline. Arrows between blocks carry signals or data in the direction they point (both ways where they have two heads). The package pins stand on the left and right edges with their numbers, each wired to the block it reaches.",
+    "profile": "detail",
+    "width": 1200,
+    "source": "docs/hardware.yml",
+    "sources": [
+      "docs/hardware.yml",
+      "inc/fdo2_uart_interface.hpp"
+    ]
+  },
+  "chip-circuit-direct": {
+    "title": "FDO2: Direct connection to a 3.3-volt controller",
+    "alt": "Schematic of the FDO2 direct connection to a 3.3-volt controller: the chip with U2 MCU (3.3 V), C1 capacitor 100 nF; the MCU wires carry the port hooks GpioSet(CtrlPin::Power), Read(), Write().",
+    "description": "A schematic. The MCU is on the left, each of its pins level with the chip pin it connects to; above each wire is the hook of the driver's port that drives or reads it. Supply pins point up to their supply and decoupling, ground pins down. Pins on the right carry the loads and the pins tied to a supply or ground; a cross marks a pin left open. A dot is a junction; wires that cross without a dot are not connected.",
+    "profile": "detail",
+    "width": 760,
+    "source": "docs/hardware.yml",
+    "sources": [
+      "docs/hardware.yml",
+      "inc/fdo2_uart_interface.hpp"
+    ]
+  },
+  "chip-circuit-shifted": {
+    "title": "FDO2: Connection to a 5-volt controller through a divider",
+    "alt": "Schematic of the FDO2 connection to a 5-volt controller through a divider: the chip with U2 MCU (5 V), R1 resistor 10 kΩ, R2 resistor 12 kΩ, C1 capacitor 100 nF; the MCU wires carry the port hooks GpioSet(CtrlPin::Power), Read(), Write().",
+    "description": "A schematic. The MCU is on the left, each of its pins level with the chip pin it connects to; above each wire is the hook of the driver's port that drives or reads it. Supply pins point up to their supply and decoupling, ground pins down. Pins on the right carry the loads and the pins tied to a supply or ground; a cross marks a pin left open. A dot is a junction; wires that cross without a dot are not connected.",
+    "profile": "detail",
+    "width": 800,
+    "source": "docs/hardware.yml",
+    "sources": [
+      "docs/hardware.yml",
+      "inc/fdo2_uart_interface.hpp"
+    ]
+  },
+  "chip-outline": {
+    "title": "FDO2 package, Module, 4-pin",
+    "alt": "Outline of the FDO2 in Module, 4-pin drawn to scale from above: body 28.5 x 28.5 x 27.5 mm, 4 pins.",
+    "description": "The FDO2 package seen from the top and, when the height is known, from the side, drawn to scale: 28.5 x 28.5 x 27.5 mm. The arrows carry the datasheet's dimensions, the dot marks pin 1 and the pads are numbered counter-clockwise from it, coloured by the pin's electrical type (legend below). Pads sit centred on each side, evenly spaced; the datasheet's land pattern is the reference for a board.",
+    "profile": "detail",
+    "width": 861,
+    "source": "docs/hardware.yml",
+    "sources": [
+      "docs/hardware.yml",
+      "inc/fdo2_uart_interface.hpp"
+    ]
+  },
+  "chip-pinout": {
+    "title": "FDO2 pinout, Module, 4-pin",
+    "alt": "Pinout of the FDO2 in Module, 4-pin, top view: 4 pins, each with its name, its electrical type as a colour and the driver hook that uses it.",
+    "description": "The FDO2 seen from the top, in its Module, 4-pin package. Pin 1 is marked by the dot; the numbers run counter-clockwise from it. Each pad is coloured by the pin's electrical type (legend below). Next to it is the pin's name and, in mono, the hook of the driver's port that drives or reads it; a pin without a hook is not used by the driver.",
+    "profile": "detail",
+    "width": 921,
+    "source": "docs/hardware.yml",
+    "sources": [
+      "docs/hardware.yml",
+      "inc/fdo2_uart_interface.hpp"
+    ]
+  },
+  "driver-layers": {
+    "title": "The layers, one of them yours",
+    "alt": "Layer diagram: your application calls the FDO2 core, which sends register reads and writes through the UART port contract to the port class you write, which drives the chip; the core and the contract are the same on every MCU.",
+    "description": "Top to bottom, each arrow is a call. Your application calls one object, whose public calls are listed from the umbrella header in inc/. The core turns each call into register reads and writes and hands them to the port contract (the CRTP base in inc/*_interface.hpp), which forwards them, at compile time, to the hooks of the port class you write; your port moves the bytes on the bus. The notes on the right say which layers stay the same on every MCU and which one you write. A library without a port contract has only the first two layers.",
+    "profile": "overview",
+    "width": 1200,
+    "source": "docs/diagrams/figures/driver-layers.py",
+    "sources": [
+      "inc/fdo2.hpp:public calls",
+      "inc/fdo2_uart_interface.hpp:UartInterface"
+    ]
+  },
+  "state-machine": {
+    "title": "The driver's states",
+    "alt": "State diagram of fdo2::FDO2: Uninitialized, PoweringUp, Idle, Waiting, Streaming, Draining and StateUnknown, with the calls and events that move between them.",
+    "description": "Each box is a State of fdo2::FDO2, read from the enumeration in inc/fdo2_types.hpp; each arrow is a call or an event that moves it. Start-up goes through PoweringUp to Idle. An operation (Start* or a blocking call) puts the driver in Waiting; a good reply returns it to Idle. A timeout, a CRC error or a refused line sends it through Draining, where input is discarded until the line is quiet, so a late reply is never read as the next answer. A flash-writing command or a baud change that ended without a confirmed echo leaves StateUnknown, which only Resync() or a power cycle ends. While the module streams, Idle is reported as Streaming. The transitions are fixed in this figure and checked against the names used in src/fdo2.ipp.",
+    "profile": "detail",
+    "width": 1200,
+    "source": "docs/diagrams/figures/state-machine.py",
+    "sources": [
+      "inc/fdo2_types.hpp:State",
+      "src/fdo2.ipp:State transitions"
+    ]
+  },
+  "transaction-timing": {
+    "title": "One command and its reply",
+    "alt": "Five steps of a transaction: flush the receive buffer, write the command, wait for the module, read the echo and values, end at the carriage return; the allowance of each kind of command is listed under the wait.",
+    "description": "A transaction is five steps, left to right. The driver drops what is in the receive buffer, writes the command and its carriage return, then waits for the module: the module echoes the command, with its values, and ends the reply with one carriage return. The wait is the characters' airtime at the current baud rate, plus the module's processing allowance for the command (command_ms, measurement_ms, calibration_ms, flash_ms or logo_ms of the Config), plus margin_ms. The numbers shown are the Config defaults, read from inc/fdo2_types.hpp. A reply that does not end in time is a Timeout: the driver drains the line, and sends an idempotent read again when retries allow.",
+    "profile": "detail",
+    "width": 1200,
+    "source": "docs/diagrams/figures/transaction-timing.py",
+    "sources": [
+      "inc/fdo2_types.hpp:Config"
+    ]
+  }
+}

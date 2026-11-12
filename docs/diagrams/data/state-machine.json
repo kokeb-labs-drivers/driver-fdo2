@@ -1,0 +1,57 @@
+{
+  "states": [
+    "Uninitialized",
+    "PoweringUp",
+    "Idle",
+    "Waiting",
+    "Streaming",
+    "Draining",
+    "StateUnknown"
+  ],
+  "edges": [
+    [
+      "Uninitialized",
+      "PoweringUp",
+      "BeginInitialize()"
+    ],
+    [
+      "PoweringUp",
+      "Idle",
+      "#VERS, #IDNR ok"
+    ],
+    [
+      "Idle",
+      "Waiting",
+      "Start*() / blocking call"
+    ],
+    [
+      "Waiting",
+      "Idle",
+      "reply accepted"
+    ],
+    [
+      "Waiting",
+      "Draining",
+      "Timeout, Crc, InvalidReply"
+    ],
+    [
+      "Draining",
+      "Idle",
+      "line quiet"
+    ],
+    [
+      "Waiting",
+      "StateUnknown",
+      "flash write or #BAUD, no echo"
+    ],
+    [
+      "StateUnknown",
+      "Idle",
+      "Resync()"
+    ]
+  ],
+  "sources": [
+    "inc/fdo2_types.hpp:State",
+    "src/fdo2.ipp:State transitions"
+  ]
+}

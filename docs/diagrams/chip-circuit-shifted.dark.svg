@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="716" viewBox="0 0 800 716" role="img" aria-labelledby="chip-circuit-shifted-title chip-circuit-shifted-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="chip-circuit-shifted-title">FDO2: Connection to a 5-volt controller through a divider</title>
+<desc id="chip-circuit-shifted-desc">Schematic of the FDO2 connection to a 5-volt controller through a divider: the chip with U2 MCU (5 V), R1 resistor 10 kΩ, R2 resistor 12 kΩ, C1 capacitor 100 nF; the MCU wires carry the port hooks GpioSet(CtrlPin::Power), Read(), Write().</desc>
+<rect x="0.5" y="0.5" width="799" height="715" rx="16" fill="#0E131A" stroke="#283241"/>
+<text x="32" y="44" font-size="12.5" font-weight="700" letter-spacing="1.2" fill="#F8D27A">HARDWARE</text>
+<text x="32" y="77.3" font-size="26" font-weight="700" fill="#E8EDF3">FDO2: Connection to a 5-volt controller through a divider</text>
+<text x="32" y="103.8" font-size="15" fill="#9AA6B5">RXD tolerates 3.3 V at most (data sheet, absolute maximum rating): a controller with 5 V outputs</text>
+<text x="32" y="125.5" font-size="15" fill="#9AA6B5">needs a divider or a level shifter in front of RXD. The divider gives R2 / (R1 + R2) of the</text>
+<text x="32" y="147.3" font-size="15" fill="#9AA6B5">controller's output: 10 kΩ and 12 kΩ give 0.545, so 2.7 V from 5.0 V and 3.0 V from 5.5 V, and 3.03</text>
+<text x="32" y="169.1" font-size="15" fill="#9AA6B5">V at most with 1 % resistors, below the 3.3 V maximum. A ratio above 0.6 puts more than 3.3 V on</text>
+<text x="32" y="190.8" font-size="15" fill="#9AA6B5">RXD at 5.5 V (10 kΩ and 20 kΩ give 3.67 V). TXD swings to 3.0 V only: connect it straight to a</text>
+<text x="32" y="212.6" font-size="15" fill="#9AA6B5">controller input that reads 3.0 V as high (a CMOS input at 0.7 x VDD of a 5 V controller does not;</text>
+<text x="32" y="234.3" font-size="15" fill="#9AA6B5">use a level shifter for TXD as well). Above each MCU wire: the port hook that drives it. Datasheet:</text>
+<text x="32" y="256.1" font-size="15" fill="#9AA6B5">6.2 Voltage Tolerance of UART RX Pin (ERRATA), p. 19.</text>
+<rect x="32" y="272.1" width="736" height="1" fill="#252F3C"/>
+<path d="M552 338.1 L552 426.1" fill="none" stroke="#D2DAE4" stroke-width="1.5"/>
+<path d="M552 362.1 L600 362.1" fill="none" stroke="#D2DAE4" stroke-width="1.5"/>
+<path d="M240 506.1 L320 506.1" fill="none" stroke="#D2DAE4" stroke-width="1.5"/>
+<path d="M368 506.1 L488 506.1" fill="none" stroke="#D2DAE4" stroke-width="1.5"/>
+<path d="M408 506.1 L408 530" fill="none" stroke="#D2DAE4" stroke-width="1.5"/>
+<path d="M240 482.1 L488 482.1" fill="none" stroke="#D2DAE4" stroke-width="1.5"/>
+<rect x="512" y="450.1" width="192" height="88" rx="4" fill="#151C26" stroke="#F4B942" stroke-width="1.8"/>
+<path d="M512 482.1 L488 482.1" fill="none" stroke="#4ADE80" stroke-width="2.2" stroke-linecap="butt" stroke-linejoin="round"/>
+<path d="M512 506.1 L488 506.1" fill="none" stroke="#2BB3A3" stroke-width="2.2" stroke-linecap="butt" stroke-linejoin="round"/>
+<path d="M552 450.1 L552 426.1" fill="none" stroke="#FB7185" stroke-width="2.2" stroke-linecap="butt" stroke-linejoin="round"/>
+<path d="M608 538 L608 562" fill="none" stroke="#94A3B8" stroke-width="2.2" stroke-linecap="butt" stroke-linejoin="round"/>
+<rect x="32" y="434.1" width="184" height="104" rx="4" fill="#18202B" stroke="#D2DAE4" stroke-width="1.8"/>
+<path d="M216 482.1 L240 482.1" fill="none" stroke="#60A5FA" stroke-width="2.2" stroke-linecap="butt" stroke-linejoin="round"/>
+<path d="M216 506.1 L240 506.1" fill="none" stroke="#60A5FA" stroke-width="2.2" stroke-linecap="butt" stroke-linejoin="round"/>
+<path d="M192 434.1 L192 410.1" fill="none" stroke="#FB7185" stroke-width="2.2" stroke-linecap="butt" stroke-linejoin="round"/>
+<path d="M192 538 L192 562" fill="none" stroke="#94A3B8" stroke-width="2.2" stroke-linecap="butt" stroke-linejoin="round"/>
+<path d="M552 338.1 L552 327.1" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M543 327.1 L561 327.1" fill="none" stroke="#FB7185" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M600 362.1 L600 382.6" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M600 389.6 L600 410.1" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M590 382.6 L610 382.6" fill="none" stroke="#E8EDF3" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M590 389.6 L610 389.6" fill="none" stroke="#E8EDF3" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M600 410.1 L600 418.1" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M592 418.1 L608 418.1" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M595 421.6 L605 421.6" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M598 425.1 L602 425.1" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M608 562 L608 570" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M600 570 L616 570" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M603 573.5 L613 573.5" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M606 577 L610 577" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M192 410.1 L192 399.1" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M183 399.1 L201 399.1" fill="none" stroke="#FB7185" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M192 562 L192 570" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M184 570 L200 570" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M187 573.5 L197 573.5" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M190 577 L194 577" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M320 506.1 L333 506.1" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M355 506.1 L368 506.1" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M333 511.1 L355 511.1 L355 501.1 L333 501.1 Z" fill="#151C26" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M408 530 L408 543" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M408 565 L408 578" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M403 543 L403 565 L413 565 L413 543 Z" fill="#151C26" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M408 578 L408 586" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M400 586 L416 586" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M403 589.5 L413 589.5" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M406 593 L410 593" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="518" y="486.6" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">TXD</text>
+<text x="508" y="478.1" font-size="11" text-anchor="end" fill="#9AA6B5">2</text>
+<text x="518" y="510.6" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">RXD</text>
+<text x="508" y="502.1" font-size="11" text-anchor="end" fill="#9AA6B5">3</text>
+<text x="552" y="466.1" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" text-anchor="middle" fill="#E8EDF3">VCC</text>
+<text x="556" y="444.1" font-size="11" fill="#9AA6B5">4</text>
+<text x="608" y="531" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" text-anchor="middle" fill="#E8EDF3">GND</text>
+<text x="612" y="552.9" font-size="11" fill="#9AA6B5">1</text>
+<text x="608" y="491.1" font-size="15" font-weight="700" text-anchor="middle" fill="#F8D27A">FDO2</text>
+<text x="608" y="509.1" font-size="12" text-anchor="middle" fill="#9AA6B5">U1</text>
+<text x="210" y="486.6" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" text-anchor="end" fill="#E8EDF3">UART RX</text>
+<text x="210" y="510.6" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" text-anchor="end" fill="#E8EDF3">UART TX</text>
+<text x="192" y="450.1" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" text-anchor="middle" fill="#E8EDF3">VDD</text>
+<text x="192" y="531" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" text-anchor="middle" fill="#E8EDF3">GND</text>
+<text x="44" y="456.1" font-size="15" font-weight="700" fill="#E8EDF3">MCU (5 V)</text>
+<text x="44" y="474.1" font-size="12" fill="#9AA6B5">U2</text>
+<text x="552" y="321.1" font-size="12" font-weight="700" text-anchor="middle" fill="#FECDD3">+5V</text>
+<text x="615" y="383.1" font-size="12" font-weight="700" fill="#E8EDF3">C1</text>
+<text x="615" y="397.5" font-size="12" fill="#9AA6B5">100 nF *</text>
+<text x="192" y="393.1" font-size="12" font-weight="700" text-anchor="middle" fill="#FECDD3">+5V</text>
+<text x="248" y="476.1" font-size="12" font-weight="500" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#BFDBFE">Read()</text>
+<text x="248" y="500.1" font-size="12" font-weight="500" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#BFDBFE">Write()</text>
+<text x="344" y="496.1" font-size="12" font-weight="600" text-anchor="middle" fill="#D2DAE4">R1  10 kΩ  *</text>
+<text x="418" y="551" font-size="12" font-weight="700" fill="#E8EDF3">R2</text>
+<text x="418" y="565.5" font-size="12" fill="#9AA6B5">12 kΩ *</text>
+<circle cx="552" cy="362.1" r="3.2" fill="#D2DAE4"/>
+<circle cx="408" cy="506.1" r="3.2" fill="#D2DAE4"/>
+<text x="32" y="615" font-size="12.5" fill="#9AA6B5">* Not confirmed in the datasheet: R1 10 kΩ: example value: with R2 it gives 3.0 V from 5.5 V, below the 3.3 V</text>
+<text x="32" y="633" font-size="12.5" fill="#9AA6B5">maximum; R2 12 kΩ: example value: keep R2 / (R1 + R2) at 0.6 or less; C1 100 nF: a common practice, not a data sheet</text>
+<text x="32" y="651" font-size="12.5" fill="#9AA6B5">value.</text>
+<rect x="32" y="670.2" width="14" height="14" rx="4" fill="#13233A" stroke="#60A5FA" stroke-width="1.4"/>
+<text x="54" y="681.8" font-size="12.5" fill="#9AA6B5">bus hook (SPI, I2C, UART)</text>
+</svg>

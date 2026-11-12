@@ -1,0 +1,138 @@
+---
+# The module's hardware in one file: connector, pins, the driver hook of each pin, the blocks inside, and reference
+# circuits. `kokeb-docs figures` draws the pinout, the block diagram and the circuits from it, `kokeb-docs gen`
+# writes the pin and parts tables on docs/hardware.md, and `kokeb-docs hardware --check` validates it.
+# Schema: docs/chip-diagrams.md in kokeb-labs/ci-tools. Every fact cites the data sheet in docs/datasheets.yml
+# (section and printed page); anything the data sheet does not state carries `unverified`.
+#
+# The part is a cylindrical module with a four-pin connector, not a leaded package. The figure system draws packages
+# with pins on its sides; the four contacts are drawn in one row (the data sheet draws them in one row too) and the
+# outline gets the body's diameter as both dimensions. The round shape is a known limit of the renderer
+# (docs/limitations.md).
+schema: 1
+chip: FDO2
+
+refs:
+  pinout: {doc: ds, section: "7 Mechanical Dimensions and Electrical Interface, drawing and pin table", page: 20}
+  spec: {doc: ds, section: "2 Specifications, Interface", page: 6}
+  uart: {doc: ds, section: "4 Communication Interface", page: 10}
+  commands: {doc: ds, section: "4.3 Commands", page: 11}
+  mech: {doc: ds, section: "2 Specifications, Mechanical", page: 7}
+  legacy: {doc: ds_legacy, section: "7 Mechanical Dimensions and Electrical Interface", page: 22}
+  tol: {doc: ds_legacy, section: "6.2 Voltage Tolerance of UART RX Pin (ERRATA)", page: 19}
+  supply_l: {doc: ds_legacy, section: "2 Specifications, Interface, WARNING", page: 6}
+  succ: {doc: pcn_fdo2, section: "Product change notification, text", page: 1}
+
+package:
+  type: "Module, 4-pin"
+  pins: 4
+  layout: dual
+  sides: {left: [1, 2, 3, 4]}
+  ref: pinout
+  outline: {length_mm: 28.5, width_mm: 28.5, height_mm: 27.5, ref: mech, height_ref: pinout}
+  variants:
+    - {id: fdo2-g2, type: "FDO2-G2 (current)", pins: 4,
+       size: "diameter 28.5 mm, 27.5 mm with connector (drawing), 10.5 g", ordering: "FDO2-G2",
+       note: "firmware 3.55 or 3.57; #SETM available", ref: pinout}
+    - {id: fdo2, type: "FDO2 (legacy, replaced by the G2)", pins: 4,
+       size: "same mechanics: diameter 28.5 mm, M16 x 1", ordering: "FDO2",
+       note: "firmware 3.28 to 3.55; no #SETM in its data sheet; same connector and pins", ref: legacy}
+
+supply:
+  - {name: VCC, min_v: 3.3, max_v: 5.0, ref: spec}
+
+hooks:
+  - {id: uart_tx, call: "Write()", kind: uart, source: inc/fdo2_uart_interface.hpp, symbol: Write}
+  - {id: uart_rx, call: "Read()", kind: uart, source: inc/fdo2_uart_interface.hpp, symbol: Read}
+  - {id: power, call: "GpioSet(CtrlPin::Power)", kind: gpio-out, source: inc/fdo2_uart_interface.hpp, symbol: GpioSet}
+
+pins:
+  - {number: 1, name: GND, type: ground, function: Ground, ref: pinout}
+  - {number: 2, name: TXD, type: digital-out, domain: "UART 3.0 V",
+     function: "Module transmit: 3.0 V UART data to the host (host RX)", hook: uart_rx, unused: Leave open,
+     ref: pinout}
+  - {number: 3, name: RXD, type: digital-in, domain: "UART 3.0 V",
+     function: "Module receive: UART data from the host, 3.0 V levels, absolute maximum 3.3 V (host TX)",
+     hook: uart_tx, ref: pinout}
+  - {number: 4, name: VCC, type: power, domain: VCC,
+     function: "Supply 3.3 V to 5.0 V; below 3.3 V the oxygen readings can be wrong.
+       Optionally switched by the port's power hook",
+     hook: power, ref: pinout}
+
+block_diagram:
+  ref: spec
+  blocks:
+    - {id: optics, ref: spec, label: "LED, detector and sensing membrane",
+       detail: "red excitation, near infrared luminescence",
+       at: [0, 0], tone: amber, unverified: "the data sheets have no block diagram; described in sections 1 and 4 text"}
+    - {id: env, ref: spec, label: "Temperature, pressure and humidity sensors",
+       detail: "inside the housing, vent capillary",
+       at: [0, 1], tone: teal, unverified: "the data sheets have no block diagram; described in sections 1 and 2 text"}
+    - {id: mcu, ref: commands, label: "Module controller", detail: "phase to pO2, status, calibration, flash",
+       at: [1, 0], tone: slate, unverified: "the data sheets have no block diagram"}
+    - {id: mem, ref: commands, label: Flash, detail: "calibration, settings, 64 user words", at: [1, 1], tone: slate,
+       unverified: "the data sheets have no block diagram"}
+    - {id: uart, ref: uart, label: UART, detail: "19200 8N1 at power-up, 3.0 V, CR lines", at: [2, 0], tone: teal,
+       pins: [TXD, RXD]}
+    - {id: pwr, ref: spec, label: Supply, detail: "3.3 V to 5.0 V", at: [2, 1], tone: slate, pins: [VCC, GND]}
+  links:
+    - {from: optics, to: mcu, label: luminescence}
+    - {from: env, to: mcu, label: "T, P, RH"}
+    - {from: mem, to: mcu, label: settings, both: true}
+    - {from: uart, to: mcu, label: "ASCII commands", both: true}
+    - {from: pwr, to: mcu, label: power}
+
+circuits:
+  - id: direct
+    title: Direct connection to a 3.3-volt controller
+    description: >-
+      The module's TXD goes to the controller's UART RX and its RXD to the controller's UART TX; both are 3.0 V
+      signals, so a 3.3 V controller connects directly. The 100 nF capacitor at VCC is common practice, not a data
+      sheet value. The supply may be 3.3 V or 5.0 V.
+    ref: pinout
+    parts:
+      - {id: U1, kind: chip}
+      - id: U2
+        kind: mcu
+        label: "MCU (3.3 V)"
+        pins:
+          - {name: TX, label: UART TX}
+          - {name: RX, label: UART RX}
+          - VDD
+          - GND
+      - {id: C1, kind: capacitor, value: 100 nF, unverified: "a common practice, not a data sheet value"}
+    nets:
+      - {name: "+3V3", kind: supply, nodes: [U1.VCC, C1.1, U2.VDD]}
+      - {name: GND, kind: ground, nodes: [U1.GND, C1.2, U2.GND]}
+      - {name: "MCU TX to RXD", nodes: [U1.RXD, U2.TX]}
+      - {name: "TXD to MCU RX", nodes: [U1.TXD, U2.RX]}
+  - id: shifted
+    title: Connection to a 5-volt controller through a divider
+    description: >-
+      RXD tolerates 3.3 V at most (data sheet, absolute maximum rating): a controller with 5 V outputs needs a divider
+      or a level shifter in front of RXD. The divider gives R2 / (R1 + R2) of the controller's output: 10 kΩ and
+      12 kΩ give 0.545, so 2.7 V from 5.0 V and 3.0 V from 5.5 V, and 3.03 V at most with 1 % resistors, below the
+      3.3 V maximum. A ratio above 0.6 puts more than 3.3 V on RXD at 5.5 V (10 kΩ and 20 kΩ give
+      3.67 V). TXD swings to 3.0 V only: connect it straight to a controller input that reads 3.0 V as high (a CMOS
+      input at 0.7 x VDD of a 5 V controller does not; use a level shifter for TXD as well).
+    ref: tol
+    parts:
+      - {id: U1, kind: chip}
+      - id: U2
+        kind: mcu
+        label: "MCU (5 V)"
+        pins:
+          - {name: TX, label: UART TX}
+          - {name: RX, label: UART RX}
+          - VDD
+          - GND
+      - {id: R1, kind: resistor, value: 10 kΩ,
+         unverified: "example value: with R2 it gives 3.0 V from 5.5 V, below the 3.3 V maximum"}
+      - {id: R2, kind: resistor, value: 12 kΩ, unverified: "example value: keep R2 / (R1 + R2) at 0.6 or less"}
+      - {id: C1, kind: capacitor, value: 100 nF, unverified: "a common practice, not a data sheet value"}
+    nets:
+      - {name: "+5V", kind: supply, nodes: [U1.VCC, C1.1, U2.VDD]}
+      - {name: GND, kind: ground, nodes: [U1.GND, C1.2, R2.2, U2.GND]}
+      - {name: "MCU TX", nodes: [U2.TX, R1.1]}
+      - {name: "RXD", nodes: [R1.2, R2.1, U1.RXD]}
+      - {name: "TXD to MCU RX", nodes: [U1.TXD, U2.RX]}

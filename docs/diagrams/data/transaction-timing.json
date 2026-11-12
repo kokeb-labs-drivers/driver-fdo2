@@ -1,0 +1,13 @@
+{
+  "ms": {
+    "command_ms": 100,
+    "measurement_ms": 300,
+    "calibration_ms": 10000,
+    "flash_ms": 2000,
+    "logo_ms": 1100,
+    "margin_ms": 50
+  },
+  "sources": [
+    "inc/fdo2_types.hpp:Config"
+  ]
+}

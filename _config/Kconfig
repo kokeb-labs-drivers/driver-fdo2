@@ -1,0 +1,94 @@
+# Kconfig for the FDO2 driver. The root CMakeLists.txt registers it with ESP-IDF
+# (idf_component_register(... KCONFIG _config/Kconfig)), so `idf.py menuconfig` shows
+# "FDO2 oxygen sensor". The values reach the code only through inc/fdo2_kconfig.hpp; no public
+# driver signature uses them.
+menuconfig FDO2
+    bool "FDO2 oxygen sensor"
+    default y
+    help
+      Defaults for fdo2::KconfigDefaults(). The driver itself does not
+      need Kconfig; outside ESP-IDF the same defaults come from Config{}.
+
+if FDO2
+
+config FDO2_FAMILY_LEGACY
+    bool "Legacy FDO2 module (no #SETM)"
+    default n
+    help
+      Config::family. Off: FDO2-G2, the current module. On: the legacy FDO2, whose data sheet does
+      not document #SETM.
+
+config FDO2_STATUS_POLICY_DOCUMENTED
+    bool "Accept a status of humidity or pressure/humidity sensor errors"
+    default n
+    help
+      Config::status_policy. Off (Datasheet): any status other than 0 or 1 is a sensor fault, as
+      the data sheet's "S should be 0 or 1". On (Documented): only fatal and undefined bits are
+      faults; bits 7, 9 and 10 give a degraded reading.
+
+config FDO2_POWER_UP_MS
+    int "Power-up wait before the first command (ms)"
+    range 1000 30000
+    default 1500
+    help
+      Config::power_up_ms. The data sheet says about 1 s.
+
+config FDO2_MEASUREMENT_MS
+    int "Allowance for one measurement (ms)"
+    range 50 5000
+    default 300
+    help
+      Config::measurement_ms. 150 ms covers flash modes 0 to 2, 300 ms every mode.
+
+config FDO2_RETRIES
+    int "Extra attempts of an idempotent read"
+    range 0 3
+    default 1
+    help
+      Config::retries. Flash-writing commands are never repeated.
+
+choice FDO2_CRC
+    prompt "CRC expectation"
+    default FDO2_CRC_AUTO
+    help
+      Config::crc.
+
+config FDO2_CRC_AUTO
+    bool "Learn from the first #VERS reply"
+config FDO2_CRC_OFF
+    bool "Never expect a CRC suffix"
+config FDO2_CRC_REQUIRED
+    bool "Every reply must carry a valid CRC"
+
+endchoice
+
+choice FDO2_BROADCAST
+    prompt "A module that streams at start-up"
+    default FDO2_BROADCAST_REFUSE
+    help
+      Config::broadcast.
+
+config FDO2_BROADCAST_REFUSE
+    bool "Refuse (BroadcastActive)"
+config FDO2_BROADCAST_STREAM
+    bool "Stream (decode the frames)"
+config FDO2_BROADCAST_DISABLE
+    bool "Disable (#BCST 0, a flash write)"
+
+endchoice
+
+config FDO2_ALLOW_PERSISTENT_WRITES
+    bool "Allow flash-writing commands"
+    default n
+    help
+      Config::allow_persistent_writes. #CALO, #CAHI, #CRCE, #SETM, #BCST and #WRUM use the module's
+      flash (about 20000 cycles; a power loss during a write can corrupt it).
+
+config FDO2_MAX_FLASH_WRITES
+    int "Flash-writing calls per driver lifetime"
+    range 1 64
+    default 8
+    help
+      Config::max_flash_writes.
+
+endif

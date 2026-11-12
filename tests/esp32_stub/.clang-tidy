@@ -1,0 +1,12 @@
+---
+# The stand-ins of the ESP-IDF headers copy the names, signatures and types of the vendor's C API (esp_err_t,
+# gpio_set_level, vTaskDelay, ...) because the example port includes the real headers on a target and these
+# on the host. The vendor's naming and unnamed parameters are therefore part of the contract, not a style
+# choice; the checks below would only ask to rename them.
+#   readability-identifier-naming, readability-named-parameter   the vendor's names and signatures
+#   performance-enum-size                                        esp_log_level_t is the vendor's int-sized enum
+InheritParentConfig: true
+Checks: >-
+  -readability-identifier-naming,
+  -readability-named-parameter,
+  -performance-enum-size

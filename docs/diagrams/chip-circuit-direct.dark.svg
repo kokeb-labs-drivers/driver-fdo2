@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="599" viewBox="0 0 760 599" role="img" aria-labelledby="chip-circuit-direct-title chip-circuit-direct-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="chip-circuit-direct-title">FDO2: Direct connection to a 3.3-volt controller</title>
+<desc id="chip-circuit-direct-desc">Schematic of the FDO2 direct connection to a 3.3-volt controller: the chip with U2 MCU (3.3 V), C1 capacitor 100 nF; the MCU wires carry the port hooks GpioSet(CtrlPin::Power), Read(), Write().</desc>
+<rect x="0.5" y="0.5" width="759" height="598" rx="16" fill="#0E131A" stroke="#283241"/>
+<text x="32" y="44" font-size="12.5" font-weight="700" letter-spacing="1.2" fill="#F8D27A">HARDWARE</text>
+<text x="32" y="77.3" font-size="26" font-weight="700" fill="#E8EDF3">FDO2: Direct connection to a 3.3-volt controller</text>
+<text x="32" y="103.8" font-size="15" fill="#9AA6B5">The module's TXD goes to the controller's UART RX and its RXD to the controller's UART</text>
+<text x="32" y="125.5" font-size="15" fill="#9AA6B5">TX; both are 3.0 V signals, so a 3.3 V controller connects directly. The 100 nF capacitor at</text>
+<text x="32" y="147.3" font-size="15" fill="#9AA6B5">VCC is common practice, not a data sheet value. The supply may be 3.3 V or 5.0 V. Above</text>
+<text x="32" y="169.1" font-size="15" fill="#9AA6B5">each MCU wire: the port hook that drives it. Datasheet: 7 Mechanical Dimensions and</text>
+<text x="32" y="190.8" font-size="15" fill="#9AA6B5">Electrical Interface, drawing and pin table, p. 20.</text>
+<rect x="32" y="206.8" width="696" height="1" fill="#252F3C"/>
+<path d="M440 272.8 L440 360.8" fill="none" stroke="#D2DAE4" stroke-width="1.5"/>
+<path d="M440 296.8 L488 296.8" fill="none" stroke="#D2DAE4" stroke-width="1.5"/>
+<path d="M256 440.8 L368 440.8" fill="none" stroke="#D2DAE4" stroke-width="1.5"/>
+<path d="M256 416.8 L368 416.8" fill="none" stroke="#D2DAE4" stroke-width="1.5"/>
+<rect x="392" y="384.8" width="200" height="88" rx="4" fill="#151C26" stroke="#F4B942" stroke-width="1.8"/>
+<path d="M392 416.8 L368 416.8" fill="none" stroke="#4ADE80" stroke-width="2.2" stroke-linecap="butt" stroke-linejoin="round"/>
+<path d="M392 440.8 L368 440.8" fill="none" stroke="#2BB3A3" stroke-width="2.2" stroke-linecap="butt" stroke-linejoin="round"/>
+<path d="M440 384.8 L440 360.8" fill="none" stroke="#FB7185" stroke-width="2.2" stroke-linecap="butt" stroke-linejoin="round"/>
+<path d="M496 472.8 L496 496.8" fill="none" stroke="#94A3B8" stroke-width="2.2" stroke-linecap="butt" stroke-linejoin="round"/>
+<rect x="32" y="368.8" width="200" height="104" rx="4" fill="#18202B" stroke="#D2DAE4" stroke-width="1.8"/>
+<path d="M232 416.8 L256 416.8" fill="none" stroke="#60A5FA" stroke-width="2.2" stroke-linecap="butt" stroke-linejoin="round"/>
+<path d="M232 440.8 L256 440.8" fill="none" stroke="#60A5FA" stroke-width="2.2" stroke-linecap="butt" stroke-linejoin="round"/>
+<path d="M208 368.8 L208 344.8" fill="none" stroke="#FB7185" stroke-width="2.2" stroke-linecap="butt" stroke-linejoin="round"/>
+<path d="M208 472.8 L208 496.8" fill="none" stroke="#94A3B8" stroke-width="2.2" stroke-linecap="butt" stroke-linejoin="round"/>
+<path d="M440 272.8 L440 261.8" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M431 261.8 L449 261.8" fill="none" stroke="#FB7185" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M488 296.8 L488 317.3" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M488 324.3 L488 344.8" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M478 317.3 L498 317.3" fill="none" stroke="#E8EDF3" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M478 324.3 L498 324.3" fill="none" stroke="#E8EDF3" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M488 344.8 L488 352.8" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M480 352.8 L496 352.8" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M483 356.3 L493 356.3" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M486 359.8 L490 359.8" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M496 496.8 L496 504.8" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M488 504.8 L504 504.8" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M491 508.3 L501 508.3" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M494 511.8 L498 511.8" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M208 344.8 L208 333.8" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M199 333.8 L217 333.8" fill="none" stroke="#FB7185" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M208 496.8 L208 504.8" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M200 504.8 L216 504.8" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M203 508.3 L213 508.3" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M206 511.8 L210 511.8" fill="none" stroke="#E8EDF3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="398" y="421.3" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">TXD</text>
+<text x="388" y="412.8" font-size="11" text-anchor="end" fill="#9AA6B5">2</text>
+<text x="398" y="445.3" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">RXD</text>
+<text x="388" y="436.8" font-size="11" text-anchor="end" fill="#9AA6B5">3</text>
+<text x="440" y="400.8" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" text-anchor="middle" fill="#E8EDF3">VCC</text>
+<text x="444" y="378.8" font-size="11" fill="#9AA6B5">4</text>
+<text x="496" y="465.8" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" text-anchor="middle" fill="#E8EDF3">GND</text>
+<text x="500" y="487.6" font-size="11" fill="#9AA6B5">1</text>
+<text x="492" y="425.8" font-size="15" font-weight="700" text-anchor="middle" fill="#F8D27A">FDO2</text>
+<text x="492" y="443.8" font-size="12" text-anchor="middle" fill="#9AA6B5">U1</text>
+<text x="226" y="421.3" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" text-anchor="end" fill="#E8EDF3">UART RX</text>
+<text x="226" y="445.3" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" text-anchor="end" fill="#E8EDF3">UART TX</text>
+<text x="208" y="384.8" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" text-anchor="middle" fill="#E8EDF3">VDD</text>
+<text x="208" y="465.8" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" text-anchor="middle" fill="#E8EDF3">GND</text>
+<text x="44" y="390.8" font-size="15" font-weight="700" fill="#E8EDF3">MCU (3.3 V)</text>
+<text x="44" y="408.8" font-size="12" fill="#9AA6B5">U2</text>
+<text x="440" y="255.8" font-size="12" font-weight="700" text-anchor="middle" fill="#FECDD3">+3V3</text>
+<text x="503" y="317.8" font-size="12" font-weight="700" fill="#E8EDF3">C1</text>
+<text x="503" y="332.2" font-size="12" fill="#9AA6B5">100 nF *</text>
+<text x="208" y="327.8" font-size="12" font-weight="700" text-anchor="middle" fill="#FECDD3">+3V3</text>
+<text x="264" y="410.8" font-size="12" font-weight="500" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#BFDBFE">Read()</text>
+<text x="264" y="434.8" font-size="12" font-weight="500" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#BFDBFE">Write()</text>
+<circle cx="440" cy="296.8" r="3.2" fill="#D2DAE4"/>
+<text x="32" y="533.8" font-size="12.5" fill="#9AA6B5">* Not confirmed in the datasheet: C1 100 nF: a common practice, not a data sheet value.</text>
+<rect x="32" y="552.9" width="14" height="14" rx="4" fill="#13233A" stroke="#60A5FA" stroke-width="1.4"/>
+<text x="54" y="564.5" font-size="12.5" fill="#9AA6B5">bus hook (SPI, I2C, UART)</text>
+</svg>
