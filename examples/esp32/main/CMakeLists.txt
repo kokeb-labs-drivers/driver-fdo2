@@ -24,7 +24,7 @@ get_filename_component(fdo2_component "${fdo2_component}" NAME)
 idf_component_register(
     SRCS "${APP_SOURCE_FILE}" "fdo2_cxx20_check.cpp"
     INCLUDE_DIRS "."
-    REQUIRES driver esp_rom freertos log ${fdo2_component}
+    REQUIRES driver esp_rom esp_timer freertos log ${fdo2_component}
 )
 
 target_compile_features(${COMPONENT_LIB} PRIVATE cxx_std_20)

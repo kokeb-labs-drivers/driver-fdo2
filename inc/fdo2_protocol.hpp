@@ -18,9 +18,11 @@
 #define FDO2_PROTOCOL_HPP
 
 #include <array>
+#include <bit>
 #include <cstddef>
 #include <cstdint>
 #include <span>
+#include <string_view>
 #include <type_traits>
 #include <utility>
 
@@ -121,7 +123,8 @@ template <typename T>
 constexpr uint16_t Crc16Modbus(std::span<const T> data) noexcept {
   uint32_t crc = 0xFFFFU;
   for (const T item : data) {
-    crc ^= static_cast<uint32_t>(static_cast<uint8_t>(item));
+    crc ^=
+        static_cast<uint32_t>(std::bit_cast<uint8_t>(item)); // the byte, not the character's value
     for (uint32_t bit = 0U; bit < 8U; ++bit) {
       const bool lsb = (crc & 1U) != 0U;
       crc >>= 1U;
@@ -135,6 +138,9 @@ constexpr uint16_t Crc16Modbus(std::span<const T> data) noexcept {
 
 namespace detail {
 
+/// The decimal digits in order: a digit's value is its position (no arithmetic on characters).
+inline constexpr std::string_view kDecimalDigits = "0123456789";
+
 /// Writes `value` in decimal at `out[pos...]`; false when it does not fit.
 constexpr bool PutInt(std::span<char> out, std::size_t& pos, int32_t value) noexcept {
   std::array<char, 12> digits{};
@@ -142,7 +148,7 @@ constexpr bool PutInt(std::span<char> out, std::size_t& pos, int32_t value) noex
   const bool neg = value < 0;
   uint32_t mag = neg ? (0U - static_cast<uint32_t>(value)) : static_cast<uint32_t>(value);
   do {
-    digits[n] = static_cast<char>('0' + static_cast<char>(mag % 10U));
+    digits[n] = kDecimalDigits[mag % 10U];
     ++n;
     mag /= 10U;
   } while (mag != 0U);
@@ -360,7 +366,7 @@ public:
       discarding_ = true;
       return PushResult::Bad;
     }
-    buf_[len_] = static_cast<char>(byte);
+    buf_[len_] = std::bit_cast<char>(byte);
     ++len_;
     return PushResult::Pending;
   }
@@ -446,7 +452,7 @@ constexpr bool ParseNumber(std::span<const char> token, bool& negative, uint64_t
   if (token.empty()) {
     return false;
   }
-  if (token[0] == '-') {
+  if (std::char_traits<char>::eq(token[0], '-')) {
     negative = true;
     i = 1U;
   }
@@ -454,15 +460,15 @@ constexpr bool ParseNumber(std::span<const char> token, bool& negative, uint64_t
   if ((digits == 0U) || (digits > 20U)) {
     return false;
   }
-  if ((token[i] == '0') && ((digits > 1U) || negative)) {
+  if (std::char_traits<char>::eq(token[i], '0') && ((digits > 1U) || negative)) {
     return false;
   }
   for (; i < token.size(); ++i) {
-    const char c = token[i];
-    if ((c < '0') || (c > '9')) {
+    const std::size_t position = kDecimalDigits.find(token[i]); // the digit's value is its place
+    if (position == std::string_view::npos) {
       return false;
     }
-    const auto d = static_cast<uint64_t>(c - '0');
+    const auto d = static_cast<uint64_t>(position);
     if (mag > ((0xFFFF'FFFF'FFFF'FFFFULL - d) / 10U)) {
       return false;
     }
@@ -638,7 +644,7 @@ constexpr bool HasHeader(std::span<const char> body) noexcept {
     return false;
   }
   for (std::size_t i = 1U; i < 5U; ++i) {
-    if ((body[i] < 'A') || (body[i] > 'Z')) {
+    if (std::char_traits<char>::lt(body[i], 'A') || std::char_traits<char>::lt('Z', body[i])) {
       return false;
     }
   }

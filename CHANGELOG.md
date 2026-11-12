@@ -40,3 +40,5 @@ version bump (a minor bump before 1.0).
   identity and works in `StateUnknown` while streaming.
 - `EncodeCommand()` and `FindCommand()` no longer read outside their tables.
 - The ESP32 example runs with the default power pin -1.
+- The ESP32 examples list the `esp_timer` component they include.
+- Characters are no longer used as numbers in the protocol layer (MISRA C++:2023 Rule 7.0.3).
