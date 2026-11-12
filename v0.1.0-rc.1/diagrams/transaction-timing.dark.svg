@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="406" viewBox="0 0 1200 406" role="img" aria-labelledby="transaction-timing-title transaction-timing-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="transaction-timing-title">One command and its reply</title>
+<desc id="transaction-timing-desc">Five steps of a transaction: flush the receive buffer, write the command, wait for the module, read the echo and values, end at the carriage return; the allowance of each kind of command is listed under the wait.</desc>
+<defs><marker id="fk-arrow-rail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6C7889"/></marker></defs>
+<rect x="0.5" y="0.5" width="1199" height="405" rx="16" fill="#0E131A" stroke="#283241"/>
+<text x="32" y="44" font-size="12.5" font-weight="700" letter-spacing="1.2" fill="#F8D27A">TIMING</text>
+<text x="32" y="77.3" font-size="26" font-weight="700" fill="#E8EDF3">One command and its reply</text>
+<text x="32" y="103.8" font-size="15" fill="#9AA6B5">The wait is airtime plus the module's allowance plus the margin; the defaults are shown.</text>
+<rect x="32" y="119.8" width="1136" height="1" fill="#252F3C"/>
+<path d="M234.4 181.8 L262.4 181.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M468.8 181.8 L496.8 181.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M703.2 181.8 L731.2 181.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M937.6 181.8 L965.6 181.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<rect x="32" y="137.8" width="198.4" height="88" rx="10" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<rect x="32" y="145.8" width="4" height="72" rx="2" fill="#F4B942"/>
+<rect x="266.4" y="137.8" width="198.4" height="88" rx="10" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<rect x="266.4" y="145.8" width="4" height="72" rx="2" fill="#F4B942"/>
+<rect x="500.8" y="137.8" width="198.4" height="88" rx="10" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<rect x="500.8" y="145.8" width="4" height="72" rx="2" fill="#2BB3A3"/>
+<rect x="735.2" y="137.8" width="198.4" height="88" rx="10" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<rect x="735.2" y="145.8" width="4" height="72" rx="2" fill="#2BB3A3"/>
+<rect x="969.6" y="137.8" width="198.4" height="88" rx="10" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<rect x="969.6" y="145.8" width="4" height="72" rx="2" fill="#F4B942"/>
+<rect x="32" y="265.8" width="1136" height="79.3" rx="10" fill="#0F2A28" stroke="#215A54" stroke-width="1"/>
+<text x="52" y="164.6" font-size="15" font-weight="700" fill="#F8D27A">1. Flush</text>
+<text x="52" y="189.4" font-size="13" fill="#D2DAE4">FlushInput()</text>
+<text x="52" y="208.2" font-size="13" fill="#D2DAE4">no late byte survives</text>
+<text x="286.4" y="164.6" font-size="15" font-weight="700" fill="#F8D27A">2. Write</text>
+<text x="286.4" y="189.4" font-size="13" fill="#D2DAE4">#CMD args CR</text>
+<text x="286.4" y="208.2" font-size="13" fill="#D2DAE4">one Write()</text>
+<text x="520.8" y="164.6" font-size="15" font-weight="700" fill="#A7F3E6">3. Wait</text>
+<text x="520.8" y="189.4" font-size="13" fill="#D2DAE4">module processes</text>
+<text x="520.8" y="208.2" font-size="13" fill="#D2DAE4">Read() with timeouts</text>
+<text x="755.2" y="164.6" font-size="15" font-weight="700" fill="#A7F3E6">4. Reply</text>
+<text x="755.2" y="189.4" font-size="13" fill="#D2DAE4">echo, values, CRC</text>
+<text x="755.2" y="208.2" font-size="13" fill="#D2DAE4">up to 799 characters</text>
+<text x="989.6" y="164.6" font-size="15" font-weight="700" fill="#F8D27A">5. CR</text>
+<text x="989.6" y="189.4" font-size="13" fill="#D2DAE4">one CR ends it</text>
+<text x="989.6" y="208.2" font-size="13" fill="#D2DAE4">Ok, or Timeout and drain</text>
+<text x="46" y="292.6" font-size="15" font-weight="700" fill="#A7F3E6">Allowances</text>
+<text x="46" y="310.4" font-size="13" fill="#A7F3E6">Allowance in step 3 by command: 100 ms for #VERS #IDNR #RDUM #BAUD; 300 ms for #MOXY and #MRAW; 10000 ms for #CALO and #CAHI; 2000 ms for #CRCE</text>
+<text x="46" y="329.2" font-size="13" fill="#A7F3E6">#WRUM #BCST #SETM; 1100 ms for #LOGO; plus 50 ms of margin and the airtime of the command and of the longest reply.</text>
+<rect x="32" y="360.5" width="14" height="14" rx="4" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<text x="54" y="372.1" font-size="12.5" fill="#9AA6B5">the driver</text>
+<rect x="138.1" y="360.5" width="14" height="14" rx="4" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<text x="160.1" y="372.1" font-size="12.5" fill="#9AA6B5">the module</text>
+<path d="M254.1 366.8L284.1 366.8" fill="none" stroke="#6C7889" stroke-width="1.6" marker-end="url(#fk-arrow-rail)"/>
+<text x="298.1" y="372.1" font-size="12.5" fill="#9AA6B5">then</text>
+</svg>

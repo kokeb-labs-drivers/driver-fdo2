@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="667" viewBox="0 0 1200 667" role="img" aria-labelledby="state-machine-title state-machine-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="state-machine-title">The driver's states</title>
+<desc id="state-machine-desc">State diagram of fdo2::FDO2: Uninitialized, PoweringUp, Idle, Waiting, Streaming, Draining and StateUnknown, with the calls and events that move between them.</desc>
+<defs><marker id="fk-arrow-rail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6C7889"/></marker></defs>
+<rect x="0.5" y="0.5" width="1199" height="666" rx="16" fill="#0E131A" stroke="#283241"/>
+<text x="32" y="44" font-size="12.5" font-weight="700" letter-spacing="1.2" fill="#F8D27A">NON-BLOCKING USE</text>
+<text x="32" y="77.3" font-size="26" font-weight="700" fill="#E8EDF3">The driver's states</text>
+<text x="32" y="103.8" font-size="15" fill="#9AA6B5">Poll() moves Waiting, Draining and PoweringUp forward; every other change is a call.</text>
+<rect x="32" y="119.8" width="1136" height="1" fill="#252F3C"/>
+<path d="M288 172.3 L374.2 172.3 Q379 172.3 379 177.1 L379 177.1 Q379 181.8 383.8 181.8 L470 181.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M730 181.8 L816.2 181.8 Q821 181.8 821 177.1 L821 177.1 Q821 172.3 825.8 172.3 L912 172.3" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M991.6 210.8 L991.6 323.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M1092.4 323.8 L1092.4 210.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M912 371.8 L825.8 371.8 Q821 371.8 821 367.1 L821 367.1 Q821 362.3 816.2 362.3 L730 362.3" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M1042 419.8 L1042 513.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<rect x="32" y="137.8" width="252" height="69" rx="10" fill="#1B232E" stroke="#94A3B8" stroke-width="1.4"/>
+<rect x="32" y="145.8" width="4" height="53" rx="2" fill="#94A3B8"/>
+<rect x="474" y="137.8" width="252" height="88" rx="10" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<rect x="474" y="145.8" width="4" height="72" rx="2" fill="#F4B942"/>
+<rect x="916" y="137.8" width="252" height="69" rx="10" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<rect x="916" y="145.8" width="4" height="53" rx="2" fill="#2BB3A3"/>
+<rect x="916" y="327.8" width="252" height="88" rx="10" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<rect x="916" y="335.8" width="4" height="72" rx="2" fill="#F4B942"/>
+<rect x="32" y="327.8" width="252" height="88" rx="10" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<rect x="32" y="335.8" width="4" height="72" rx="2" fill="#2BB3A3"/>
+<rect x="474" y="327.8" width="252" height="69" rx="10" fill="#2C2310" stroke="#FBBF24" stroke-width="1.4"/>
+<rect x="474" y="335.8" width="4" height="53" rx="2" fill="#FBBF24"/>
+<rect x="916" y="517.8" width="252" height="88" rx="10" fill="#321820" stroke="#FB7185" stroke-width="1.4"/>
+<rect x="916" y="525.8" width="4" height="72" rx="2" fill="#FB7185"/>
+<rect x="32" y="517.8" width="844" height="60.5" rx="10" fill="#2C2310" stroke="#6A5220" stroke-width="1"/>
+<text x="52" y="164.6" font-size="15" font-weight="700" fill="#E2E8F0">Uninitialized</text>
+<text x="52" y="189.4" font-size="13" fill="#D2DAE4">nothing started, or Deinitialize()</text>
+<text x="494" y="164.6" font-size="15" font-weight="700" fill="#F8D27A">PoweringUp</text>
+<text x="494" y="189.4" font-size="13" fill="#D2DAE4">waits power_up_ms, then #VERS</text>
+<text x="494" y="208.2" font-size="13" fill="#D2DAE4">and #IDNR</text>
+<text x="936" y="164.6" font-size="15" font-weight="700" fill="#A7F3E6">Idle</text>
+<text x="936" y="189.4" font-size="13" fill="#D2DAE4">ready for a call</text>
+<text x="936" y="354.6" font-size="15" font-weight="700" fill="#F8D27A">Waiting</text>
+<text x="936" y="379.4" font-size="13" fill="#D2DAE4">one command in flight, Poll()</text>
+<text x="936" y="398.3" font-size="13" fill="#D2DAE4">reads the reply</text>
+<text x="52" y="354.6" font-size="15" font-weight="700" fill="#A7F3E6">Streaming</text>
+<text x="52" y="379.4" font-size="13" fill="#D2DAE4">Idle while the module sends</text>
+<text x="52" y="398.3" font-size="13" fill="#D2DAE4">#MRAW lines by itself</text>
+<text x="494" y="354.6" font-size="15" font-weight="700" fill="#FDE68A">Draining</text>
+<text x="494" y="379.4" font-size="13" fill="#D2DAE4">discards input after a bad reply</text>
+<text x="936" y="544.5" font-size="15" font-weight="700" fill="#FECDD3">StateUnknown</text>
+<text x="936" y="569.4" font-size="13" fill="#D2DAE4">a flash write or #BAUD lost its</text>
+<text x="936" y="588.2" font-size="13" fill="#D2DAE4">echo</text>
+<rect x="326" y="167.1" width="106" height="20" rx="10" fill="#0E131A"/>
+<text x="379" y="181.4" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">BeginInitialize()</text>
+<rect x="762.3" y="167.1" width="117.3" height="20" rx="10" fill="#0E131A"/>
+<text x="821" y="181.4" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">#VERS, #IDNR ok</text>
+<rect x="963.1" y="257.3" width="57" height="20" rx="10" fill="#0E131A"/>
+<text x="991.6" y="271.6" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">Start*()</text>
+<rect x="1071" y="257.3" width="42.8" height="20" rx="10" fill="#0E131A"/>
+<text x="1092.4" y="271.6" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">reply</text>
+<rect x="775.6" y="357.1" width="90.8" height="20" rx="10" fill="#0E131A"/>
+<text x="821" y="371.4" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">Timeout, Crc</text>
+<rect x="1011.6" y="456.8" width="60.9" height="20" rx="10" fill="#0E131A"/>
+<text x="1042" y="471.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">no echo</text>
+<text x="46" y="544.5" font-size="15" font-weight="700" fill="#FDE68A">Recovery</text>
+<text x="46" y="562.4" font-size="13" fill="#FDE68A">Resync() leaves StateUnknown: it reads #VERS at the new, the old and the default baud rate.</text>
+<rect x="32" y="621.2" width="14" height="14" rx="4" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<text x="54" y="632.8" font-size="12.5" fill="#9AA6B5">normal path</text>
+<rect x="152.5" y="621.2" width="14" height="14" rx="4" fill="#2C2310" stroke="#FBBF24" stroke-width="1.4"/>
+<text x="174.5" y="632.8" font-size="12.5" fill="#9AA6B5">needs recovery</text>
+<path d="M296.4 627.4L326.4 627.4" fill="none" stroke="#6C7889" stroke-width="1.6" marker-end="url(#fk-arrow-rail)"/>
+<text x="340.4" y="632.8" font-size="12.5" fill="#9AA6B5">moves to</text>
+</svg>

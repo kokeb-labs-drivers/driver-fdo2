@@ -1,0 +1,353 @@
+---
+# The vendor documents this driver was written against (handbook ADR-0019), and where the driver relies on them.
+# Never commit a PDF: `sha256` identifies the exact file that was used, so a reader can confirm they hold the same
+# revision. `pdf` is the vendor's direct link (page links are built from it); `url` is the product page.
+# `role` is `normative` for the two data sheets the driver follows (the FDO2-G2 first, the legacy FDO2 for what the
+# two share and for the firmware history), `supporting` for the change notifications and accessories, and
+# `context only` for a document that describes another product. PyroScience publishes no separate protocol manual:
+# the communication interface is section 4 of each data sheet.
+#
+# The README card, docs/datasheet.md and the "Datasheet" box on each page are generated from this file by
+# tools/docs/generators/datasheet.py (`kokeb-docs gen`).
+documents:
+  - id: ds
+    vendor: PyroScience
+    title: "FDO2-G2 Optical Oxygen Sensor Data Sheet"
+    kind: Datasheet
+    number: "Datasheet_FDO2-G2"
+    revision: "v5"
+    date: "2026-03"
+    url: https://www.pyroscience.com/en/products/all-meters/fdo2-g2
+    pdf: "https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals\
+      /Meters/Datasheet_FDO2-G2.pdf&cid=24457"
+    page_offset: 0
+    sha256: "2644c30ef1bb44384a53777bba9b391d7c91319f4e96f88a94a22bf93455f075"
+    role: normative
+  - id: ds_legacy
+    vendor: PyroScience
+    title: "FDO2 Optical Oxygen Sensor Data Sheet (legacy part)"
+    kind: Datasheet
+    number: "Datasheet_FDO2"
+    revision: "v21"
+    date: "2025-06"
+    url: https://www.pyroscience.com/en/downloads/legacy
+    pdf: "https://www.pyroscience.com/en/downloads/legacy?file=files/website_data/Downloads/Manuals/Meters/Dat\
+      asheet_FDO2.pdf&cid=24471"
+    page_offset: 0
+    sha256: "83d026721d08e07e4e82ec268072354f81d07eb92a7fea321f54195e4df6aea5"
+    role: normative
+  - id: pcn_g2
+    vendor: PyroScience
+    title: "Low-pass filter and noise erratum"
+    kind: Product change notification
+    number: "PCN-FDO2-G2-001"
+    revision: "n/a"
+    date: "2026-03"
+    url: https://www.pyroscience.com/en/products/all-meters/fdo2-g2
+    pdf: "https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Product\
+      %20Change%20Notifications/PCN-FDO2-G2-001.pdf&cid=25762"
+    page_offset: 0
+    sha256: "db87761e164dda4256430adec6ade7c5cfd23bf89ea9c28e0f813fc35391adc5"
+    role: supporting
+  - id: pcn_fdo2
+    vendor: PyroScience
+    title: "FDO2 replaced by FDO2-G2"
+    kind: Product change notification
+    number: "PCN-FDO2-002"
+    revision: "n/a"
+    date: "2025-05"
+    url: https://www.pyroscience.com/en/products/all-meters/fdo2-g2
+    pdf: "https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Product\
+      %20Change%20Notifications/PCN-FDO2-002.pdf&cid=24463"
+    page_offset: 0
+    sha256: "c6876c8de992aed439297fefee86ca7d395e3624100ea4bbe6ec0c981af7703f"
+    role: supporting
+  - id: qs
+    vendor: PyroScience
+    title: "Quick Start FDO2-G2 evaluation kit"
+    kind: Quick start guide
+    number: "Quick_Start_FDO2-G2"
+    revision: "v1.00"
+    date: "n/a"
+    url: https://www.pyroscience.com/en/products/all-meters/fdo2-g2
+    pdf: "https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals\
+      /Meters/Quick_Start_FDO2-G2.pdf&cid=24459"
+    page_offset: 0
+    sha256: "583d8a7f22a27162533ca44b505a75965d9b1a48fb40e9b39d89fb8f1a67d7a4"
+    role: supporting
+  - id: ftc
+    vendor: PyroScience
+    title: "FDO2-FTC flow-through cell data sheet (accessory)"
+    kind: Datasheet
+    number: "Data Sheet_FDO2_FTC"
+    revision: "n/a"
+    date: "n/a"
+    url: https://www.pyroscience.com/en/products/all-meters/fdo2-g2
+    pdf: "https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals\
+      /Meters/Data%20Sheet_FDO2_FTC.PDF&cid=24458"
+    page_offset: 0
+    sha256: "037fea1a8b94016ed95d5be46f2d1ace827d10bb19da605d508df97b6d9f8cd9"
+    role: supporting
+  - id: ext
+    vendor: PyroScience
+    title: "FDO2-EXT Modbus and analog extension module data sheet"
+    kind: Datasheet
+    number: "Datasheet_FDO2-EXT"
+    revision: "v5"
+    date: "2025-07"
+    url: https://www.pyroscience.com/en/products/oem-solutions/modbus-interface-adapter/fdo2-ext
+    pdf: "https://www.pyroscience.com/en/products/oem-solutions/modbus-interface-adapter/fdo2-ext?file=files/w\
+      ebsite_data/Downloads/Manuals/Meters/Datasheet_FDO2-EXT.pdf&cid=19827"
+    page_offset: 0
+    sha256: "bda4536e722f3396de922323287d603f5bb161d1b0263fac9cf80e4c6033eb66"
+    role: context only
+
+# One row per thing the driver takes from a document: the datasheet's own section names and printed page
+# numbers, the driver API that implements it, and the docs pages that explain it (file names in docs/).
+topics:
+  - topic: "Connector, pins and signal levels"
+    doc: ds
+    section: "7 Mechanical Dimensions and Electrical Interface, drawing and pin table"
+    page: 20
+    driver: "`CtrlPin`, `GpioSignal`, `kLogicLevelMv`, `kMaxLogicLevelMv`"
+    docs: [hardware, quickstart, porting]
+  - topic: "UART levels: 3.0 V, 3.3 V maximum on RXD"
+    doc: ds_legacy
+    section: "6.2 Voltage Tolerance of UART RX Pin (ERRATA)"
+    page: 19
+    driver: "`kMaxLogicLevelMv`, port `static_assert`s in the examples"
+    docs: [hardware, porting, troubleshooting]
+  - topic: "Supply voltage and current"
+    doc: ds
+    section: "2 Specifications, Interface"
+    page: 6
+    driver: "`kSupplyMinMv`, `kSupplyMaxMv`, the `Power` pin hook"
+    docs: [hardware]
+  - topic: "Supply below 3.3 V and readings"
+    doc: ds_legacy
+    section: "2 Specifications, Interface, WARNING"
+    page: 6
+    driver: "documented in the guides; no driver check (the module has no supply reading)"
+    docs: [hardware, limitations]
+  - topic: "Measuring range, accuracy and warm-up"
+    doc: ds
+    section: "2 Specifications, Analytical Performance"
+    page: 5
+    driver: "`Config::o2_max_mhpa`, `Oxygen::warming_up`"
+    docs: [hardware, configuration]
+  - topic: "Temperature and pressure limits, humidity"
+    doc: ds
+    section: "2 Specifications, Environment"
+    page: 6
+    driver: "`Config::temp_min_mc`, `temp_max_mc`, `pressure_min_ubar`, `pressure_max_ubar`"
+    docs: [hardware, configuration]
+  - topic: "Mechanics, connector part and weight"
+    doc: ds
+    section: "2 Specifications, Mechanical"
+    page: 7
+    driver: "documented in the hardware guide"
+    docs: [hardware]
+  - topic: "Cross-sensitivity and chemical compatibility"
+    doc: ds
+    section: "3 Cross-Sensitivity and Chemical Compatibility"
+    page: 8
+    driver: "documented in the hardware guide"
+    docs: [hardware, limitations]
+  - topic: "Volume fraction from partial pressure"
+    doc: ds
+    section: "2 Specifications, note on % O2 before Environment"
+    page: 6
+    driver: "`VolumePercentMilli()`, `MeasureVolumePercentMilli()`"
+    docs: [api-guide, configuration]
+  - topic: "UART framing, echo and terminator"
+    doc: ds
+    section: "4.1 General Definitions"
+    page: 10
+    driver: "`LineAssembler`, `EncodeCommand()`, `VerifyEcho()`"
+    docs: [protocol, porting]
+  - topic: "Power-up time"
+    doc: ds
+    section: "4 Communication Interface"
+    page: 10
+    driver: "`Config::power_up_ms`, `BeginInitialize()`"
+    docs: [quickstart, hardware, non-blocking]
+  - topic: "Numbers in a reply"
+    doc: ds
+    section: "4.1 General Definitions, value formats"
+    page: 10
+    driver: "`ParseLine()`, `ParsedLine`"
+    docs: [protocol]
+  - topic: "CRC-16/MODBUS suffix"
+    doc: ds
+    section: "4.2 Detecting communication errors and optional CRC"
+    page: 11
+    driver: "`Crc16Modbus()`, `CrcMode`, `CrcActive()`"
+    docs: [protocol, settings]
+  - topic: "#VERS: device, channels, firmware, sensors"
+    doc: ds
+    section: "4.3 Commands, #VERS"
+    page: 11
+    driver: "`ReadVersion()`, `Version`, `CapabilitiesFor()`"
+    docs: [protocol, api-guide]
+  - topic: "#IDNR: the unique id"
+    doc: ds
+    section: "4.3 Commands, #IDNR"
+    page: 11
+    driver: "`ReadUniqueId()`, `Identity::unique_id`"
+    docs: [protocol, api-guide]
+  - topic: "#MOXY: oxygen, temperature, status"
+    doc: ds
+    section: "4.3 Commands, #MOXY"
+    page: 11
+    driver: "`MeasureOxygen()`, `Oxygen`"
+    docs: [protocol, api-guide]
+  - topic: "#MRAW: phase, signals, pressure, humidity"
+    doc: ds
+    section: "4.3 Commands, #MRAW"
+    page: 12
+    driver: "`MeasureRaw()`, `Raw`, `AmbientLoadMv()`"
+    docs: [protocol, api-guide]
+  - topic: "Status word bits"
+    doc: ds
+    section: "4.3 Commands, #MOXY, the status word"
+    page: 12
+    driver: "`Status`, `Quality`, `StatusPolicy`"
+    docs: [status-and-errors, configuration]
+  - topic: "#LOGO: the status LED"
+    doc: ds
+    section: "4.3 Commands, #LOGO"
+    page: 13
+    driver: "`Identify()`, `Config::logo_ms`"
+    docs: [protocol, api-guide]
+  - topic: "#CRCE: the CRC switch"
+    doc: ds
+    section: "4.3 Commands, #CRCE"
+    page: 14
+    driver: "`SetCrcEnabled()`, `Config::crc`"
+    docs: [settings, protocol]
+  - topic: "#RDUM and #WRUM: 64 user words"
+    doc: ds
+    section: "4.3 Commands, #RDUM, #WRUM"
+    page: 14
+    driver: "`ReadUserMemory()`, `WriteUserMemory()`"
+    docs: [settings, api-guide]
+  - topic: "#BAUD: the eleven baud rates"
+    doc: ds
+    section: "4.3 Commands, #BAUD"
+    page: 14
+    driver: "`SetBaudRate()`, `kBaudRates`, `Resync()`"
+    docs: [settings, porting]
+  - topic: "#CALO: zero calibration"
+    doc: ds
+    section: "4.3 Commands, #CALO"
+    page: 14
+    driver: "`CalibrateZero()`"
+    docs: [calibration]
+  - topic: "#CAHI: high calibration"
+    doc: ds
+    section: "4.3 Commands, #CAHI"
+    page: 15
+    driver: "`CalibrateHigh()`, `CalibrateAir()`, `AirO2Mhpa()`"
+    docs: [calibration]
+  - topic: "#BCST: broadcast mode"
+    doc: ds
+    section: "4.3 Commands, #BCST"
+    page: 15
+    driver: "`SetBroadcast()`, `DisableBroadcast()`, `ProbeBroadcast()`, `BroadcastPolicy`"
+    docs: [settings, non-blocking]
+  - topic: "#SETM: measurement modes"
+    doc: ds
+    section: "4.3 Commands, #SETM"
+    page: 15
+    driver: "`SetMeasurementMode()`, `Capabilities::set_mode`"
+    docs: [settings]
+  - topic: "Measurement duration"
+    doc: ds
+    section: "4.3 Commands, #SETM, modes"
+    page: 16
+    driver: "`Config::measurement_ms`"
+    docs: [configuration, non-blocking]
+  - topic: "Flash endurance and interrupted writes"
+    doc: ds
+    section: "4.3 Commands, WARNING"
+    page: 16
+    driver: "`Config::allow_persistent_writes`, `max_flash_writes`, `Error::StateUnknown`"
+    docs: [calibration, contract, limitations]
+  - topic: "#ERRO codes"
+    doc: ds
+    section: "4.4 Error Codes, Table 1"
+    page: 17
+    driver: "`Error`, `DeviceErrorCode()`"
+    docs: [status-and-errors, contract]
+  - topic: "Firmware revision history"
+    doc: ds_legacy
+    section: "5 Released Firmware Revisions Changes"
+    page: 17
+    driver: "`CapabilitiesFor()`, `kFirmware*`"
+    docs: [protocol, limitations]
+  - topic: "Firmware revision history of the G2"
+    doc: ds
+    section: "5 Released Firmware Revisions Changes"
+    page: 18
+    driver: "`CapabilitiesFor()`, `Identity::noise_erratum`"
+    docs: [protocol, limitations]
+  - topic: "Errata: noise at two temperatures"
+    doc: ds
+    section: "6 ERRATA, 6.1 Increased Noise at Specific Temperatures"
+    page: 19
+    driver: "`HasNoiseErratum()`, `DisableBroadcast()`"
+    docs: [limitations, settings, troubleshooting]
+  - topic: "Errata: broadcast send and receive conflict (firmware 3.51)"
+    doc: ds_legacy
+    section: "6.1 Firmware Bug Broadcast Send and Receive Conflict (FW 3.51)"
+    page: 19
+    driver: "`DisableBroadcast()` (waits for a frame boundary), `CapabilitiesFor()`"
+    docs: [settings, limitations, troubleshooting]
+  - topic: "Errata: error handling of the internal temperature sensor"
+    doc: ds_legacy
+    section: "6.3 Error Handling of Internal Temperature Sensor"
+    page: 20
+    driver: "`Capabilities::temp_flag_reliable`, `Status::TemperatureSensorFailed()`"
+    docs: [status-and-errors, limitations]
+  - topic: "Mechanical drawing"
+    doc: ds
+    section: "7 Mechanical Dimensions and Electrical Interface, drawings"
+    page: 20
+    driver: "documented in the hardware guide"
+    docs: [hardware]
+  - topic: "Warnings: no medical or safety use"
+    doc: ds
+    section: "8 Warnings"
+    page: 21
+    driver: "documented in the limitations"
+    docs: [limitations]
+  - topic: "Replacement of the FDO2 by the FDO2-G2"
+    doc: pcn_fdo2
+    section: "Product change notification, text"
+    page: 1
+    driver: "`Family`"
+    docs: [hardware, limitations]
+  - topic: "Low-pass filter change and the noise erratum"
+    doc: pcn_g2
+    section: "Product change notification, text"
+    page: 1
+    driver: "`Identity::noise_erratum`"
+    docs: [limitations]
+  - topic: "Start-up flashes of the status LED"
+    doc: qs
+    section: "Quick start, connecting the module"
+    page: 2
+    driver: "documented in the quickstart"
+    docs: [quickstart]
+  - topic: "Flow-through cell accessory"
+    doc: ftc
+    section: "Flow-through cell data sheet, whole document"
+    page: 1
+    driver: "none (an accessory)"
+    docs: [hardware]
+  - topic: "Modbus extension module (a different interface)"
+    doc: ext
+    section: "1 INTRODUCTION"
+    page: 1
+    driver: "none (out of scope)"
+    docs: [limitations]
