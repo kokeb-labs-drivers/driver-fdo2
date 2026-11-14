@@ -71,7 +71,8 @@ calibrated (1 Introduction, [p.
 - Biogas applications
 - Oxygen level monitoring in buildings
 
-Uses named by the datasheet (1 Introduction, [p. 4](https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2-G2.pdf&cid=24457#page=4)).
+Uses named by the datasheet (1 Introduction, [p.
+4](https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2-G2.pdf&cid=24457#page=4)).
 <!-- /generated -->
 
 ## Inside the module

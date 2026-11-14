@@ -86,7 +86,7 @@
   "chip-wiring-direct": {
     "title": "Wiring: Direct connection to a 3.3-volt controller",
     "alt": "Wiring of the FDO2 for the Direct connection to a 3.3-volt controller: MCU (3.3 V) UART TX to RXD (Write()); MCU (3.3 V) UART RX to TXD (Read()). Supplies, grounds and the support parts are listed under the drawing.",
-    "description": "The MCU (3.3 V) on the left, the FDO2 in the middle. Each wire is coloured by the chip pin's electrical type and carries the net name and the chip pin number above it and, under it, the driver hook that uses it (and any part on the net). The boxes underneath list the supplies, the support parts and the pins this circuit leaves unconnected.",
+    "description": "The MCU (3.3 V) on the left, the FDO2 in the middle. Each wire to the chip is coloured by the chip pin's electrical type and carries the net name and the chip pin number above it and, under it, the driver hooks that use it (and any part on the net). The boxes underneath list the supplies, the support parts and the pins this circuit leaves unconnected.",
     "profile": "overview",
     "width": 1200,
     "source": "docs/hardware.yml",
@@ -98,7 +98,7 @@
   "chip-wiring-shifted": {
     "title": "Wiring: Connection to a 5-volt controller through a divider",
     "alt": "Wiring of the FDO2 for the Connection to a 5-volt controller through a divider: MCU (5 V) UART RX to TXD (Read()); MCU (5 V) UART TX to RXD through R1 10 kΩ (Write()). Supplies, grounds and the support parts are listed under the drawing.",
-    "description": "The MCU (5 V) on the left, the FDO2 in the middle. Each wire is coloured by the chip pin's electrical type and carries the net name and the chip pin number above it and, under it, the driver hook that uses it (and any part on the net). The boxes underneath list the supplies, the support parts and the pins this circuit leaves unconnected.",
+    "description": "The MCU (5 V) on the left, the FDO2 in the middle. Each wire to the chip is coloured by the chip pin's electrical type and carries the net name and the chip pin number above it and, under it, the driver hooks that use it (and any part on the net). The boxes underneath list the supplies, the support parts and the pins this circuit leaves unconnected.",
     "profile": "overview",
     "width": 1200,
     "source": "docs/hardware.yml",
