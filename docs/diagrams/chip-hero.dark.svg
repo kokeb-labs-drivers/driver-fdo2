@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="819" viewBox="0 0 1200 819" role="img" aria-labelledby="chip-hero-title chip-hero-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="chip-hero-title">FDO2</title>
+<desc id="chip-hero-desc">Overview of the FDO2, an optical oxygen sensor module with a UART: it excites a sensor dye with red light, measures the luminescence that oxygen quenches, and reports the oxygen partial pressure with its temperature, compensated and factory calibrated. A MCU talks to it over UART, 3.0 V; it reads back Oxygen, Temperature, pressure, humidity. Headline figures: 0 to 1000 hPa typical oxygen partial pressure range; &lt; 2 s response time (t63); 3.3 to 5.0 V supply; 19200 baud UART at power-up, 8N1, 3.0 V.</desc>
+<defs><marker id="fk-arrow-amber-strong" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#FBBF24"/></marker><marker id="fk-arrow-blue-strong" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#60A5FA"/></marker></defs>
+<rect x="0.5" y="0.5" width="1199" height="818" rx="16" fill="#0E131A" stroke="#283241"/>
+<text x="32" y="46.8" font-size="16" font-weight="700" letter-spacing="1.2" fill="#F8D27A">OPTICAL OXYGEN SENSOR MODULE</text>
+<text x="32" y="85.6" font-size="32" font-weight="700" fill="#E8EDF3">FDO2</text>
+<text x="32" y="115.4" font-size="18" fill="#9AA6B5">What talks to it, what it drives and what it reads back, with its headline numbers. Datasheet: 1, p. 4.</text>
+<rect x="32" y="131.4" width="1136" height="1" fill="#252F3C"/>
+<path d="M246 262.4 L394 262.4" fill="none" stroke="#60A5FA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-blue-strong)" marker-start="url(#fk-arrow-blue-strong)"/>
+<path d="M525 427.4 L525 371.4" fill="none" stroke="#FBBF24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-amber-strong)"/>
+<rect x="398" y="195.1" width="12" height="7" rx="2" fill="#1B232E" stroke="#94A3B8" stroke-width="1.2"/>
+<rect x="398" y="237.6" width="12" height="7" rx="2" fill="#1B232E" stroke="#94A3B8" stroke-width="1.2"/>
+<rect x="398" y="280.1" width="12" height="7" rx="2" fill="#1B232E" stroke="#94A3B8" stroke-width="1.2"/>
+<rect x="398" y="322.6" width="12" height="7" rx="2" fill="#1B232E" stroke="#94A3B8" stroke-width="1.2"/>
+<rect x="410" y="157.4" width="230" height="210" rx="10" fill="#18202B" stroke="#D2DAE4" stroke-width="2.2"/>
+<circle cx="430" cy="177.4" r="6" fill="#D2DAE4"/>
+<rect x="32" y="205.4" width="210" height="114" rx="12" fill="#13233A" stroke="#60A5FA" stroke-width="1.4"/>
+<rect x="32" y="213.4" width="4" height="98" rx="2" fill="#60A5FA"/>
+<rect x="345" y="431.4" width="360" height="163" rx="12" fill="#2C2310" stroke="#FBBF24" stroke-width="1.4"/>
+<rect x="345" y="439.4" width="4" height="147" rx="2" fill="#FBBF24"/>
+<rect x="32" y="634.4" width="272" height="153.9" rx="12" fill="#18202B" stroke="#3A4657" stroke-width="1"/>
+<rect x="320" y="634.4" width="272" height="153.9" rx="12" fill="#18202B" stroke="#3A4657" stroke-width="1"/>
+<rect x="608" y="634.4" width="272" height="153.9" rx="12" fill="#18202B" stroke="#3A4657" stroke-width="1"/>
+<rect x="896" y="634.4" width="272" height="153.9" rx="12" fill="#18202B" stroke="#3A4657" stroke-width="1"/>
+<text x="525" y="256.4" font-size="30" font-weight="700" text-anchor="middle" fill="#E8EDF3">FDO2</text>
+<text x="525" y="286.4" font-size="17" text-anchor="middle" fill="#9AA6B5">Module, 4-pin</text>
+<text x="525" y="310.4" font-size="16" text-anchor="middle" fill="#9AA6B5">4 pins</text>
+<text x="56" y="240.4" font-size="20" font-weight="700" fill="#BFDBFE">MCU</text>
+<text x="56" y="271" font-size="17" fill="#D2DAE4">your firmware and</text>
+<text x="56" y="295.7" font-size="17" fill="#D2DAE4">this driver</text>
+<rect x="264.2" y="250.4" width="111.6" height="24" rx="12" fill="#0E131A"/>
+<text x="320" y="268.2" font-size="16" font-weight="500" text-anchor="middle" fill="#9AA6B5">UART, 3.0 V</text>
+<text x="369" y="466.4" font-size="20" font-weight="700" fill="#FDE68A">Reads back</text>
+<text x="369" y="497" font-size="17" fill="#D2DAE4">Oxygen (luminescence of a sensor</text>
+<text x="369" y="521.7" font-size="17" fill="#D2DAE4">dye)</text>
+<text x="369" y="546.3" font-size="17" fill="#D2DAE4">Temperature, pressure, humidity</text>
+<text x="369" y="571" font-size="17" fill="#D2DAE4">(inside the housing)</text>
+<text x="48" y="682.4" font-size="30" font-weight="700" fill="#E8EDF3">0 to 1000 hPa</text>
+<text x="48" y="712" font-size="17" fill="#D2DAE4">typical oxygen partial</text>
+<text x="48" y="735" font-size="17" fill="#D2DAE4">pressure range</text>
+<text x="48" y="770.3" font-size="16" fill="#9AA6B5">2, p. 5</text>
+<text x="336" y="682.4" font-size="30" font-weight="700" fill="#E8EDF3">&lt; 2 s</text>
+<text x="336" y="712" font-size="17" fill="#D2DAE4">response time (t63)</text>
+<text x="336" y="770.3" font-size="16" fill="#9AA6B5">2, p. 5</text>
+<text x="624" y="682.4" font-size="30" font-weight="700" fill="#E8EDF3">3.3 to 5.0 V</text>
+<text x="624" y="712" font-size="17" fill="#D2DAE4">supply</text>
+<text x="624" y="770.3" font-size="16" fill="#9AA6B5">2, p. 6</text>
+<text x="912" y="682.4" font-size="30" font-weight="700" fill="#E8EDF3">19200 baud</text>
+<text x="912" y="712" font-size="17" fill="#D2DAE4">UART at power-up, 8N1, 3.0</text>
+<text x="912" y="735" font-size="17" fill="#D2DAE4">V</text>
+<text x="912" y="770.3" font-size="16" fill="#9AA6B5">4, p. 10</text>
+</svg>

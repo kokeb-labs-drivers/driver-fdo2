@@ -24,6 +24,33 @@ Drawn from:
 - [`docs/hardware.yml`](../hardware.yml)
 - [`inc/fdo2_uart_interface.hpp`](../../inc/fdo2_uart_interface.hpp)
 
+## What the FDO2 does
+
+<!-- figure: chip-capabilities -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="chip-capabilities.dark.svg">
+  <img src="chip-capabilities.svg"
+    alt="Capability map of the FDO2: Oxygen and temperature (supported): Measures the oxygen partial pressure
+    and the temperature, as hPa or as a volume fraction; Raw values and housing sensors (supported):
+    Adds the phase shift, signal and ambient light, and the pressure and humidity inside the housing;
+    Status word (supported): Classifies each reading's warning and fatal bits and holds back a faulty
+    measurement; Identity and start-up (supported): Waits out the power-up, reads the version and the
+    unique ID, and flashes the status LED to find a module; Calibration (guarded): Calibrates at zero
+    oxygen, at a known partial pressure or in dry air; the factory calibration is lost; Broadcast stream
+    (guarded): Makes the module measure by itself at a set interval and send each result; Measurement
+    mode, CRC and baud rate (guarded): Trades drift for noise, adds a CRC-16 to every reply, and changes
+    the baud rate; User memory (guarded): Reads and writes 64 words that survive a power cycle; each
+    write costs a flash cycle.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/hardware.yml`](../hardware.yml)
+
+Drawn from:
+
+- [`docs/hardware.yml`](../hardware.yml)
+- [`inc/fdo2_uart_interface.hpp`](../../inc/fdo2_uart_interface.hpp)
+
 ## FDO2: Direct connection to a 3.3-volt controller
 
 <!-- figure: chip-circuit-direct -->
@@ -61,6 +88,28 @@ Drawn from:
 - [`docs/hardware.yml`](../hardware.yml)
 - [`inc/fdo2_uart_interface.hpp`](../../inc/fdo2_uart_interface.hpp)
 
+## FDO2
+
+<!-- figure: chip-hero -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="chip-hero.dark.svg">
+  <img src="chip-hero.svg"
+    alt="Overview of the FDO2, an optical oxygen sensor module with a UART: it excites a sensor dye with red
+    light, measures the luminescence that oxygen quenches, and reports the oxygen partial pressure with
+    its temperature, compensated and factory calibrated. A MCU talks to it over UART, 3.0 V; it reads
+    back Oxygen, Temperature, pressure, humidity. Headline figures: 0 to 1000 hPa typical oxygen partial
+    pressure range; < 2 s response time (t63); 3.3 to 5.0 V supply; 19200 baud UART at power-up, 8N1,
+    3.0 V.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/hardware.yml`](../hardware.yml)
+
+Drawn from:
+
+- [`docs/hardware.yml`](../hardware.yml)
+- [`inc/fdo2_uart_interface.hpp`](../../inc/fdo2_uart_interface.hpp)
+
 ## FDO2 package, Module, 4-pin
 
 <!-- figure: chip-outline -->
@@ -86,6 +135,44 @@ Drawn from:
   <img src="chip-pinout.svg"
     alt="Pinout of the FDO2 in Module, 4-pin, top view: 4 pins, each with its name, its electrical type as a
     colour and the driver hook that uses it.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/hardware.yml`](../hardware.yml)
+
+Drawn from:
+
+- [`docs/hardware.yml`](../hardware.yml)
+- [`inc/fdo2_uart_interface.hpp`](../../inc/fdo2_uart_interface.hpp)
+
+## Wiring: Direct connection to a 3.3-volt controller
+
+<!-- figure: chip-wiring-direct -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="chip-wiring-direct.dark.svg">
+  <img src="chip-wiring-direct.svg"
+    alt="Wiring of the FDO2 for the Direct connection to a 3.3-volt controller: MCU (3.3 V) UART TX to RXD
+    (Write()); MCU (3.3 V) UART RX to TXD (Read()). Supplies, grounds and the support parts are listed
+    under the drawing.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/hardware.yml`](../hardware.yml)
+
+Drawn from:
+
+- [`docs/hardware.yml`](../hardware.yml)
+- [`inc/fdo2_uart_interface.hpp`](../../inc/fdo2_uart_interface.hpp)
+
+## Wiring: Connection to a 5-volt controller through a divider
+
+<!-- figure: chip-wiring-shifted -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="chip-wiring-shifted.dark.svg">
+  <img src="chip-wiring-shifted.svg"
+    alt="Wiring of the FDO2 for the Connection to a 5-volt controller through a divider: MCU (5 V) UART RX to
+    TXD (Read()); MCU (5 V) UART TX to RXD through R1 10 kΩ (Write()). Supplies, grounds and the support
+    parts are listed under the drawing.">
 </picture>
 <!-- /figure -->
 
