@@ -1212,7 +1212,7 @@ this page does not give a part number. Not verified on hardware: the wiring belo
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The FDO2 seen from the top, in its Module, 4-pin package. Pin 1 is marked by the dot; the numbers run counter-clockwise from it. Each pad is coloured by the pin's electrical type (legend below). Next to it is the pin's name and, in mono, the hook of the driver's port that drives or reads it; a pin without a hook is not used by the driver.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/61218e3ebcb94066860a27b429b6928ed4524ac7/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/2f356750409ba89365587472582e2e8324d20828/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
 </details>
 <!-- generated: chip-pins -->
 <p>Module, 4-pin, 4 pins (7 Mechanical Dimensions and Electrical Interface, drawing and pin table, <a href="https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2-G2.pdf&amp;cid=24457#page=20">p. 20</a>).</p>
@@ -1321,7 +1321,7 @@ is drawn in the outline figure as a square of that size, because the figure syst
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The FDO2 package seen from the top and, when the height is known, from the side, drawn to scale: 28.5 x 28.5 x 27.5 mm. The arrows carry the datasheet's dimensions, the dot marks pin 1 and the pads are numbered counter-clockwise from it, coloured by the pin's electrical type (legend below). Pads sit centred on each side, evenly spaced; the datasheet's land pattern is the reference for a board.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/61218e3ebcb94066860a27b429b6928ed4524ac7/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/2f356750409ba89365587472582e2e8324d20828/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
 </details>
 <h2 id="inside-the-module">Inside the module<a class="headerlink" href="#inside-the-module" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1332,7 +1332,7 @@ is drawn in the outline figure as a square of that size, because the figure syst
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The FDO2's function blocks inside its outline. Arrows between blocks carry signals or data in the direction they point (both ways where they have two heads). The package pins stand on the left and right edges with their numbers, each wired to the block it reaches.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/61218e3ebcb94066860a27b429b6928ed4524ac7/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/2f356750409ba89365587472582e2e8324d20828/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
 </details>
 <p>The datasheets have no block diagram; this one is drawn from their text, and its blocks are marked as unverified in
 <a href="../hardware.yml"><code>hardware.yml</code></a>.</p>
@@ -1345,7 +1345,7 @@ is drawn in the outline figure as a square of that size, because the figure syst
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>A schematic. The MCU is on the left, each of its pins level with the chip pin it connects to; above each wire is the hook of the driver's port that drives or reads it. Supply pins point up to their supply and decoupling, ground pins down. Pins on the right carry the loads and the pins tied to a supply or ground; a cross marks a pin left open. A dot is a junction; wires that cross without a dot are not connected.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/61218e3ebcb94066860a27b429b6928ed4524ac7/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/2f356750409ba89365587472582e2e8324d20828/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
 </details>
 <figure class="kb-figure">
 <img src="../diagrams/chip-circuit-shifted.svg#only-light" alt="Schematic of the FDO2 connection to a 5-volt controller through a divider: the chip with U2 MCU (5 V), R1 resistor 10 kΩ, R2 resistor 12 kΩ, C1 capacitor 100 nF; the MCU wires carry the port hooks GpioSet(CtrlPin::Power), Read(), Write()." width="800" height="716" loading="lazy"><img src="../diagrams/chip-circuit-shifted.dark.svg#only-dark" alt="Schematic of the FDO2 connection to a 5-volt controller through a divider: the chip with U2 MCU (5 V), R1 resistor 10 kΩ, R2 resistor 12 kΩ, C1 capacitor 100 nF; the MCU wires carry the port hooks GpioSet(CtrlPin::Power), Read(), Write()." width="800" height="716" loading="lazy">
@@ -1355,7 +1355,7 @@ is drawn in the outline figure as a square of that size, because the figure syst
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>A schematic. The MCU is on the left, each of its pins level with the chip pin it connects to; above each wire is the hook of the driver's port that drives or reads it. Supply pins point up to their supply and decoupling, ground pins down. Pins on the right carry the loads and the pins tied to a supply or ground; a cross marks a pin left open. A dot is a junction; wires that cross without a dot are not connected.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/61218e3ebcb94066860a27b429b6928ed4524ac7/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/2f356750409ba89365587472582e2e8324d20828/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
 </details>
 <!-- generated: chip-parts -->
 <p><strong>Direct connection to a 3.3-volt controller</strong> (figure <code>chip-circuit-direct</code>)</p>

@@ -1101,7 +1101,7 @@
 <!-- /generated -->
 
 <p>The driver never calls your SDK. It calls hooks on a class you derive from <code>fdo2::UartInterface&lt;Self&gt;</code> (in
-<a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/61218e3ebcb94066860a27b429b6928ed4524ac7/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>). The base uses CRTP and declares no hook itself;
+<a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/2f356750409ba89365587472582e2e8324d20828/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>). The base uses CRTP and declares no hook itself;
 the driver template is constrained by the <code>fdo2::UartPort</code> concept, which checks each hook's exact signature and
 <code>noexcept</code>. A missing or misdeclared hook is a compile error at the point of use.</p>
 <h2 id="what-you-implement">What you implement<a class="headerlink" href="#what-you-implement" title="Permanent link">&para;</a></h2>
@@ -1301,8 +1301,8 @@ sent; the port maps <code>ACTIVE</code> to the polarity of your switch.</p>
 </span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="w">  </span><span class="p">}</span>
 </span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a><span class="p">};</span>
 </span></code></pre></div>
-<p>The <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/61218e3ebcb94066860a27b429b6928ed4524ac7/examples/esp32/main/esp32_fdo2_port.hpp">ESP-IDF port</a> and the
-<a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/61218e3ebcb94066860a27b429b6928ed4524ac7/examples/host/host_fdo2_port.hpp">host port</a> are complete examples.</p>
+<p>The <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/2f356750409ba89365587472582e2e8324d20828/examples/esp32/main/esp32_fdo2_port.hpp">ESP-IDF port</a> and the
+<a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/2f356750409ba89365587472582e2e8324d20828/examples/host/host_fdo2_port.hpp">host port</a> are complete examples.</p>
 
 
 

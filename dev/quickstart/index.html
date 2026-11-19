@@ -1186,7 +1186,7 @@ module, write a small port class, call two driver functions.</p>
 <!-- /generated -->
 
 <h2 id="try-it-on-your-pc">Try it on your PC<a class="headerlink" href="#try-it-on-your-pc" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/61218e3ebcb94066860a27b429b6928ed4524ac7/examples/host/README.md"><code>examples/host/</code></a> runs the real driver against a simulated module, through a host
+<p><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/2f356750409ba89365587472582e2e8324d20828/examples/host/README.md"><code>examples/host/</code></a> runs the real driver against a simulated module, through a host
 port. From the repository root, with CMake and a C++20 compiler:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>cmake<span class="w"> </span>-S<span class="w"> </span>examples/host<span class="w"> </span>-B<span class="w"> </span>build-example
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>cmake<span class="w"> </span>--build<span class="w"> </span>build-example
@@ -1199,7 +1199,7 @@ port. From the repository root, with CMake and a C++20 compiler:</p>
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>temperature 21.000 degC
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>oxygen fraction 20.900 %
 </span></code></pre></div>
-<p>The full output is in <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/61218e3ebcb94066860a27b429b6928ed4524ac7/examples/host/expected_output.txt"><code>expected_output.txt</code></a>; CI runs the example and compares
+<p>The full output is in <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/2f356750409ba89365587472582e2e8324d20828/examples/host/expected_output.txt"><code>expected_output.txt</code></a>; CI runs the example and compares
 it. The numbers come from the simulated module, not from a measurement.</p>
 <h2 id="1-wire-it">1. Wire it<a class="headerlink" href="#1-wire-it" title="Permanent link">&para;</a></h2>
 <table>
