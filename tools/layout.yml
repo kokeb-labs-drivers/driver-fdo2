@@ -1,0 +1,2 @@
+header_only:
+  fdo2_protocol: template-only, every definition is a template and must be visible to the compiler
