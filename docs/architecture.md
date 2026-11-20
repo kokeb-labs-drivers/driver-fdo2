@@ -27,22 +27,14 @@ The protocol layer has no state and no port: the tests drive it alone.
 
 ## One call through the layers
 
-```mermaid
-sequenceDiagram
-    participant App as Your code
-    participant Core as FDO2<Port>
-    participant Port as Your port
-    App->>Core: MeasureOxygen()
-    Core->>Port: FlushInput()
-    Core->>Port: Write("#MOXY")
-    loop until CR or deadline
-        Core->>Port: Read(buffer, max, timeout)
-        Port-->>Core: n bytes
-    end
-    Note over Core: assemble the line, check CRC, parse
-    Note over Core: status policy, plausibility windows
-    Core-->>App: Result<Oxygen>
-```
+<!-- figure: one-call-through-the-layers -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/one-call-through-the-layers.dark.svg">
+  <img src="diagrams/one-call-through-the-layers.svg"
+    alt="One call through the layers: your code calls MeasureOxygen(), the core exchanges frames with the
+    chip through your port and returns the result to your code.">
+</picture>
+<!-- /figure -->
 
 ## Design choices
 
