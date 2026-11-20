@@ -115,6 +115,23 @@ Drawn from:
 - `public calls` in [`inc/fdo2.hpp`](../../inc/fdo2.hpp)
 - `UartInterface` in [`inc/fdo2_uart_interface.hpp`](../../inc/fdo2_uart_interface.hpp)
 
+## One call through the layers
+
+<!-- figure: one-call-through-the-layers -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="one-call-through-the-layers.dark.svg">
+  <img src="one-call-through-the-layers.svg"
+    alt="One call through the layers: your code calls MeasureOxygen(), the core exchanges frames with the
+    chip through your port and returns the result to your code.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/model/one-call-through-the-layers.seq.yml`](../model/one-call-through-the-layers.seq.yml)
+
+Drawn from:
+
+- [`docs/model/one-call-through-the-layers.seq.yml`](../model/one-call-through-the-layers.seq.yml)
+
 ## The driver's states
 
 <!-- figure: state-machine -->

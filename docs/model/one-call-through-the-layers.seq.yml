@@ -1,0 +1,28 @@
+---
+# Model of the figure 'one-call-through-the-layers'. Edit this file; `kokeb-docs figures` draws it. Never edit the SVGs.
+kind: seq
+id: one-call-through-the-layers
+title: "One call through the layers"
+alt: >-
+  One call through the layers: your code calls MeasureOxygen(), the core exchanges frames with the chip through
+  your port and returns the result to your code.
+reads: >-
+  Participants, left to right: Your code, FDO2<Port> and Your port. The steps run from top to bottom. Your code sends MeasureOxygen() to FDO2<Port>. FDO2<Port> sends FlushInput() to Your port. FDO2<Port> sends Write("#MOXY") to Your port. A note over FDO2<Port> and Your port says: Repeat until CR or deadline. FDO2<Port> sends Read(buffer, max, timeout) to Your port. Your port returns n bytes to FDO2<Port>. A note over FDO2<Port> and Your port says: End of the repeated steps. A note over FDO2<Port> says: assemble the line, check CRC, parse. A note over FDO2<Port> says: status policy, plausibility windows. FDO2<Port> returns Result<Oxygen> to Your code.
+print: landscape
+sources:
+  - docs/model/one-call-through-the-layers.seq.yml
+participants:
+  - {id: app, label: "Your code", tone: magenta}
+  - {id: core, label: "FDO2<Port>", tone: green}
+  - {id: port, label: "Your port", tone: teal}
+steps:
+  - {from: app, to: core, label: "MeasureOxygen()"}
+  - {from: core, to: port, label: "FlushInput()"}
+  - {from: core, to: port, label: "Write(\"#MOXY\")"}
+  - {note: "Repeat until CR or deadline", over: [core, port]}
+  - {from: core, to: port, label: "Read(buffer, max, timeout)"}
+  - {from: port, to: core, label: "n bytes", return: true}
+  - {note: "End of the repeated steps", over: [core, port]}
+  - {note: "assemble the line, check CRC, parse", over: [core, port]}
+  - {note: "status policy, plausibility windows", over: [core, port]}
+  - {from: core, to: app, label: "Result<Oxygen>", return: true}
