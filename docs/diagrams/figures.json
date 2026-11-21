@@ -119,6 +119,23 @@
       "inc/fdo2_uart_interface.hpp:UartInterface"
     ]
   },
+  "moxy-transaction": {
+    "title": "One oxygen measurement",
+    "alt": "One #MOXY exchange with the FDO2-G2: the host sends the command and a carriage return, the module measures, then echoes the command with the oxygen, temperature and status values and a carriage return.",
+    "description": "The TXD lane is what the host sends and the RXD lane what the module answers, left to right in time. On TXD the command #MOXY and a carriage return start a measurement; after it completes the module sends on RXD the echo #MOXY, the values O, T and S separated by spaces, and a carriage return. The table gives the longest measurement time of the default mode.",
+    "profile": "phone",
+    "width": 640,
+    "source": "docs/model/moxy-transaction.timing.yml",
+    "sources": [
+      "docs/model/moxy-transaction.timing.yml"
+    ],
+    "kind": "timing",
+    "palette": 2,
+    "print": "landscape",
+    "adaptive": true,
+    "twin": true,
+    "font": ""
+  },
   "one-call-through-the-layers": {
     "title": "One call through the layers",
     "alt": "One call through the layers: your code calls MeasureOxygen(), the core exchanges frames with the chip through your port and returns the result to your code.",
@@ -158,5 +175,22 @@
     "sources": [
       "inc/fdo2_types.hpp:Config"
     ]
+  },
+  "uart-timing": {
+    "title": "UART character",
+    "alt": "One UART character of the FDO2-G2 at its power-up settings: a start bit, eight data bits least significant first, no parity and one stop bit at 19200 bit/s on 3.0 V levels.",
+    "description": "The lane is TXD, left to right in time, and RXD carries the same format in the other direction. The line idles high, the start bit pulls it low for one bit time, the data bits D0 to D7 follow and the stop bit returns it high. The table gives the power-up bit rate, the range the #BAUD command sets and the power-up time before the first command.",
+    "profile": "phone",
+    "width": 640,
+    "source": "docs/model/uart-timing.timing.yml",
+    "sources": [
+      "docs/model/uart-timing.timing.yml"
+    ],
+    "kind": "timing",
+    "palette": 2,
+    "print": "landscape",
+    "adaptive": true,
+    "twin": true,
+    "font": ""
   }
 }

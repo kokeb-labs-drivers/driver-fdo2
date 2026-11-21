@@ -1,0 +1,36 @@
+---
+kind: timing
+id: moxy-transaction
+title: One oxygen measurement
+kicker: On the bus
+alt: >-
+  One #MOXY exchange with the FDO2-G2: the host sends the command and a carriage return, the module measures, then
+  echoes the command with the oxygen, temperature and status values and a carriage return.
+reads: >-
+  The TXD lane is what the host sends and the RXD lane what the module answers, left to right in time. On TXD the
+  command #MOXY and a carriage return start a measurement; after it completes the module sends on RXD the echo
+  #MOXY, the values O, T and S separated by spaces, and a carriage return. The table gives the longest measurement
+  time of the default mode.
+bus: transaction
+refs:
+  general: {doc: ds, section: "4.1 General Definitions", page: 10}
+  moxy: {doc: ds, section: "4.3 Commands, #MOXY", page: 11}
+  modes: {doc: ds, section: "4.3 Commands, #SETM, modes", page: 16}
+  crc: {doc: ds, section: "4.2 Detecting communication errors and optional CRC", page: 11}
+signals:
+  - {id: txd, label: TXD, wave: "1=..=.1............", data: ["#MOXY", CR]}
+  - {id: rxd, label: RXD, wave: "1........=..===.=.1", data: ["#MOXY", O, T, S, CR], tone: teal}
+groups:
+  - {from: 1, to: 6, label: command}
+  - {from: 9, to: 18, label: "echo and values"}
+params:
+  - {id: tmeas, symbol: tMEAS, label: "Complete measurement in the default mode M=2 (modes 3 and 4: about 300 ms)",
+     max: 150, unit: ms, ref: modes}
+marks:
+  - {param: tmeas, signal: txd, from: 6, to: 9}
+notes:
+  - {text: "A command ends with a carriage return (0x0D), or a carriage return and a line feed (0x0D, 0x0A).",
+     ref: general}
+  - {text: "The reply is the echo of the command with the values and one carriage return (0x0D).", ref: general}
+  - {text: "With CRC enabled the reply ends with a colon, a space and the CRC16 checksum before the carriage return.",
+     ref: crc}

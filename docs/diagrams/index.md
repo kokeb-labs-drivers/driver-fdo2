@@ -202,6 +202,24 @@ Drawn from:
 - `public calls` in [`inc/fdo2.hpp`](../../inc/fdo2.hpp)
 - `UartInterface` in [`inc/fdo2_uart_interface.hpp`](../../inc/fdo2_uart_interface.hpp)
 
+## One oxygen measurement
+
+<!-- figure: moxy-transaction -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="moxy-transaction.dark.svg">
+  <img src="moxy-transaction.svg"
+    alt="One #MOXY exchange with the FDO2-G2: the host sends the command and a carriage return, the module
+    measures, then echoes the command with the oxygen, temperature and status values and a carriage
+    return.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/model/moxy-transaction.timing.yml`](../model/moxy-transaction.timing.yml)
+
+Drawn from:
+
+- [`docs/model/moxy-transaction.timing.yml`](../model/moxy-transaction.timing.yml)
+
 ## One call through the layers
 
 <!-- figure: one-call-through-the-layers -->
@@ -254,3 +272,20 @@ Figure module: [`docs/diagrams/figures/transaction-timing.py`](../../docs/diagra
 Drawn from:
 
 - `Config` in [`inc/fdo2_types.hpp`](../../inc/fdo2_types.hpp)
+
+## UART character
+
+<!-- figure: uart-timing -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="uart-timing.dark.svg">
+  <img src="uart-timing.svg"
+    alt="One UART character of the FDO2-G2 at its power-up settings: a start bit, eight data bits least
+    significant first, no parity and one stop bit at 19200 bit/s on 3.0 V levels.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/model/uart-timing.timing.yml`](../model/uart-timing.timing.yml)
+
+Drawn from:
+
+- [`docs/model/uart-timing.timing.yml`](../model/uart-timing.timing.yml)

@@ -122,7 +122,7 @@ topics:
     section: "2 Specifications, Interface"
     page: 6
     driver: "`kSupplyMinMv`, `kSupplyMaxMv`, the `Power` pin hook"
-    docs: [hardware]
+    docs: [hardware, bus]
   - topic: "Supply below 3.3 V and readings"
     doc: ds_legacy
     section: "2 Specifications, Interface, WARNING"
@@ -164,13 +164,13 @@ topics:
     section: "4.1 General Definitions"
     page: 10
     driver: "`LineAssembler`, `EncodeCommand()`, `VerifyEcho()`"
-    docs: [protocol, porting]
+    docs: [protocol, porting, bus]
   - topic: "Power-up time"
     doc: ds
     section: "4 Communication Interface"
     page: 10
     driver: "`Config::power_up_ms`, `BeginInitialize()`"
-    docs: [quickstart, hardware, non-blocking]
+    docs: [quickstart, hardware, non-blocking, bus]
   - topic: "Numbers in a reply"
     doc: ds
     section: "4.1 General Definitions, value formats"
@@ -182,7 +182,7 @@ topics:
     section: "4.2 Detecting communication errors and optional CRC"
     page: 11
     driver: "`Crc16Modbus()`, `CrcMode`, `CrcActive()`"
-    docs: [protocol, settings]
+    docs: [protocol, settings, bus]
   - topic: "#VERS: device, channels, firmware, sensors"
     doc: ds
     section: "4.3 Commands, #VERS"
@@ -200,7 +200,7 @@ topics:
     section: "4.3 Commands, #MOXY"
     page: 11
     driver: "`MeasureOxygen()`, `Oxygen`"
-    docs: [protocol, api-guide]
+    docs: [protocol, api-guide, bus]
   - topic: "#MRAW: phase, signals, pressure, humidity"
     doc: ds
     section: "4.3 Commands, #MRAW"
@@ -236,7 +236,7 @@ topics:
     section: "4.3 Commands, #BAUD"
     page: 14
     driver: "`SetBaudRate()`, `kBaudRates`, `Resync()`"
-    docs: [settings, porting]
+    docs: [settings, porting, bus]
   - topic: "#CALO: zero calibration"
     doc: ds
     section: "4.3 Commands, #CALO"
@@ -266,7 +266,7 @@ topics:
     section: "4.3 Commands, #SETM, modes"
     page: 16
     driver: "`Config::measurement_ms`"
-    docs: [configuration, non-blocking]
+    docs: [configuration, non-blocking, bus]
   - topic: "Flash endurance and interrupted writes"
     doc: ds
     section: "4.3 Commands, WARNING"
