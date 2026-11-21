@@ -7,7 +7,12 @@ alt: >-
   One call through the layers: your code calls MeasureOxygen(), the core exchanges frames with the chip through
   your port and returns the result to your code.
 reads: >-
-  Participants, left to right: Your code, FDO2<Port> and Your port. The steps run from top to bottom. Your code sends MeasureOxygen() to FDO2<Port>. FDO2<Port> sends FlushInput() to Your port. FDO2<Port> sends Write("#MOXY") to Your port. A note over FDO2<Port> and Your port says: Repeat until CR or deadline. FDO2<Port> sends Read(buffer, max, timeout) to Your port. Your port returns n bytes to FDO2<Port>. A note over FDO2<Port> and Your port says: End of the repeated steps. A note over FDO2<Port> says: assemble the line, check CRC, parse. A note over FDO2<Port> says: status policy, plausibility windows. FDO2<Port> returns Result<Oxygen> to Your code.
+  Participants, left to right: Your code, FDO2<Port> and Your port. The steps run from top to bottom. Your code sends
+  MeasureOxygen() to FDO2<Port>. FDO2<Port> sends FlushInput() to Your port. FDO2<Port> sends Write("#MOXY") to Your
+  port. A note over FDO2<Port> and Your port says: Repeat until CR or deadline. FDO2<Port> sends Read(buffer, max,
+  timeout) to Your port. Your port returns n bytes to FDO2<Port>. A note over FDO2<Port> and Your port says: End of the
+  repeated steps. A note over FDO2<Port> says: assemble the line, check CRC, parse. A note over FDO2<Port> says: status
+  policy, plausibility windows. FDO2<Port> returns Result<Oxygen> to Your code.
 print: landscape
 sources:
   - docs/model/one-call-through-the-layers.seq.yml

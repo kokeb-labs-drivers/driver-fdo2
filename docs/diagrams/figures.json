@@ -11,6 +11,18 @@
       "inc/fdo2_uart_interface.hpp"
     ]
   },
+  "chip-capabilities": {
+    "title": "What the FDO2 does",
+    "alt": "Capability map of the FDO2: Oxygen and temperature (supported): Measures the oxygen partial pressure and the temperature, as hPa or as a volume fraction; Raw values and housing sensors (supported): Adds the phase shift, signal and ambient light, and the pressure and humidity inside the housing; Status word (supported): Classifies each reading's warning and fatal bits and holds back a faulty measurement; Identity and start-up (supported): Waits out the power-up, reads the version and the unique ID, and flashes the status LED to find a module; Calibration (guarded): Calibrates at zero oxygen, at a known partial pressure or in dry air; the factory calibration is lost; Broadcast stream (guarded): Makes the module measure by itself at a set interval and send each result; Measurement mode, CRC and baud rate (guarded): Trades drift for noise, adds a CRC-16 to every reply, and changes the baud rate; User memory (guarded): Reads and writes 64 words that survive a power cycle; each write costs a flash cycle.",
+    "description": "Each card is one function of the FDO2: an icon, its name and what it does for the application. The filled pill says how this driver covers it (legend below); the outlined pills are the chip registers behind it. The coverage table in the README gives the driver calls and the datasheet section of each card.",
+    "profile": "overview",
+    "width": 1200,
+    "source": "docs/hardware.yml",
+    "sources": [
+      "docs/hardware.yml",
+      "inc/fdo2_uart_interface.hpp"
+    ]
+  },
   "chip-circuit-direct": {
     "title": "FDO2: Direct connection to a 3.3-volt controller",
     "alt": "Schematic of the FDO2 direct connection to a 3.3-volt controller: the chip with U2 MCU (3.3 V), C1 capacitor 100 nF; the MCU wires carry the port hooks GpioSet(CtrlPin::Power), Read(), Write().",
@@ -29,6 +41,18 @@
     "description": "A schematic. The MCU is on the left, each of its pins level with the chip pin it connects to; above each wire is the hook of the driver's port that drives or reads it. Supply pins point up to their supply and decoupling, ground pins down. Pins on the right carry the loads and the pins tied to a supply or ground; a cross marks a pin left open. A dot is a junction; wires that cross without a dot are not connected.",
     "profile": "detail",
     "width": 800,
+    "source": "docs/hardware.yml",
+    "sources": [
+      "docs/hardware.yml",
+      "inc/fdo2_uart_interface.hpp"
+    ]
+  },
+  "chip-hero": {
+    "title": "FDO2",
+    "alt": "Overview of the FDO2, an optical oxygen sensor module with a UART: it excites a sensor dye with red light, measures the luminescence that oxygen quenches, and reports the oxygen partial pressure with its temperature, compensated and factory calibrated. A MCU talks to it over UART, 3.0 V; it reads back Oxygen, Temperature, pressure, humidity. Headline figures: 0 to 1000 hPa typical oxygen partial pressure range; < 2 s response time (t63); 3.3 to 5.0 V supply; 19200 baud UART at power-up, 8N1, 3.0 V.",
+    "description": "The FDO2 in the middle, drawn as its Module, 4-pin package. On the left the MCU that runs the driver, joined to it by UART, 3.0 V. Below it, what the chip reads back. The tiles at the bottom are the headline numbers, each with the datasheet section and page it comes from.",
+    "profile": "overview",
+    "width": 1200,
     "source": "docs/hardware.yml",
     "sources": [
       "docs/hardware.yml",
@@ -59,6 +83,30 @@
       "inc/fdo2_uart_interface.hpp"
     ]
   },
+  "chip-wiring-direct": {
+    "title": "Wiring: Direct connection to a 3.3-volt controller",
+    "alt": "Wiring of the FDO2 for the Direct connection to a 3.3-volt controller: MCU (3.3 V) UART TX to RXD (Write()); MCU (3.3 V) UART RX to TXD (Read()). Supplies, grounds and the support parts are listed under the drawing.",
+    "description": "The MCU (3.3 V) on the left, the FDO2 in the middle. Each wire to the chip is coloured by the chip pin's electrical type and carries the net name and the chip pin number above it and, under it, the driver hooks that use it (and any part on the net). The boxes underneath list the supplies, the support parts and the pins this circuit leaves unconnected.",
+    "profile": "overview",
+    "width": 1200,
+    "source": "docs/hardware.yml",
+    "sources": [
+      "docs/hardware.yml",
+      "inc/fdo2_uart_interface.hpp"
+    ]
+  },
+  "chip-wiring-shifted": {
+    "title": "Wiring: Connection to a 5-volt controller through a divider",
+    "alt": "Wiring of the FDO2 for the Connection to a 5-volt controller through a divider: MCU (5 V) UART RX to TXD (Read()); MCU (5 V) UART TX to RXD through R1 10 kΩ (Write()). Supplies, grounds and the support parts are listed under the drawing.",
+    "description": "The MCU (5 V) on the left, the FDO2 in the middle. Each wire to the chip is coloured by the chip pin's electrical type and carries the net name and the chip pin number above it and, under it, the driver hooks that use it (and any part on the net). The boxes underneath list the supplies, the support parts and the pins this circuit leaves unconnected.",
+    "profile": "overview",
+    "width": 1200,
+    "source": "docs/hardware.yml",
+    "sources": [
+      "docs/hardware.yml",
+      "inc/fdo2_uart_interface.hpp"
+    ]
+  },
   "driver-layers": {
     "title": "The layers, one of them yours",
     "alt": "Layer diagram: your application calls the FDO2 core, which sends register reads and writes through the UART port contract to the port class you write, which drives the chip; the core and the contract are the same on every MCU.",
@@ -70,6 +118,23 @@
       "inc/fdo2.hpp:public calls",
       "inc/fdo2_uart_interface.hpp:UartInterface"
     ]
+  },
+  "moxy-transaction": {
+    "title": "One oxygen measurement",
+    "alt": "One #MOXY exchange with the FDO2-G2: the host sends the command and a carriage return, the module measures, then echoes the command with the oxygen, temperature and status values and a carriage return.",
+    "description": "The TXD lane is what the host sends and the RXD lane what the module answers, left to right in time. On TXD the command #MOXY and a carriage return start a measurement; after it completes the module sends on RXD the echo #MOXY, the values O, T and S separated by spaces, and a carriage return. The table gives the longest measurement time of the default mode.",
+    "profile": "phone",
+    "width": 640,
+    "source": "docs/model/moxy-transaction.timing.yml",
+    "sources": [
+      "docs/model/moxy-transaction.timing.yml"
+    ],
+    "kind": "timing",
+    "palette": 2,
+    "print": "landscape",
+    "adaptive": true,
+    "twin": true,
+    "font": ""
   },
   "one-call-through-the-layers": {
     "title": "One call through the layers",
@@ -110,5 +175,22 @@
     "sources": [
       "inc/fdo2_types.hpp:Config"
     ]
+  },
+  "uart-timing": {
+    "title": "UART character",
+    "alt": "One UART character of the FDO2-G2 at its power-up settings: a start bit, eight data bits least significant first, no parity and one stop bit at 19200 bit/s on 3.0 V levels.",
+    "description": "The lane is TXD, left to right in time, and RXD carries the same format in the other direction. The line idles high, the start bit pulls it low for one bit time, the data bits D0 to D7 follow and the stop bit returns it high. The table gives the power-up bit rate, the range the #BAUD command sets and the power-up time before the first command.",
+    "profile": "phone",
+    "width": 640,
+    "source": "docs/model/uart-timing.timing.yml",
+    "sources": [
+      "docs/model/uart-timing.timing.yml"
+    ],
+    "kind": "timing",
+    "palette": 2,
+    "print": "landscape",
+    "adaptive": true,
+    "twin": true,
+    "font": ""
   }
 }

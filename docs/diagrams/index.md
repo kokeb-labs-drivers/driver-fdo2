@@ -24,6 +24,33 @@ Drawn from:
 - [`docs/hardware.yml`](../hardware.yml)
 - [`inc/fdo2_uart_interface.hpp`](../../inc/fdo2_uart_interface.hpp)
 
+## What the FDO2 does
+
+<!-- figure: chip-capabilities -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="chip-capabilities.dark.svg">
+  <img src="chip-capabilities.svg"
+    alt="Capability map of the FDO2: Oxygen and temperature (supported): Measures the oxygen partial pressure
+    and the temperature, as hPa or as a volume fraction; Raw values and housing sensors (supported):
+    Adds the phase shift, signal and ambient light, and the pressure and humidity inside the housing;
+    Status word (supported): Classifies each reading's warning and fatal bits and holds back a faulty
+    measurement; Identity and start-up (supported): Waits out the power-up, reads the version and the
+    unique ID, and flashes the status LED to find a module; Calibration (guarded): Calibrates at zero
+    oxygen, at a known partial pressure or in dry air; the factory calibration is lost; Broadcast stream
+    (guarded): Makes the module measure by itself at a set interval and send each result; Measurement
+    mode, CRC and baud rate (guarded): Trades drift for noise, adds a CRC-16 to every reply, and changes
+    the baud rate; User memory (guarded): Reads and writes 64 words that survive a power cycle; each
+    write costs a flash cycle.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/hardware.yml`](../hardware.yml)
+
+Drawn from:
+
+- [`docs/hardware.yml`](../hardware.yml)
+- [`inc/fdo2_uart_interface.hpp`](../../inc/fdo2_uart_interface.hpp)
+
 ## FDO2: Direct connection to a 3.3-volt controller
 
 <!-- figure: chip-circuit-direct -->
@@ -51,6 +78,28 @@ Drawn from:
     alt="Schematic of the FDO2 connection to a 5-volt controller through a divider: the chip with U2 MCU (5
     V), R1 resistor 10 kΩ, R2 resistor 12 kΩ, C1 capacitor 100 nF; the MCU wires carry the port hooks
     GpioSet(CtrlPin::Power), Read(), Write().">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/hardware.yml`](../hardware.yml)
+
+Drawn from:
+
+- [`docs/hardware.yml`](../hardware.yml)
+- [`inc/fdo2_uart_interface.hpp`](../../inc/fdo2_uart_interface.hpp)
+
+## FDO2
+
+<!-- figure: chip-hero -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="chip-hero.dark.svg">
+  <img src="chip-hero.svg"
+    alt="Overview of the FDO2, an optical oxygen sensor module with a UART: it excites a sensor dye with red
+    light, measures the luminescence that oxygen quenches, and reports the oxygen partial pressure with
+    its temperature, compensated and factory calibrated. A MCU talks to it over UART, 3.0 V; it reads
+    back Oxygen, Temperature, pressure, humidity. Headline figures: 0 to 1000 hPa typical oxygen partial
+    pressure range; < 2 s response time (t63); 3.3 to 5.0 V supply; 19200 baud UART at power-up, 8N1,
+    3.0 V.">
 </picture>
 <!-- /figure -->
 
@@ -96,6 +145,44 @@ Drawn from:
 - [`docs/hardware.yml`](../hardware.yml)
 - [`inc/fdo2_uart_interface.hpp`](../../inc/fdo2_uart_interface.hpp)
 
+## Wiring: Direct connection to a 3.3-volt controller
+
+<!-- figure: chip-wiring-direct -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="chip-wiring-direct.dark.svg">
+  <img src="chip-wiring-direct.svg"
+    alt="Wiring of the FDO2 for the Direct connection to a 3.3-volt controller: MCU (3.3 V) UART TX to RXD
+    (Write()); MCU (3.3 V) UART RX to TXD (Read()). Supplies, grounds and the support parts are listed
+    under the drawing.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/hardware.yml`](../hardware.yml)
+
+Drawn from:
+
+- [`docs/hardware.yml`](../hardware.yml)
+- [`inc/fdo2_uart_interface.hpp`](../../inc/fdo2_uart_interface.hpp)
+
+## Wiring: Connection to a 5-volt controller through a divider
+
+<!-- figure: chip-wiring-shifted -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="chip-wiring-shifted.dark.svg">
+  <img src="chip-wiring-shifted.svg"
+    alt="Wiring of the FDO2 for the Connection to a 5-volt controller through a divider: MCU (5 V) UART RX to
+    TXD (Read()); MCU (5 V) UART TX to RXD through R1 10 kΩ (Write()). Supplies, grounds and the support
+    parts are listed under the drawing.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/hardware.yml`](../hardware.yml)
+
+Drawn from:
+
+- [`docs/hardware.yml`](../hardware.yml)
+- [`inc/fdo2_uart_interface.hpp`](../../inc/fdo2_uart_interface.hpp)
+
 ## The layers, one of them yours
 
 <!-- figure: driver-layers -->
@@ -114,6 +201,24 @@ Drawn from:
 
 - `public calls` in [`inc/fdo2.hpp`](../../inc/fdo2.hpp)
 - `UartInterface` in [`inc/fdo2_uart_interface.hpp`](../../inc/fdo2_uart_interface.hpp)
+
+## One oxygen measurement
+
+<!-- figure: moxy-transaction -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="moxy-transaction.dark.svg">
+  <img src="moxy-transaction.svg"
+    alt="One #MOXY exchange with the FDO2-G2: the host sends the command and a carriage return, the module
+    measures, then echoes the command with the oxygen, temperature and status values and a carriage
+    return.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/model/moxy-transaction.timing.yml`](../model/moxy-transaction.timing.yml)
+
+Drawn from:
+
+- [`docs/model/moxy-transaction.timing.yml`](../model/moxy-transaction.timing.yml)
 
 ## One call through the layers
 
@@ -167,3 +272,20 @@ Figure module: [`docs/diagrams/figures/transaction-timing.py`](../../docs/diagra
 Drawn from:
 
 - `Config` in [`inc/fdo2_types.hpp`](../../inc/fdo2_types.hpp)
+
+## UART character
+
+<!-- figure: uart-timing -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="uart-timing.dark.svg">
+  <img src="uart-timing.svg"
+    alt="One UART character of the FDO2-G2 at its power-up settings: a start bit, eight data bits least
+    significant first, no parity and one stop bit at 19200 bit/s on 3.0 V levels.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/model/uart-timing.timing.yml`](../model/uart-timing.timing.yml)
+
+Drawn from:
+
+- [`docs/model/uart-timing.timing.yml`](../model/uart-timing.timing.yml)

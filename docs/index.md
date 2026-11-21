@@ -5,7 +5,7 @@ hide:
 ---
 
 <div class="kb-hero" markdown>
-<span class="kb-kicker">Driver</span>
+<span class="kb-kicker">Optical oxygen sensor module</span>
 
 # FDO2 Driver
 
@@ -18,44 +18,150 @@ MCU.</p>
 [Source on GitHub](https://github.com/kokeb-labs-drivers/driver-fdo2){ .md-button }
 </div>
 
+<!-- generated: chip-summary -->
+The **FDO2** is an optical oxygen sensor module with a UART: it excites a sensor dye with red light, measures the
+luminescence that oxygen quenches, and reports the oxygen partial pressure with its temperature, compensated and factory
+calibrated (1 Introduction, [p.
+4](https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2-G2.pdf&cid=24457#page=4)).
+<!-- /generated -->
+
+<!-- figure: chip-hero -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/chip-hero.dark.svg">
+  <img src="diagrams/chip-hero.svg"
+    alt="Overview of the FDO2, an optical oxygen sensor module with a UART: it excites a sensor dye with red
+    light, measures the luminescence that oxygen quenches, and reports the oxygen partial pressure with
+    its temperature, compensated and factory calibrated. A MCU talks to it over UART, 3.0 V; it reads
+    back Oxygen, Temperature, pressure, humidity. Headline figures: 0 to 1000 hPa typical oxygen partial
+    pressure range; < 2 s response time (t63); 3.3 to 5.0 V supply; 19200 baud UART at power-up, 8N1,
+    3.0 V.">
+</picture>
+<!-- /figure -->
+
+## What it does
+
+<!-- figure: chip-capabilities -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/chip-capabilities.dark.svg">
+  <img src="diagrams/chip-capabilities.svg"
+    alt="Capability map of the FDO2: Oxygen and temperature (supported): Measures the oxygen partial pressure
+    and the temperature, as hPa or as a volume fraction; Raw values and housing sensors (supported):
+    Adds the phase shift, signal and ambient light, and the pressure and humidity inside the housing;
+    Status word (supported): Classifies each reading's warning and fatal bits and holds back a faulty
+    measurement; Identity and start-up (supported): Waits out the power-up, reads the version and the
+    unique ID, and flashes the status LED to find a module; Calibration (guarded): Calibrates at zero
+    oxygen, at a known partial pressure or in dry air; the factory calibration is lost; Broadcast stream
+    (guarded): Makes the module measure by itself at a set interval and send each result; Measurement
+    mode, CRC and baud rate (guarded): Trades drift for noise, adds a CRC-16 to every reply, and changes
+    the baud rate; User memory (guarded): Reads and writes 64 words that survive a power cycle; each
+    write costs a flash cycle.">
+</picture>
+<!-- /figure -->
+
+## Where it is used
+
+<!-- generated: chip-uses -->
+- Incubators
+- Oxygen concentrators
+- Inert gas processing chambers (glove boxes)
+- Exhaust gas measurement
+- Inert gas monitoring
+- Portable equipment
+- Monitoring fruit storage and transport
+- Biogas applications
+- Oxygen level monitoring in buildings
+
+Uses named by the datasheet (1 Introduction, [p.
+4](https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2-G2.pdf&cid=24457#page=4)).
+<!-- /generated -->
+
+## Inside the module
+
+<!-- figure: chip-blocks -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/chip-blocks.dark.svg">
+  <img src="diagrams/chip-blocks.svg"
+    alt="Block diagram of the FDO2: its function blocks, how they connect and which package pins reach each
+    block.">
+</picture>
+<!-- /figure -->
+
+## Pins and wiring
+
+<!-- figure: chip-pinout -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/chip-pinout.dark.svg">
+  <img src="diagrams/chip-pinout.svg"
+    alt="Pinout of the FDO2 in Module, 4-pin, top view: 4 pins, each with its name, its electrical type as a
+    colour and the driver hook that uses it.">
+</picture>
+<!-- /figure -->
+
+<!-- figure: chip-wiring-direct -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/chip-wiring-direct.dark.svg">
+  <img src="diagrams/chip-wiring-direct.svg"
+    alt="Wiring of the FDO2 for the Direct connection to a 3.3-volt controller: MCU (3.3 V) UART TX to RXD
+    (Write()); MCU (3.3 V) UART RX to TXD (Read()). Supplies, grounds and the support parts are listed
+    under the drawing.">
+</picture>
+<!-- /figure -->
+
+<!-- figure: chip-wiring-shifted -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/chip-wiring-shifted.dark.svg">
+  <img src="diagrams/chip-wiring-shifted.svg"
+    alt="Wiring of the FDO2 for the Connection to a 5-volt controller through a divider: MCU (5 V) UART RX to
+    TXD (Read()); MCU (5 V) UART TX to RXD through R1 10 kΩ (Write()). Supplies, grounds and the support
+    parts are listed under the drawing.">
+</picture>
+<!-- /figure -->
+
+Every pin, both circuits, the UART settings and the mechanical data: [Hardware](hardware.md).
+
+## Quick start
+
+Wire the module as above, write the port ([Porting](porting.md)), then measure the oxygen:
+
+```cpp
+--8<-- "tests/docs/quickstart.cpp:quickstart"
+```
+
+The steps explained: [Quickstart](quickstart.md).
+
+## Driver coverage
+
+<!-- generated: chip-coverage -->
+| Capability | What the chip does | Driver API | Registers | Status | Datasheet |
+| --- | --- | --- | --- | --- | --- |
+| [Oxygen and temperature](api-guide.md) | Measures the oxygen partial pressure and the temperature, as hPa or as a volume fraction | `MeasureOxygen`, `StartMeasureOxygen`, `GetOxygen`, `MeasureVolumePercentMilli` | `MOXY` | Supported | 4.3, [p. 11](https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2-G2.pdf&cid=24457#page=11) |
+| [Raw values and housing sensors](api-guide.md) | Adds the phase shift, signal and ambient light, and the pressure and humidity inside the housing | `MeasureRaw`, `StartMeasureRaw`, `ReadRawFrame`, `GetRaw` | `MRAW` | Supported | 4.3, [p. 12](https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2-G2.pdf&cid=24457#page=12) |
+| [Status word](status-and-errors.md) | Classifies each reading's warning and fatal bits and holds back a faulty measurement | `Classify` | - | Supported | 4.3, [p. 12](https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2-G2.pdf&cid=24457#page=12) |
+| [Identity and start-up](protocol.md) | Waits out the power-up, reads the version and the unique ID, and flashes the status LED to find a module | `EnsureInitialized`, `ReadVersion`, `ReadUniqueId`, `Identify`, `Resync`, `PowerCycle` | `VERS`, `IDNR`, `LOGO` | Supported | 4.3, [p. 11](https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2-G2.pdf&cid=24457#page=11) |
+| [Calibration](calibration.md) | Calibrates at zero oxygen, at a known partial pressure or in dry air; the factory calibration is lost | `CalibrateZero`, `CalibrateHigh`, `CalibrateAir` | `CALO`, `CAHI` | Guarded | 4.3, [p. 14](https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2-G2.pdf&cid=24457#page=14) |
+| [Broadcast stream](settings.md) | Makes the module measure by itself at a set interval and send each result | `SetBroadcast`, `DisableBroadcast`, `ProbeBroadcast` | `BCST` | Guarded | 4.3, [p. 15](https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2-G2.pdf&cid=24457#page=15) |
+| [Measurement mode, CRC and baud rate](settings.md) | Trades drift for noise, adds a CRC-16 to every reply, and changes the baud rate | `SetMeasurementMode`, `SetCrcEnabled`, `SetBaudRate` | `SETM`, `CRCE`, `BAUD` | Guarded | 4.3, [p. 15](https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2-G2.pdf&cid=24457#page=15) |
+| [User memory](settings.md) | Reads and writes 64 words that survive a power cycle; each write costs a flash cycle | `ReadUserMemory`, `WriteUserMemory` | `RDUM`, `WRUM` | Guarded | 4.3, [p. 14](https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2-G2.pdf&cid=24457#page=14) |
+
+**Supported**: the driver covers it and a host test checks it; **Guarded**: covered, behind an explicit acknowledgement
+because a wrong value can do harm.
+
+From [`docs/hardware.yml`](hardware.yml); `kokeb-docs hardware --check` confirms that every API name is in
+`inc/fdo2.hpp`, `inc/fdo2_types.hpp` and every register in `inc/fdo2_protocol.hpp`.
+<!-- /generated -->
+
 The driver has no platform code. You give it a small class that moves bytes on the UART; it does the rest: the
 power-up wait, the command lines, the checksum, the status policy, retries and timeouts.
 
-<div class="kb-chip" markdown>
-<div class="kb-chip__head">
-<span class="kb-chip__kicker">Optical oxygen sensor module</span>
-<span class="kb-chip__name">FDO2-G2 and FDO2</span>
-<span class="kb-chip__vendor">PyroScience</span>
-</div>
-
-Function
-:   Oxygen partial pressure, temperature, pressure and humidity inside the housing
-
-Interface
-:   UART, 19200 baud, 8N1 at power-up, 3.0 V levels (3.3 V maximum on RXD); ASCII commands ended by a carriage return
-
-Integrity
-:   Optional CRC-16 on every reply; a status word on every measurement
-
-Supply
-:   3.3 V to 5.0 V
-
-Package
-:   Cylindrical module, 28.5 mm diameter, four-pin connector
-</div>
-
-
-## What you get
-
-- **One object per module.** \`FDO2<YourPort>\` takes a reference to your port and does no I/O until
-  \`EnsureInitialized()\`. See [API guide](api-guide.md).
-- **Errors you can act on.** Every call returns \`Result<T>\` with an \`Error\` such as \`Timeout\`, \`SensorFault\` or
-  \`NotPermitted\`. See [Status and errors](status-and-errors.md).
+- **One object per module.** `FDO2<YourPort>` takes a reference to your port and does no I/O until
+  `EnsureInitialized()`. See [API guide](api-guide.md).
+- **Errors you can act on.** Every call returns `Result<T>` with an `Error` such as `Timeout`, `SensorFault` or
+  `NotPermitted`. See [Status and errors](status-and-errors.md).
 - **Flash writes need your consent.** Calibration and settings write the module's flash; the driver sends them only
   with an opt-in and inside a budget. See [Calibration](calibration.md).
-- **Datasheet defaults.** \`Config{}\` follows the datasheets, with units in the field names. See
+- **Datasheet defaults.** `Config{}` follows the datasheets, with units in the field names. See
   [Configuration](configuration.md).
-- **Blocking or not.** Every operation has a blocking call and a start call with \`Poll()\`. See
+- **Blocking or not.** Every operation has a blocking call and a start call with `Poll()`. See
   [Non-blocking use](non-blocking.md).
 - **Zero-overhead portability.** The port is a CRTP class checked by a concept. See [Porting](porting.md).
 - **No heap, no exceptions, no RTTI.** See [Contract](contract.md).

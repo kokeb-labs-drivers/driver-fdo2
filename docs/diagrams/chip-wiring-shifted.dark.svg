@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="786" viewBox="0 0 1200 786" role="img" aria-labelledby="chip-wiring-shifted-title chip-wiring-shifted-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="chip-wiring-shifted-title">Wiring: Connection to a 5-volt controller through a divider</title>
+<desc id="chip-wiring-shifted-desc">Wiring of the FDO2 for the Connection to a 5-volt controller through a divider: MCU (5 V) UART RX to TXD (Read()); MCU (5 V) UART TX to RXD through R1 10 kΩ (Write()). Supplies, grounds and the support parts are listed under the drawing.</desc>
+<rect x="0.5" y="0.5" width="1199" height="785" rx="16" fill="#0E131A" stroke="#283241"/>
+<text x="32" y="46.8" font-size="16" font-weight="700" letter-spacing="1.2" fill="#F8D27A">PINS AND WIRING</text>
+<text x="32" y="85.6" font-size="32" font-weight="700" fill="#E8EDF3">Wiring: Connection to a 5-volt controller through a divider</text>
+<text x="32" y="115.4" font-size="18" fill="#9AA6B5">What you connect by hand, with the driver hook on each MCU wire. The full schematic, with every part and value, is on the</text>
+<text x="32" y="141.5" font-size="18" fill="#9AA6B5">Hardware page. Datasheet: 6.2 Voltage Tolerance of UART RX Pin (ERRATA), p. 19.</text>
+<rect x="32" y="157.5" width="1136" height="1" fill="#252F3C"/>
+<path d="M471.3 291.1 L674.7 291.1" fill="none" stroke="#4ADE80" stroke-width="2.2"/>
+<path d="M471.3 398.3 L674.7 398.3" fill="none" stroke="#2BB3A3" stroke-width="2.2"/>
+<rect x="688.7" y="175.5" width="240" height="294.4" rx="10" fill="#18202B" stroke="#D2DAE4" stroke-width="2.2"/>
+<rect x="271.3" y="175.5" width="200" height="294.4" rx="12" fill="#13233A" stroke="#60A5FA" stroke-width="1.4"/>
+<rect x="32" y="497.9" width="1136" height="79" rx="12" fill="#321820" stroke="#6E3141" stroke-width="1"/>
+<rect x="32" y="590.9" width="1136" height="79" rx="12" fill="#1B232E" stroke="#3A4656" stroke-width="1"/>
+<text x="808.7" y="210.5" font-size="20" font-weight="700" text-anchor="middle" fill="#E8EDF3">FDO2</text>
+<text x="808.7" y="232.9" font-size="16" text-anchor="middle" fill="#9AA6B5">U1</text>
+<text x="289.3" y="210.5" font-size="20" font-weight="700" fill="#BFDBFE">MCU (5 V)</text>
+<text x="289.3" y="232.9" font-size="16" fill="#BFDBFE">U2</text>
+<text x="453.3" y="296.9" font-size="16" font-weight="600" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" text-anchor="end" fill="#BFDBFE">UART RX</text>
+<text x="710.7" y="296.9" font-size="16" font-weight="700" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">TXD</text>
+<rect x="674.7" y="285.1" width="14" height="12" rx="2" fill="#11281A" stroke="#4ADE80" stroke-width="1.4"/>
+<text x="573" y="281.1" font-size="16" font-weight="600" text-anchor="middle" fill="#D2DAE4">TXD to MCU RX  pin 2</text>
+<text x="573" y="313.9" font-size="16" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" text-anchor="middle" fill="#9AA6B5">Read()</text>
+<text x="453.3" y="404.1" font-size="16" font-weight="600" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" text-anchor="end" fill="#BFDBFE">UART TX</text>
+<text x="710.7" y="404.1" font-size="16" font-weight="700" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">RXD</text>
+<rect x="674.7" y="392.3" width="14" height="12" rx="2" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<text x="573" y="388.3" font-size="16" font-weight="600" text-anchor="middle" fill="#D2DAE4">RXD  pin 3</text>
+<text x="573" y="421.1" font-size="16" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" text-anchor="middle" fill="#9AA6B5">Write()</text>
+<text x="573" y="442.7" font-size="16" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" text-anchor="middle" fill="#9AA6B5">through R1 10 kΩ</text>
+<text x="573" y="464.3" font-size="16" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" text-anchor="middle" fill="#9AA6B5">+ R2 12 kΩ</text>
+<text x="50" y="532.9" font-size="20" font-weight="700" fill="#FECDD3">Supplies and ground</text>
+<text x="50" y="556.3" font-size="17" fill="#FECDD3">+5V: VCC; also U2.VDD · GND: GND; also U2.GND</text>
+<text x="50" y="625.9" font-size="20" font-weight="700" fill="#E2E8F0">Also on the board</text>
+<text x="50" y="649.3" font-size="17" fill="#E2E8F0">Support parts: 1 capacitor, 2 resistors around the supplies (values in the full schematic).</text>
+<text x="32" y="695.4" font-size="16" fill="#9AA6B5">* Not confirmed in the datasheet: R1: example value: with R2 it gives 3.0 V from 5.5 V, below the 3.3 V maximum; R2: example value: keep R2</text>
+<text x="32" y="718.4" font-size="16" fill="#9AA6B5">/ (R1 + R2) at 0.6 or less; C1: a common practice, not a data sheet value.</text>
+<rect x="32" y="735.6" width="14" height="14" rx="4" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<text x="54" y="750.2" font-size="16" fill="#9AA6B5">digital in</text>
+<rect x="145.1" y="735.6" width="14" height="14" rx="4" fill="#11281A" stroke="#4ADE80" stroke-width="1.4"/>
+<text x="167.1" y="750.2" font-size="16" fill="#9AA6B5">digital out</text>
+</svg>

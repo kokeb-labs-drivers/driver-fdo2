@@ -138,7 +138,7 @@ The datasheets have no block diagram; this one is drawn from their text, and its
 
 | Part | Kind | Value | Connects | Datasheet |
 | --- | --- | --- | --- | --- |
-| U2 | MCU (5 V) | - | VDD: +5V, GND: GND, TX: MCU TX, RX: TXD to MCU RX | 6.2, [p. 19](https://www.pyroscience.com/en/downloads/legacy?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2.pdf&cid=24471#page=19) |
+| U2 | MCU (5 V) | - | VDD: +5V, GND: GND, RX: TXD to MCU RX, TX: MCU TX | 6.2, [p. 19](https://www.pyroscience.com/en/downloads/legacy?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2.pdf&cid=24471#page=19) |
 | R1 | resistor | 10 kΩ (not confirmed: example value: with R2 it gives 3.0 V from 5.5 V, below the 3.3 V maximum) | MCU TX, RXD | 6.2, [p. 19](https://www.pyroscience.com/en/downloads/legacy?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2.pdf&cid=24471#page=19) |
 | R2 | resistor | 12 kΩ (not confirmed: example value: keep R2 / (R1 + R2) at 0.6 or less) | GND, RXD | 6.2, [p. 19](https://www.pyroscience.com/en/downloads/legacy?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2.pdf&cid=24471#page=19) |
 | C1 | capacitor | 100 nF (not confirmed: a common practice, not a data sheet value) | +5V, GND | 6.2, [p. 19](https://www.pyroscience.com/en/downloads/legacy?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2.pdf&cid=24471#page=19) |
