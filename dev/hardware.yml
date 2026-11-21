@@ -22,6 +22,20 @@ refs:
   tol: {doc: ds_legacy, section: "6.2 Voltage Tolerance of UART RX Pin (ERRATA)", page: 19}
   supply_l: {doc: ds_legacy, section: "2 Specifications, Interface, WARNING", page: 6}
   succ: {doc: pcn_fdo2, section: "Product change notification, text", page: 1}
+  intro: {doc: ds, section: "1 Introduction", page: 4}
+  range: {doc: ds, section: "2 Specifications", page: 5}
+  interface: {doc: ds, section: "2 Specifications", page: 6}
+  default_uart: {doc: ds, section: "4 Communication Interface", page: 10}
+  version: {doc: ds, section: "4.3 Commands, #VERS", page: 11}
+  moxy: {doc: ds, section: "4.3 Commands, #MOXY", page: 11}
+  status: {doc: ds, section: "4.3 Commands, #MOXY status", page: 12}
+  mraw: {doc: ds, section: "4.3 Commands, #MRAW", page: 12}
+  logo: {doc: ds, section: "4.3 Commands, #LOGO", page: 13}
+  usermem: {doc: ds, section: "4.3 Commands, #RDUM and #WRUM", page: 14}
+  calo: {doc: ds, section: "4.3 Commands, #CALO and #CAHI", page: 14}
+  bcst: {doc: ds, section: "4.3 Commands, #BCST", page: 15}
+  setm: {doc: ds, section: "4.3 Commands, #SETM", page: 15}
+  crc: {doc: ds, section: "4.2 Detecting communication errors and optional CRC", page: 10}
 
 package:
   type: "Module, 4-pin"
@@ -40,6 +54,72 @@ package:
 
 supply:
   - {name: VCC, min_v: 3.3, max_v: 5.0, ref: spec}
+
+# The chip-first README: what the module is and does, where it is used, how the driver covers each function. The
+# link is an ASCII command line of variable length, so there is no `frames` entry. The module has no register map:
+# the capability `registers` list its command headers, without the #.
+overview:
+  summary: >-
+    an optical oxygen sensor module with a UART: it excites a sensor dye with red light, measures the luminescence
+    that oxygen quenches, and reports the oxygen partial pressure with its temperature, compensated and factory
+    calibrated
+  category: Optical oxygen sensor module
+  ref: intro
+  applications:
+    - Incubators
+    - Oxygen concentrators
+    - Inert gas processing chambers (glove boxes)
+    - Exhaust gas measurement
+    - Inert gas monitoring
+    - Portable equipment
+    - Monitoring fruit storage and transport
+    - Biogas applications
+    - Oxygen level monitoring in buildings
+  specs:
+    - {value: "0 to 1000 hPa", label: "typical oxygen partial pressure range", ref: range}
+    - {value: "< 2 s", label: "response time (t63)", ref: range}
+    - {value: "3.3 to 5.0 V", label: "supply", ref: interface}
+    - {value: "19200 baud", label: "UART at power-up, 8N1, 3.0 V", ref: default_uart}
+  system:
+    host: MCU
+    bus: "UART, 3.0 V"
+    senses:
+      - {label: Oxygen, detail: "luminescence of a sensor dye", ref: intro}
+      - {label: "Temperature, pressure, humidity", detail: "inside the housing", ref: mraw}
+
+# Headers the capability `api` and `registers` names are checked against.
+driver:
+  api: [inc/fdo2.hpp, inc/fdo2_types.hpp]
+  registers: [inc/fdo2_protocol.hpp]
+
+capabilities:
+  - {id: oxygen, title: Oxygen and temperature, icon: gauge, status: supported, ref: moxy, docs: api-guide.md,
+     what: "Measures the oxygen partial pressure and the temperature, as hPa or as a volume fraction",
+     api: [MeasureOxygen, StartMeasureOxygen, GetOxygen, MeasureVolumePercentMilli], registers: [MOXY]}
+  - {id: raw, title: Raw values and housing sensors, icon: temperature, status: supported, ref: mraw,
+     docs: api-guide.md,
+     what: "Adds the phase shift, signal and ambient light, and the pressure and humidity inside the housing",
+     api: [MeasureRaw, StartMeasureRaw, ReadRawFrame, GetRaw], registers: [MRAW]}
+  - {id: status, title: Status word, icon: check, status: supported, ref: status, docs: status-and-errors.md,
+     what: "Classifies each reading's warning and fatal bits and holds back a faulty measurement",
+     api: [Classify]}
+  - {id: identity, title: Identity and start-up, icon: tag, status: supported, ref: version, docs: protocol.md,
+     what: "Waits out the power-up, reads the version and the unique ID, and flashes the status LED to find a module",
+     api: [EnsureInitialized, ReadVersion, ReadUniqueId, Identify, Resync, PowerCycle],
+     registers: [VERS, IDNR, LOGO]}
+  - {id: calibration, title: Calibration, icon: settings, status: guarded, ref: calo, docs: calibration.md,
+     what: "Calibrates at zero oxygen, at a known partial pressure or in dry air; the factory calibration is lost",
+     api: [CalibrateZero, CalibrateHigh, CalibrateAir], registers: [CALO, CAHI]}
+  - {id: broadcast, title: Broadcast stream, icon: bus, status: guarded, ref: bcst, docs: settings.md,
+     what: "Makes the module measure by itself at a set interval and send each result",
+     api: [SetBroadcast, DisableBroadcast, ProbeBroadcast], registers: [BCST]}
+  - {id: settings, title: "Measurement mode, CRC and baud rate", icon: clock, status: guarded, ref: setm,
+     docs: settings.md,
+     what: "Trades drift for noise, adds a CRC-16 to every reply, and changes the baud rate",
+     api: [SetMeasurementMode, SetCrcEnabled, SetBaudRate], registers: [SETM, CRCE, BAUD]}
+  - {id: usermem, title: User memory, icon: memory, status: guarded, ref: usermem, docs: settings.md,
+     what: "Reads and writes 64 words that survive a power cycle; each write costs a flash cycle",
+     api: [ReadUserMemory, WriteUserMemory], registers: [RDUM, WRUM]}
 
 hooks:
   - {id: uart_tx, call: "Write()", kind: uart, source: inc/fdo2_uart_interface.hpp, symbol: Write}
@@ -133,6 +213,6 @@ circuits:
     nets:
       - {name: "+5V", kind: supply, nodes: [U1.VCC, C1.1, U2.VDD]}
       - {name: GND, kind: ground, nodes: [U1.GND, C1.2, R2.2, U2.GND]}
+      - {name: "TXD to MCU RX", nodes: [U1.TXD, U2.RX]}
       - {name: "MCU TX", nodes: [U2.TX, R1.1]}
       - {name: "RXD", nodes: [R1.2, R2.1, U1.RXD]}
-      - {name: "TXD to MCU RX", nodes: [U1.TXD, U2.RX]}

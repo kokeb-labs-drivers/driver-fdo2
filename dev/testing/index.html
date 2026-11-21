@@ -102,72 +102,6 @@
   <meta property="og:description" content="C++20 driver for the PyroScience FDO2-G2 and FDO2 optical oxygen sensor modules on UART.">
   <meta property="og:url" content="https://kokeb-labs-drivers.github.io/driver-fdo2/latest/testing/">
   <meta name="twitter:card" content="summary">
-  <script>
-(function () {
-  if (typeof mermaid != "undefined" && !(mermaid instanceof Element)) return;
-  var SRC = "https://unpkg.com/mermaid@11.17.2/dist/mermaid.min.js",
-      SRI = "sha384-EOXBFmc3gx5mb+vn0vPvvGqACToJD24hhacX5Yx+8NUUQrHIle/Qi5Bg9o3zKwW2", config = {}, real, loading;
-  var waiting = [], io = null, ahead = false, ENGAGE = ["scroll", "keydown", "pointerdown", "touchstart"];
-  var stub = {
-    initialize: function (c) { config = c || {}; if (real) real.initialize(config); },
-    render: function (id, text) {
-      var el = null, pres = document.querySelectorAll("pre.mermaid:not([data-kb-mermaid])");
-      for (var i = 0; i < pres.length && !el; i++) if (pres[i].textContent === text) el = pres[i];
-      if (el) el.setAttribute("data-kb-mermaid", "");
-      return near(el).then(load).then(function (m) { return m.render(id, text); });
-    }
-  };
-  function load() {
-    return loading || (loading = new Promise(function (resolve, reject) {
-      var s = document.createElement("script");
-      s.src = SRC;
-      s.integrity = SRI;
-      s.crossOrigin = "anonymous";
-      s.onload = function () {
-        real = window.mermaid;
-        window.mermaid = stub;
-        real.initialize(config);
-        resolve(real);
-      };
-      s.onerror = function () { loading = null; reject(new Error("Mermaid did not load")); };
-      document.head.appendChild(s);
-    }));
-  }
-  // One observer for the diagrams still waiting: on the screen only until the reader engages, then a screen ahead.
-  function watch() {
-    if (io) io.disconnect();
-    io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) release(function (w) { return w.el === e.target; });
-      });
-    }, { rootMargin: ahead ? "100% 0px" : "0px" });
-    waiting.forEach(function (w) { io.observe(w.el); });
-  }
-  function release(which) {
-    waiting = waiting.filter(function (w) {
-      if (!which(w)) return true;
-      io.unobserve(w.el);
-      w.go();
-      return false;
-    });
-  }
-  function near(el) {
-    if (real || !el || !("IntersectionObserver" in window)) return Promise.resolve();
-    return new Promise(function (resolve) {
-      waiting.push({ el: el, go: resolve });
-      if (io) io.observe(el); else watch();
-    });
-  }
-  function engaged() {
-    ENGAGE.forEach(function (t) { window.removeEventListener(t, engaged, true); });
-    ahead = true;
-    if (io) watch();
-  }
-  ENGAGE.forEach(function (t) { window.addEventListener(t, engaged, { capture: true, passive: true }); });
-  window.addEventListener("beforeprint", function () { if (io) release(function () { return true; }); });
-  window.mermaid = stub;
-})();
-</script>
 
   </head>
   
@@ -505,6 +439,8 @@
   
     
     
+      
+        
       
         
       
@@ -1197,7 +1133,7 @@ compiled documentation, an install test, ESP32 and Cortex-M builds, static analy
 every pull request.</p>
 <h2 id="host-tests">Host tests<a class="headerlink" href="#host-tests" title="Permanent link">&para;</a></h2>
 <p>The tests build the real driver against a model of the module in
-<a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/mock_fdo2.hpp"><code>tests/mock_fdo2.hpp</code></a>: a clock, a receive buffer, the thirteen commands, the status
+<a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/mock_fdo2.hpp"><code>tests/mock_fdo2.hpp</code></a>: a clock, a receive buffer, the thirteen commands, the status
 word, the checksum, the broadcast stream and injected faults (silence, corrupted bytes, a late reply, a lost echo,
 a wrong baud rate, every <code>#ERRO</code> code). They build with the firmware's flags, <code>-fno-exceptions -fno-rtti</code>, and
 warnings as errors, on GCC and Clang.</p>
@@ -1214,72 +1150,72 @@ warnings as errors, on GCC and Clang.</p>
 </thead>
 <tbody>
 <tr>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/test_crc.cpp"><code>tests/test_crc.cpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/test_parse.cpp"><code>test_parse.cpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/test_assembler.cpp"><code>test_assembler.cpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/test_encode.cpp"><code>test_encode.cpp</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/test_crc.cpp"><code>tests/test_crc.cpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/test_parse.cpp"><code>test_parse.cpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/test_assembler.cpp"><code>test_assembler.cpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/test_encode.cpp"><code>test_encode.cpp</code></a></td>
 <td>The protocol layer alone: CRC-16, grammar, line assembly, command encoding</td>
 </tr>
 <tr>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/test_status.cpp"><code>tests/test_status.cpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/test_conversions.cpp"><code>test_conversions.cpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/test_capabilities.cpp"><code>test_capabilities.cpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/test_validate.cpp"><code>test_validate.cpp</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/test_status.cpp"><code>tests/test_status.cpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/test_conversions.cpp"><code>test_conversions.cpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/test_capabilities.cpp"><code>test_capabilities.cpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/test_validate.cpp"><code>test_validate.cpp</code></a></td>
 <td>The status word and policies, unit conversions, firmware capabilities, <code>Config</code> bounds</td>
 </tr>
 <tr>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/test_lifecycle.cpp"><code>tests/test_lifecycle.cpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/test_faults.cpp"><code>test_faults.cpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/test_errors.cpp"><code>test_errors.cpp</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/test_lifecycle.cpp"><code>tests/test_lifecycle.cpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/test_faults.cpp"><code>test_faults.cpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/test_errors.cpp"><code>test_errors.cpp</code></a></td>
 <td>Start-up, retries, every error path; every chip-specific <code>Error</code> is returned by some call</td>
 </tr>
 <tr>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/test_flash.cpp"><code>tests/test_flash.cpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/test_calibration.cpp"><code>test_calibration.cpp</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/test_flash.cpp"><code>tests/test_flash.cpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/test_calibration.cpp"><code>test_calibration.cpp</code></a></td>
 <td>Consent, the write budget, never repeating a flash write, calibration</td>
 </tr>
 <tr>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/test_modes.cpp"><code>tests/test_modes.cpp</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/test_modes.cpp"><code>tests/test_modes.cpp</code></a></td>
 <td>The checksum, the baud rate, resynchronising, the broadcast stream</td>
 </tr>
 <tr>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/test_safety.cpp"><code>tests/test_safety.cpp</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/test_safety.cpp"><code>tests/test_safety.cpp</code></a></td>
 <td>An aborted or timed-out start-up never leaves the driver initialised without an identity; no power cut or <code>Deinitialize()</code> during a flash write; <code>Resync()</code> after a lost <code>#CRCE</code> echo; the guard before every flash write (a module reset the driver did not see, a loopback, another module); <code>#ERRO</code> on a flash write; stale getters; stream liveness</td>
 </tr>
 <tr>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/test_ports.cpp"><code>tests/test_ports.cpp</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/test_ports.cpp"><code>tests/test_ports.cpp</code></a></td>
 <td>Ports with and without each optional hook</td>
 </tr>
 <tr>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/esp32_stub/esp32_port_test.cpp"><code>tests/esp32_stub/</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/esp32_stub/esp32_port_test.cpp"><code>tests/esp32_stub/</code></a></td>
 <td>The ESP32 example port compiled on the host against stubs of the ESP-IDF headers (<code>fdo2_esp32_port_test</code>): the default power pin -1 is a valid no-op, <code>DelayUs</code> yields</td>
 </tr>
 <tr>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/test_model.cpp"><code>tests/test_model.cpp</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/test_model.cpp"><code>tests/test_model.cpp</code></a></td>
 <td>The model against the driver's constants</td>
 </tr>
 <tr>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/test_version.cpp"><code>tests/test_version.cpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/test_kconfig.cpp"><code>test_kconfig.cpp</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/test_version.cpp"><code>tests/test_version.cpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/test_kconfig.cpp"><code>test_kconfig.cpp</code></a></td>
 <td>Version getters, <code>KconfigDefaults()</code></td>
 </tr>
 <tr>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/compile_fail/not_a_port.cpp"><code>tests/compile_fail/</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/compile_fail/not_a_port.cpp"><code>tests/compile_fail/</code></a></td>
 <td>Code that must not compile, each for its <code>EXPECT:</code> diagnostic: a port without a required hook, a hook with a narrowed parameter or without <code>noexcept</code>, a <code>Poll()</code> of the wrong form, an invalid <code>CheckedConfig</code></td>
 </tr>
 <tr>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/docs/my_port.hpp"><code>tests/docs/</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/docs/my_port.hpp"><code>tests/docs/</code></a></td>
 <td>Every code block on this site, compiled against the driver</td>
 </tr>
 <tr>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/examples/host/README.md"><code>examples/host/</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/examples/host/README.md"><code>examples/host/</code></a></td>
 <td>The host example, built and run; its output is compared with <code>expected_output.txt</code></td>
 </tr>
 <tr>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/check_install.cmake"><code>tests/check_install.cmake</code></a></td>
-<td>Installs into a scratch prefix and builds <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/install_consumer/CMakeLists.txt"><code>tests/install_consumer/</code></a> with <code>find_package(fdo2)</code></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/check_install.cmake"><code>tests/check_install.cmake</code></a></td>
+<td>Installs into a scratch prefix and builds <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/install_consumer/CMakeLists.txt"><code>tests/install_consumer/</code></a> with <code>find_package(fdo2)</code></td>
 </tr>
 <tr>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/check_doxygen.cmake"><code>tests/check_doxygen.cmake</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/check_doxygen.cmake"><code>tests/check_doxygen.cmake</code></a></td>
 <td>Doxygen with <code>_config/Doxyfile</code> and warnings as errors, when <code>doxygen</code> is installed</td>
 </tr>
 </tbody>
 </table>
 <h3 id="the-model-stands-alone">The model stands alone<a class="headerlink" href="#the-model-stands-alone" title="Permanent link">&para;</a></h3>
-<p><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/mock_fdo2.hpp"><code>tests/mock_fdo2.hpp</code></a> is written from the datasheets, not from the driver: it includes
+<p><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/mock_fdo2.hpp"><code>tests/mock_fdo2.hpp</code></a> is written from the datasheets, not from the driver: it includes
 none of the driver's headers. Its commands, status bits, timing and CRC are its own, each with the datasheet
 section, so a wrong constant in the driver cannot hide behind the same wrong constant in the model.
-<a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/test_model.cpp"><code>tests/test_model.cpp</code></a> compares the two. Where the datasheets leave a behaviour open,
+<a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/test_model.cpp"><code>tests/test_model.cpp</code></a> compares the two. Where the datasheets leave a behaviour open,
 the model has a switch for each reading (a knob), and the tests run the driver against each.</p>
 <p>The model also keeps a count the driver cannot see: the writes to the module's flash that ran without a <code>#VERS</code> or
 <code>#MOXY</code> of the driver answered since the module's last reset, seen or unseen (<code>UnseenReset()</code>), and whether the
@@ -1288,7 +1224,7 @@ supply was cut during a flash cycle. The tests and the fuzzer assert that both s
 <p>Everything the driver reads comes from the module over the line, so a noisy cable or a broken module controls it.
 Two libFuzzer targets exist:</p>
 <ul>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/fuzz/fuzz_fdo2.cpp"><code>tests/fuzz/fuzz_fdo2.cpp</code></a> chooses a configuration, then up to 64 driver calls, and
+<li><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/fuzz/fuzz_fdo2.cpp"><code>tests/fuzz/fuzz_fdo2.cpp</code></a> chooses a configuration, then up to 64 driver calls, and
   on every read what the line does (pass it, drop it, corrupt it, delay it), or a port whose <code>Read()</code> returns the
   fuzz bytes themselves. After every call it checks the driver's promises and aborts, naming the line, when one
   breaks: every returned <code>Error</code> is a defined value, the module's flash is never written without consent, its write
@@ -1299,7 +1235,7 @@ Two libFuzzer targets exist:</p>
   state is unknown (F13), and the supply is never cut during a flash cycle (F14).
   Not all of the properties one might want are fuzzed: the design's wider list (for example an independent
   oracle for every decoded value) is covered by the example-based tests, not by the fuzzer.</li>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/fuzz/fuzz_fdo2_parse.cpp"><code>tests/fuzz/fuzz_fdo2_parse.cpp</code></a> feeds the parser, the line assembler and the
+<li><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/fuzz/fuzz_fdo2_parse.cpp"><code>tests/fuzz/fuzz_fdo2_parse.cpp</code></a> feeds the parser, the line assembler and the
   encoder arbitrary bytes and checks their invariants P1 to P7, among them that <code>EncodeCommand()</code> and <code>FindCommand()</code>
   never read outside their tables, whatever the <code>Command</code> value or the letter count.</li>
 </ul>
@@ -1309,12 +1245,12 @@ Two libFuzzer targets exist:</p>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>./build-fuzz/tests/fuzz/fuzz_fdo2<span class="w"> </span>-max_total_time<span class="o">=</span><span class="m">120</span><span class="w"> </span>tests/fuzz/corpus/fuzz_fdo2
 </span></code></pre></div>
 <p>The same files also build without libFuzzer as replay programs, and CTest replays every input in
-<a href="https://github.com/kokeb-labs-drivers/driver-fdo2/tree/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/fuzz/corpus"><code>tests/fuzz/corpus/</code></a> on GCC and Clang: the seeds, and every input that ever broke a
+<a href="https://github.com/kokeb-labs-drivers/driver-fdo2/tree/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/fuzz/corpus"><code>tests/fuzz/corpus/</code></a> on GCC and Clang: the seeds, and every input that ever broke a
 promise (name it <code>regress-*</code>), so a fixed bug stays fixed. CI fuzzes for 120 s per target on every pull request.</p>
 <h2 id="quality-gates">Quality gates<a class="headerlink" href="#quality-gates" title="Permanent link">&para;</a></h2>
 <p>The <code>Host quality</code> job measures the library code, <code>inc/</code> and <code>src/</code> only (tests and examples are left out), and
 fails when a value is over the limits of this repository's assurance level, <code>high</code> (set in
-<a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/.kokeb/handbook.yml"><code>.kokeb/handbook.yml</code></a>, defined by the handbook's ADR-0020):</p>
+<a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/.kokeb/handbook.yml"><code>.kokeb/handbook.yml</code></a>, defined by the handbook's ADR-0020):</p>
 <table>
 <thead>
 <tr>
@@ -1425,10 +1361,10 @@ measured, not gated at <code>high</code>.</p>
 </span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>cmake<span class="w"> </span>--build<span class="w"> </span>build-san<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>ctest<span class="w"> </span>--test-dir<span class="w"> </span>build-san<span class="w"> </span>--output-on-failure
 </span></code></pre></div>
 <p>The fuzz gate runs locally as shown in <a href="#fuzz-tests">Fuzz tests</a>.</p>
-<p>clang-tidy 20 (<a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/_config/.clang-tidy"><code>_config/.clang-tidy</code></a>: bugprone, CERT, clang-analyzer,
+<p>clang-tidy 20 (<a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/_config/.clang-tidy"><code>_config/.clang-tidy</code></a>: bugprone, CERT, clang-analyzer,
 cppcoreguidelines, modernize, performance, portability and readability, each disabled check with its reason) and
 cppcheck (strict) run in the <code>C++ lint</code> and <code>Repository checks</code> jobs and fail on any finding.</p>
-<p>The <code>MISRA</code> job (<a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/.github/workflows/ci-misra.yml"><code>ci-misra.yml</code></a>) runs the shared <code>ru-misra</code> workflow of
+<p>The <code>MISRA</code> job (<a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/.github/workflows/ci-misra.yml"><code>ci-misra.yml</code></a>) runs the shared <code>ru-misra</code> workflow of
 ci-tools at level <code>high</code>: it traces a host build and the Cortex-M build (<code>fdo2_optimised_build</code>) of every
 translation unit, checks them against MISRA C++:2023 and the handbook's C++20 profile (the CodeQL coding-standards
 and profile packs, plus the validated clang-tidy and cppcheck checks), and reports each finding against the
@@ -1437,12 +1373,12 @@ its deviation on the line before it (<code>// codeql::misra_deviation_next_line(
 of <code>inc/fdo2.hpp</code>). Until the repository is public the job runs with <code>open_source_prerelease: true</code>, the
 declaration that the code is released under the licence in <code>LICENSE</code> and is to be published.</p>
 <h2 id="documentation-snippets">Documentation snippets<a class="headerlink" href="#documentation-snippets" title="Permanent link">&para;</a></h2>
-<p>Every C++ block on this site is included from <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/tests/docs/my_port.hpp"><code>tests/docs/</code></a>, which the host build
+<p>Every C++ block on this site is included from <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/tests/docs/my_port.hpp"><code>tests/docs/</code></a>, which the host build
 compiles (target <code>fdo2_doc_snippets</code>) with the driver instantiated over the documented port. A change to
 the API that breaks a page breaks the build first. The README's example is a generated copy of the same file;
 <code>kokeb-docs check</code> fails when it drifts.</p>
 <h2 id="ci-workflows">CI workflows<a class="headerlink" href="#ci-workflows" title="Permanent link">&para;</a></h2>
-<p>Everything runs from <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/.github/workflows/ci.yml"><code>ci.yml</code></a>, which calls one workflow file per check and ends in
+<p>Everything runs from <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/.github/workflows/ci.yml"><code>ci.yml</code></a>, which calls one workflow file per check and ends in
 the <code>CI gate</code> job, the single required check (<code>CI gate / gate</code>).</p>
 <table>
 <thead>

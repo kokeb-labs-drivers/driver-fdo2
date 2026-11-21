@@ -102,72 +102,6 @@
   <meta property="og:description" content="C++20 driver for the PyroScience FDO2-G2 and FDO2 optical oxygen sensor modules on UART.">
   <meta property="og:url" content="https://kokeb-labs-drivers.github.io/driver-fdo2/latest/porting/">
   <meta name="twitter:card" content="summary">
-  <script>
-(function () {
-  if (typeof mermaid != "undefined" && !(mermaid instanceof Element)) return;
-  var SRC = "https://unpkg.com/mermaid@11.17.2/dist/mermaid.min.js",
-      SRI = "sha384-EOXBFmc3gx5mb+vn0vPvvGqACToJD24hhacX5Yx+8NUUQrHIle/Qi5Bg9o3zKwW2", config = {}, real, loading;
-  var waiting = [], io = null, ahead = false, ENGAGE = ["scroll", "keydown", "pointerdown", "touchstart"];
-  var stub = {
-    initialize: function (c) { config = c || {}; if (real) real.initialize(config); },
-    render: function (id, text) {
-      var el = null, pres = document.querySelectorAll("pre.mermaid:not([data-kb-mermaid])");
-      for (var i = 0; i < pres.length && !el; i++) if (pres[i].textContent === text) el = pres[i];
-      if (el) el.setAttribute("data-kb-mermaid", "");
-      return near(el).then(load).then(function (m) { return m.render(id, text); });
-    }
-  };
-  function load() {
-    return loading || (loading = new Promise(function (resolve, reject) {
-      var s = document.createElement("script");
-      s.src = SRC;
-      s.integrity = SRI;
-      s.crossOrigin = "anonymous";
-      s.onload = function () {
-        real = window.mermaid;
-        window.mermaid = stub;
-        real.initialize(config);
-        resolve(real);
-      };
-      s.onerror = function () { loading = null; reject(new Error("Mermaid did not load")); };
-      document.head.appendChild(s);
-    }));
-  }
-  // One observer for the diagrams still waiting: on the screen only until the reader engages, then a screen ahead.
-  function watch() {
-    if (io) io.disconnect();
-    io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) release(function (w) { return w.el === e.target; });
-      });
-    }, { rootMargin: ahead ? "100% 0px" : "0px" });
-    waiting.forEach(function (w) { io.observe(w.el); });
-  }
-  function release(which) {
-    waiting = waiting.filter(function (w) {
-      if (!which(w)) return true;
-      io.unobserve(w.el);
-      w.go();
-      return false;
-    });
-  }
-  function near(el) {
-    if (real || !el || !("IntersectionObserver" in window)) return Promise.resolve();
-    return new Promise(function (resolve) {
-      waiting.push({ el: el, go: resolve });
-      if (io) io.observe(el); else watch();
-    });
-  }
-  function engaged() {
-    ENGAGE.forEach(function (t) { window.removeEventListener(t, engaged, true); });
-    ahead = true;
-    if (io) watch();
-  }
-  ENGAGE.forEach(function (t) { window.addEventListener(t, engaged, { capture: true, passive: true }); });
-  window.addEventListener("beforeprint", function () { if (io) release(function () { return true; }); });
-  window.mermaid = stub;
-})();
-</script>
 
   </head>
   
@@ -505,6 +439,8 @@
   
     
     
+      
+        
       
         
       
@@ -1101,7 +1037,7 @@
 <!-- /generated -->
 
 <p>The driver never calls your SDK. It calls hooks on a class you derive from <code>fdo2::UartInterface&lt;Self&gt;</code> (in
-<a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>). The base uses CRTP and declares no hook itself;
+<a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>). The base uses CRTP and declares no hook itself;
 the driver template is constrained by the <code>fdo2::UartPort</code> concept, which checks each hook's exact signature and
 <code>noexcept</code>. A missing or misdeclared hook is a compile error at the point of use.</p>
 <h2 id="what-you-implement">What you implement<a class="headerlink" href="#what-you-implement" title="Permanent link">&para;</a></h2>
@@ -1301,8 +1237,8 @@ sent; the port maps <code>ACTIVE</code> to the polarity of your switch.</p>
 </span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="w">  </span><span class="p">}</span>
 </span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a><span class="p">};</span>
 </span></code></pre></div>
-<p>The <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/examples/esp32/main/esp32_fdo2_port.hpp">ESP-IDF port</a> and the
-<a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/examples/host/host_fdo2_port.hpp">host port</a> are complete examples.</p>
+<p>The <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/examples/esp32/main/esp32_fdo2_port.hpp">ESP-IDF port</a> and the
+<a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/examples/host/host_fdo2_port.hpp">host port</a> are complete examples.</p>
 
 
 

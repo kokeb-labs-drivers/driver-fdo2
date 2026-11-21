@@ -102,72 +102,6 @@
   <meta property="og:description" content="C++20 driver for the PyroScience FDO2-G2 and FDO2 optical oxygen sensor modules on UART.">
   <meta property="og:url" content="https://kokeb-labs-drivers.github.io/driver-fdo2/latest/diagrams/">
   <meta name="twitter:card" content="summary">
-  <script>
-(function () {
-  if (typeof mermaid != "undefined" && !(mermaid instanceof Element)) return;
-  var SRC = "https://unpkg.com/mermaid@11.17.2/dist/mermaid.min.js",
-      SRI = "sha384-EOXBFmc3gx5mb+vn0vPvvGqACToJD24hhacX5Yx+8NUUQrHIle/Qi5Bg9o3zKwW2", config = {}, real, loading;
-  var waiting = [], io = null, ahead = false, ENGAGE = ["scroll", "keydown", "pointerdown", "touchstart"];
-  var stub = {
-    initialize: function (c) { config = c || {}; if (real) real.initialize(config); },
-    render: function (id, text) {
-      var el = null, pres = document.querySelectorAll("pre.mermaid:not([data-kb-mermaid])");
-      for (var i = 0; i < pres.length && !el; i++) if (pres[i].textContent === text) el = pres[i];
-      if (el) el.setAttribute("data-kb-mermaid", "");
-      return near(el).then(load).then(function (m) { return m.render(id, text); });
-    }
-  };
-  function load() {
-    return loading || (loading = new Promise(function (resolve, reject) {
-      var s = document.createElement("script");
-      s.src = SRC;
-      s.integrity = SRI;
-      s.crossOrigin = "anonymous";
-      s.onload = function () {
-        real = window.mermaid;
-        window.mermaid = stub;
-        real.initialize(config);
-        resolve(real);
-      };
-      s.onerror = function () { loading = null; reject(new Error("Mermaid did not load")); };
-      document.head.appendChild(s);
-    }));
-  }
-  // One observer for the diagrams still waiting: on the screen only until the reader engages, then a screen ahead.
-  function watch() {
-    if (io) io.disconnect();
-    io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) release(function (w) { return w.el === e.target; });
-      });
-    }, { rootMargin: ahead ? "100% 0px" : "0px" });
-    waiting.forEach(function (w) { io.observe(w.el); });
-  }
-  function release(which) {
-    waiting = waiting.filter(function (w) {
-      if (!which(w)) return true;
-      io.unobserve(w.el);
-      w.go();
-      return false;
-    });
-  }
-  function near(el) {
-    if (real || !el || !("IntersectionObserver" in window)) return Promise.resolve();
-    return new Promise(function (resolve) {
-      waiting.push({ el: el, go: resolve });
-      if (io) io.observe(el); else watch();
-    });
-  }
-  function engaged() {
-    ENGAGE.forEach(function (t) { window.removeEventListener(t, engaged, true); });
-    ahead = true;
-    if (io) watch();
-  }
-  ENGAGE.forEach(function (t) { window.addEventListener(t, engaged, { capture: true, passive: true }); });
-  window.addEventListener("beforeprint", function () { if (io) release(function () { return true; }); });
-  window.mermaid = stub;
-})();
-</script>
 
   </head>
   
@@ -505,6 +439,8 @@
   
     
     
+      
+        
       
         
       
@@ -965,6 +901,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#what-the-fdo2-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the FDO2 does
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#fdo2-direct-connection-to-a-33-volt-controller" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -980,6 +927,17 @@
     <span class="md-ellipsis">
       
         FDO2: Connection to a 5-volt controller through a divider
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fdo2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FDO2
       
     </span>
   </a>
@@ -1009,10 +967,43 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#wiring-direct-connection-to-a-33-volt-controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wiring: Direct connection to a 3.3-volt controller
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wiring-connection-to-a-5-volt-controller-through-a-divider" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wiring: Connection to a 5-volt controller through a divider
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#the-layers-one-of-them-yours" class="md-nav__link">
     <span class="md-ellipsis">
       
         The layers, one of them yours
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#one-oxygen-measurement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        One oxygen measurement
       
     </span>
   </a>
@@ -1046,6 +1037,17 @@
     <span class="md-ellipsis">
       
         One command and its reply
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uart-character" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UART character
       
     </span>
   </a>
@@ -1092,13 +1094,30 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The FDO2's function blocks inside its outline. Arrows between blocks carry signals or data in the direction they point (both ways where they have two heads). The package pins stand on the left and right edges with their numbers, each wired to the block it reaches.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
 </details>
 <p>Hardware description: <a href="../hardware.yml"><code>docs/hardware.yml</code></a></p>
 <p>Drawn from:</p>
 <ul>
 <li><a href="../hardware.yml"><code>docs/hardware.yml</code></a></li>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a></li>
+</ul>
+<h2 id="what-the-fdo2-does">What the FDO2 does<a class="headerlink" href="#what-the-fdo2-does" title="Permanent link">&para;</a></h2>
+<figure class="kb-figure">
+<img src="chip-capabilities.svg#only-light" alt="Capability map of the FDO2: Oxygen and temperature (supported): Measures the oxygen partial pressure and the temperature, as hPa or as a volume fraction; Raw values and housing sensors (supported): Adds the phase shift, signal and ambient light, and the pressure and humidity inside the housing; Status word (supported): Classifies each reading&#x27;s warning and fatal bits and holds back a faulty measurement; Identity and start-up (supported): Waits out the power-up, reads the version and the unique ID, and flashes the status LED to find a module; Calibration (guarded): Calibrates at zero oxygen, at a known partial pressure or in dry air; the factory calibration is lost; Broadcast stream (guarded): Makes the module measure by itself at a set interval and send each result; Measurement mode, CRC and baud rate (guarded): Trades drift for noise, adds a CRC-16 to every reply, and changes the baud rate; User memory (guarded): Reads and writes 64 words that survive a power cycle; each write costs a flash cycle." width="1200" height="932" loading="lazy"><img src="chip-capabilities.dark.svg#only-dark" alt="Capability map of the FDO2: Oxygen and temperature (supported): Measures the oxygen partial pressure and the temperature, as hPa or as a volume fraction; Raw values and housing sensors (supported): Adds the phase shift, signal and ambient light, and the pressure and humidity inside the housing; Status word (supported): Classifies each reading&#x27;s warning and fatal bits and holds back a faulty measurement; Identity and start-up (supported): Waits out the power-up, reads the version and the unique ID, and flashes the status LED to find a module; Calibration (guarded): Calibrates at zero oxygen, at a known partial pressure or in dry air; the factory calibration is lost; Broadcast stream (guarded): Makes the module measure by itself at a set interval and send each result; Measurement mode, CRC and baud rate (guarded): Trades drift for noise, adds a CRC-16 to every reply, and changes the baud rate; User memory (guarded): Reads and writes 64 words that survive a power cycle; each write costs a flash cycle." width="1200" height="932" loading="lazy">
+<figcaption>What the FDO2 does</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>Each card is one function of the FDO2: an icon, its name and what it does for the application. The filled pill says how this driver covers it (legend below); the outlined pills are the chip registers behind it. The coverage table in the README gives the driver calls and the datasheet section of each card.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
+</details>
+<p>Hardware description: <a href="../hardware.yml"><code>docs/hardware.yml</code></a></p>
+<p>Drawn from:</p>
+<ul>
+<li><a href="../hardware.yml"><code>docs/hardware.yml</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a></li>
 </ul>
 <h2 id="fdo2-direct-connection-to-a-33-volt-controller">FDO2: Direct connection to a 3.3-volt controller<a class="headerlink" href="#fdo2-direct-connection-to-a-33-volt-controller" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1109,13 +1128,13 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>A schematic. The MCU is on the left, each of its pins level with the chip pin it connects to; above each wire is the hook of the driver's port that drives or reads it. Supply pins point up to their supply and decoupling, ground pins down. Pins on the right carry the loads and the pins tied to a supply or ground; a cross marks a pin left open. A dot is a junction; wires that cross without a dot are not connected.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
 </details>
 <p>Hardware description: <a href="../hardware.yml"><code>docs/hardware.yml</code></a></p>
 <p>Drawn from:</p>
 <ul>
 <li><a href="../hardware.yml"><code>docs/hardware.yml</code></a></li>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a></li>
 </ul>
 <h2 id="fdo2-connection-to-a-5-volt-controller-through-a-divider">FDO2: Connection to a 5-volt controller through a divider<a class="headerlink" href="#fdo2-connection-to-a-5-volt-controller-through-a-divider" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1126,13 +1145,30 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>A schematic. The MCU is on the left, each of its pins level with the chip pin it connects to; above each wire is the hook of the driver's port that drives or reads it. Supply pins point up to their supply and decoupling, ground pins down. Pins on the right carry the loads and the pins tied to a supply or ground; a cross marks a pin left open. A dot is a junction; wires that cross without a dot are not connected.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
 </details>
 <p>Hardware description: <a href="../hardware.yml"><code>docs/hardware.yml</code></a></p>
 <p>Drawn from:</p>
 <ul>
 <li><a href="../hardware.yml"><code>docs/hardware.yml</code></a></li>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a></li>
+</ul>
+<h2 id="fdo2">FDO2<a class="headerlink" href="#fdo2" title="Permanent link">&para;</a></h2>
+<figure class="kb-figure">
+<img src="chip-hero.svg#only-light" alt="Overview of the FDO2, an optical oxygen sensor module with a UART: it excites a sensor dye with red light, measures the luminescence that oxygen quenches, and reports the oxygen partial pressure with its temperature, compensated and factory calibrated. A MCU talks to it over UART, 3.0 V; it reads back Oxygen, Temperature, pressure, humidity. Headline figures: 0 to 1000 hPa typical oxygen partial pressure range; &lt; 2 s response time (t63); 3.3 to 5.0 V supply; 19200 baud UART at power-up, 8N1, 3.0 V." width="1200" height="819" loading="lazy"><img src="chip-hero.dark.svg#only-dark" alt="Overview of the FDO2, an optical oxygen sensor module with a UART: it excites a sensor dye with red light, measures the luminescence that oxygen quenches, and reports the oxygen partial pressure with its temperature, compensated and factory calibrated. A MCU talks to it over UART, 3.0 V; it reads back Oxygen, Temperature, pressure, humidity. Headline figures: 0 to 1000 hPa typical oxygen partial pressure range; &lt; 2 s response time (t63); 3.3 to 5.0 V supply; 19200 baud UART at power-up, 8N1, 3.0 V." width="1200" height="819" loading="lazy">
+<figcaption>FDO2</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>The FDO2 in the middle, drawn as its Module, 4-pin package. On the left the MCU that runs the driver, joined to it by UART, 3.0 V. Below it, what the chip reads back. The tiles at the bottom are the headline numbers, each with the datasheet section and page it comes from.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
+</details>
+<p>Hardware description: <a href="../hardware.yml"><code>docs/hardware.yml</code></a></p>
+<p>Drawn from:</p>
+<ul>
+<li><a href="../hardware.yml"><code>docs/hardware.yml</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a></li>
 </ul>
 <h2 id="fdo2-package-module-4-pin">FDO2 package, Module, 4-pin<a class="headerlink" href="#fdo2-package-module-4-pin" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1143,13 +1179,13 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The FDO2 package seen from the top and, when the height is known, from the side, drawn to scale: 28.5 x 28.5 x 27.5 mm. The arrows carry the datasheet's dimensions, the dot marks pin 1 and the pads are numbered counter-clockwise from it, coloured by the pin's electrical type (legend below). Pads sit centred on each side, evenly spaced; the datasheet's land pattern is the reference for a board.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
 </details>
 <p>Hardware description: <a href="../hardware.yml"><code>docs/hardware.yml</code></a></p>
 <p>Drawn from:</p>
 <ul>
 <li><a href="../hardware.yml"><code>docs/hardware.yml</code></a></li>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a></li>
 </ul>
 <h2 id="fdo2-pinout-module-4-pin">FDO2 pinout, Module, 4-pin<a class="headerlink" href="#fdo2-pinout-module-4-pin" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1160,13 +1196,47 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The FDO2 seen from the top, in its Module, 4-pin package. Pin 1 is marked by the dot; the numbers run counter-clockwise from it. Each pad is coloured by the pin's electrical type (legend below). Next to it is the pin's name and, in mono, the hook of the driver's port that drives or reads it; a pin without a hook is not used by the driver.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
 </details>
 <p>Hardware description: <a href="../hardware.yml"><code>docs/hardware.yml</code></a></p>
 <p>Drawn from:</p>
 <ul>
 <li><a href="../hardware.yml"><code>docs/hardware.yml</code></a></li>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a></li>
+</ul>
+<h2 id="wiring-direct-connection-to-a-33-volt-controller">Wiring: Direct connection to a 3.3-volt controller<a class="headerlink" href="#wiring-direct-connection-to-a-33-volt-controller" title="Permanent link">&para;</a></h2>
+<figure class="kb-figure">
+<img src="chip-wiring-direct.svg#only-light" alt="Wiring of the FDO2 for the Direct connection to a 3.3-volt controller: MCU (3.3 V) UART TX to RXD (Write()); MCU (3.3 V) UART RX to TXD (Read()). Supplies, grounds and the support parts are listed under the drawing." width="1200" height="676" loading="lazy"><img src="chip-wiring-direct.dark.svg#only-dark" alt="Wiring of the FDO2 for the Direct connection to a 3.3-volt controller: MCU (3.3 V) UART TX to RXD (Write()); MCU (3.3 V) UART RX to TXD (Read()). Supplies, grounds and the support parts are listed under the drawing." width="1200" height="676" loading="lazy">
+<figcaption>Wiring: Direct connection to a 3.3-volt controller</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>The MCU (3.3 V) on the left, the FDO2 in the middle. Each wire to the chip is coloured by the chip pin's electrical type and carries the net name and the chip pin number above it and, under it, the driver hooks that use it (and any part on the net). The boxes underneath list the supplies, the support parts and the pins this circuit leaves unconnected.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
+</details>
+<p>Hardware description: <a href="../hardware.yml"><code>docs/hardware.yml</code></a></p>
+<p>Drawn from:</p>
+<ul>
+<li><a href="../hardware.yml"><code>docs/hardware.yml</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a></li>
+</ul>
+<h2 id="wiring-connection-to-a-5-volt-controller-through-a-divider">Wiring: Connection to a 5-volt controller through a divider<a class="headerlink" href="#wiring-connection-to-a-5-volt-controller-through-a-divider" title="Permanent link">&para;</a></h2>
+<figure class="kb-figure">
+<img src="chip-wiring-shifted.svg#only-light" alt="Wiring of the FDO2 for the Connection to a 5-volt controller through a divider: MCU (5 V) UART RX to TXD (Read()); MCU (5 V) UART TX to RXD through R1 10 kΩ (Write()). Supplies, grounds and the support parts are listed under the drawing." width="1200" height="786" loading="lazy"><img src="chip-wiring-shifted.dark.svg#only-dark" alt="Wiring of the FDO2 for the Connection to a 5-volt controller through a divider: MCU (5 V) UART RX to TXD (Read()); MCU (5 V) UART TX to RXD through R1 10 kΩ (Write()). Supplies, grounds and the support parts are listed under the drawing." width="1200" height="786" loading="lazy">
+<figcaption>Wiring: Connection to a 5-volt controller through a divider</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>The MCU (5 V) on the left, the FDO2 in the middle. Each wire to the chip is coloured by the chip pin's electrical type and carries the net name and the chip pin number above it and, under it, the driver hooks that use it (and any part on the net). The boxes underneath list the supplies, the support parts and the pins this circuit leaves unconnected.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
+</details>
+<p>Hardware description: <a href="../hardware.yml"><code>docs/hardware.yml</code></a></p>
+<p>Drawn from:</p>
+<ul>
+<li><a href="../hardware.yml"><code>docs/hardware.yml</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a></li>
 </ul>
 <h2 id="the-layers-one-of-them-yours">The layers, one of them yours<a class="headerlink" href="#the-layers-one-of-them-yours" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1177,13 +1247,29 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>Top to bottom, each arrow is a call. Your application calls one object, whose public calls are listed from the umbrella header in inc/. The core turns each call into register reads and writes and hands them to the port contract (the CRTP base in inc/*_interface.hpp), which forwards them, at compile time, to the hooks of the port class you write; your port moves the bytes on the bus. The notes on the right say which layers stay the same on every MCU and which one you write. A library without a port contract has only the first two layers.</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2.hpp"><code>inc/fdo2.hpp</code></a> <code>public calls</code>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a> <code>UartInterface</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/docs/diagrams/figures/driver-layers.py"><code>docs/diagrams/figures/driver-layers.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2.hpp"><code>inc/fdo2.hpp</code></a> <code>public calls</code>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a> <code>UartInterface</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/docs/diagrams/figures/driver-layers.py"><code>docs/diagrams/figures/driver-layers.py</code></a>.</p>
 </details>
-<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/docs/diagrams/figures/driver-layers.py"><code>docs/diagrams/figures/driver-layers.py</code></a></p>
+<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/docs/diagrams/figures/driver-layers.py"><code>docs/diagrams/figures/driver-layers.py</code></a></p>
 <p>Drawn from:</p>
 <ul>
-<li><code>public calls</code> in <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2.hpp"><code>inc/fdo2.hpp</code></a></li>
-<li><code>UartInterface</code> in <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a></li>
+<li><code>public calls</code> in <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2.hpp"><code>inc/fdo2.hpp</code></a></li>
+<li><code>UartInterface</code> in <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a></li>
+</ul>
+<h2 id="one-oxygen-measurement">One oxygen measurement<a class="headerlink" href="#one-oxygen-measurement" title="Permanent link">&para;</a></h2>
+<figure class="kb-figure">
+<img src="moxy-transaction.svg#only-light" alt="One #MOXY exchange with the FDO2-G2: the host sends the command and a carriage return, the module measures, then echoes the command with the oxygen, temperature and status values and a carriage return." width="640" height="655" loading="lazy"><img src="moxy-transaction.dark.svg#only-dark" alt="One #MOXY exchange with the FDO2-G2: the host sends the command and a carriage return, the module measures, then echoes the command with the oxygen, temperature and status values and a carriage return." width="640" height="655" loading="lazy">
+<figcaption>One oxygen measurement</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>The TXD lane is what the host sends and the RXD lane what the module answers, left to right in time. On TXD the command #MOXY and a carriage return start a measurement; after it completes the module sends on RXD the echo #MOXY, the values O, T and S separated by spaces, and a carriage return. The table gives the longest measurement time of the default mode.</p>
+<p>Drawn from: <a href="../model/moxy-transaction.timing.yml"><code>docs/model/moxy-transaction.timing.yml</code></a>.</p>
+</details>
+<p>Hardware description: <a href="../model/moxy-transaction.timing.yml"><code>docs/model/moxy-transaction.timing.yml</code></a></p>
+<p>Drawn from:</p>
+<ul>
+<li><a href="../model/moxy-transaction.timing.yml"><code>docs/model/moxy-transaction.timing.yml</code></a></li>
 </ul>
 <h2 id="one-call-through-the-layers">One call through the layers<a class="headerlink" href="#one-call-through-the-layers" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1210,13 +1296,13 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>Each box is a State of fdo2::FDO2, read from the enumeration in inc/fdo2_types.hpp; each arrow is a call or an event that moves it. Start-up goes through PoweringUp to Idle. An operation (Start* or a blocking call) puts the driver in Waiting; a good reply returns it to Idle. A timeout, a CRC error or a refused line sends it through Draining, where input is discarded until the line is quiet, so a late reply is never read as the next answer. A flash-writing command or a baud change that ended without a confirmed echo leaves StateUnknown, which only Resync() or a power cycle ends. While the module streams, Idle is reported as Streaming. The transitions are fixed in this figure and checked against the names used in src/fdo2.ipp.</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2_types.hpp"><code>inc/fdo2_types.hpp</code></a> <code>State</code>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/src/fdo2.ipp"><code>src/fdo2.ipp</code></a> <code>State transitions</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/docs/diagrams/figures/state-machine.py"><code>docs/diagrams/figures/state-machine.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_types.hpp"><code>inc/fdo2_types.hpp</code></a> <code>State</code>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/src/fdo2.ipp"><code>src/fdo2.ipp</code></a> <code>State transitions</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/docs/diagrams/figures/state-machine.py"><code>docs/diagrams/figures/state-machine.py</code></a>.</p>
 </details>
-<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/docs/diagrams/figures/state-machine.py"><code>docs/diagrams/figures/state-machine.py</code></a></p>
+<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/docs/diagrams/figures/state-machine.py"><code>docs/diagrams/figures/state-machine.py</code></a></p>
 <p>Drawn from:</p>
 <ul>
-<li><code>State</code> in <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2_types.hpp"><code>inc/fdo2_types.hpp</code></a></li>
-<li><code>State transitions</code> in <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/src/fdo2.ipp"><code>src/fdo2.ipp</code></a></li>
+<li><code>State</code> in <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_types.hpp"><code>inc/fdo2_types.hpp</code></a></li>
+<li><code>State transitions</code> in <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/src/fdo2.ipp"><code>src/fdo2.ipp</code></a></li>
 </ul>
 <h2 id="one-command-and-its-reply">One command and its reply<a class="headerlink" href="#one-command-and-its-reply" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1227,12 +1313,28 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>A transaction is five steps, left to right. The driver drops what is in the receive buffer, writes the command and its carriage return, then waits for the module: the module echoes the command, with its values, and ends the reply with one carriage return. The wait is the characters' airtime at the current baud rate, plus the module's processing allowance for the command (command_ms, measurement_ms, calibration_ms, flash_ms or logo_ms of the Config), plus margin_ms. The numbers shown are the Config defaults, read from inc/fdo2_types.hpp. A reply that does not end in time is a Timeout: the driver drains the line, and sends an idempotent read again when retries allow.</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2_types.hpp"><code>inc/fdo2_types.hpp</code></a> <code>Config</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/docs/diagrams/figures/transaction-timing.py"><code>docs/diagrams/figures/transaction-timing.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_types.hpp"><code>inc/fdo2_types.hpp</code></a> <code>Config</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/docs/diagrams/figures/transaction-timing.py"><code>docs/diagrams/figures/transaction-timing.py</code></a>.</p>
 </details>
-<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/docs/diagrams/figures/transaction-timing.py"><code>docs/diagrams/figures/transaction-timing.py</code></a></p>
+<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/docs/diagrams/figures/transaction-timing.py"><code>docs/diagrams/figures/transaction-timing.py</code></a></p>
 <p>Drawn from:</p>
 <ul>
-<li><code>Config</code> in <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2_types.hpp"><code>inc/fdo2_types.hpp</code></a></li>
+<li><code>Config</code> in <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_types.hpp"><code>inc/fdo2_types.hpp</code></a></li>
+</ul>
+<h2 id="uart-character">UART character<a class="headerlink" href="#uart-character" title="Permanent link">&para;</a></h2>
+<figure class="kb-figure">
+<img src="uart-timing.svg#only-light" alt="One UART character of the FDO2-G2 at its power-up settings: a start bit, eight data bits least significant first, no parity and one stop bit at 19200 bit/s on 3.0 V levels." width="640" height="738" loading="lazy"><img src="uart-timing.dark.svg#only-dark" alt="One UART character of the FDO2-G2 at its power-up settings: a start bit, eight data bits least significant first, no parity and one stop bit at 19200 bit/s on 3.0 V levels." width="640" height="738" loading="lazy">
+<figcaption>UART character</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>The lane is TXD, left to right in time, and RXD carries the same format in the other direction. The line idles high, the start bit pulls it low for one bit time, the data bits D0 to D7 follow and the stop bit returns it high. The table gives the power-up bit rate, the range the #BAUD command sets and the power-up time before the first command.</p>
+<p>Drawn from: <a href="../model/uart-timing.timing.yml"><code>docs/model/uart-timing.timing.yml</code></a>.</p>
+</details>
+<p>Hardware description: <a href="../model/uart-timing.timing.yml"><code>docs/model/uart-timing.timing.yml</code></a></p>
+<p>Drawn from:</p>
+<ul>
+<li><a href="../model/uart-timing.timing.yml"><code>docs/model/uart-timing.timing.yml</code></a></li>
 </ul>
 
 

@@ -102,72 +102,6 @@
   <meta property="og:description" content="C++20 driver for the PyroScience FDO2-G2 and FDO2 optical oxygen sensor modules on UART.">
   <meta property="og:url" content="https://kokeb-labs-drivers.github.io/driver-fdo2/latest/datasheet/">
   <meta name="twitter:card" content="summary">
-  <script>
-(function () {
-  if (typeof mermaid != "undefined" && !(mermaid instanceof Element)) return;
-  var SRC = "https://unpkg.com/mermaid@11.17.2/dist/mermaid.min.js",
-      SRI = "sha384-EOXBFmc3gx5mb+vn0vPvvGqACToJD24hhacX5Yx+8NUUQrHIle/Qi5Bg9o3zKwW2", config = {}, real, loading;
-  var waiting = [], io = null, ahead = false, ENGAGE = ["scroll", "keydown", "pointerdown", "touchstart"];
-  var stub = {
-    initialize: function (c) { config = c || {}; if (real) real.initialize(config); },
-    render: function (id, text) {
-      var el = null, pres = document.querySelectorAll("pre.mermaid:not([data-kb-mermaid])");
-      for (var i = 0; i < pres.length && !el; i++) if (pres[i].textContent === text) el = pres[i];
-      if (el) el.setAttribute("data-kb-mermaid", "");
-      return near(el).then(load).then(function (m) { return m.render(id, text); });
-    }
-  };
-  function load() {
-    return loading || (loading = new Promise(function (resolve, reject) {
-      var s = document.createElement("script");
-      s.src = SRC;
-      s.integrity = SRI;
-      s.crossOrigin = "anonymous";
-      s.onload = function () {
-        real = window.mermaid;
-        window.mermaid = stub;
-        real.initialize(config);
-        resolve(real);
-      };
-      s.onerror = function () { loading = null; reject(new Error("Mermaid did not load")); };
-      document.head.appendChild(s);
-    }));
-  }
-  // One observer for the diagrams still waiting: on the screen only until the reader engages, then a screen ahead.
-  function watch() {
-    if (io) io.disconnect();
-    io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) release(function (w) { return w.el === e.target; });
-      });
-    }, { rootMargin: ahead ? "100% 0px" : "0px" });
-    waiting.forEach(function (w) { io.observe(w.el); });
-  }
-  function release(which) {
-    waiting = waiting.filter(function (w) {
-      if (!which(w)) return true;
-      io.unobserve(w.el);
-      w.go();
-      return false;
-    });
-  }
-  function near(el) {
-    if (real || !el || !("IntersectionObserver" in window)) return Promise.resolve();
-    return new Promise(function (resolve) {
-      waiting.push({ el: el, go: resolve });
-      if (io) io.observe(el); else watch();
-    });
-  }
-  function engaged() {
-    ENGAGE.forEach(function (t) { window.removeEventListener(t, engaged, true); });
-    ahead = true;
-    if (io) watch();
-  }
-  ENGAGE.forEach(function (t) { window.addEventListener(t, engaged, { capture: true, passive: true }); });
-  window.addEventListener("beforeprint", function () { if (io) release(function () { return true; }); });
-  window.mermaid = stub;
-})();
-</script>
 
   </head>
   
@@ -505,6 +439,8 @@
   
     
     
+      
+        
       
         
       
@@ -1106,7 +1042,7 @@ are the datasheet's own (the printed page numbers).</p>
 <td>Datasheet_FDO2-G2: 2 Specifications, Interface</td>
 <td><a href="https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2-G2.pdf&amp;cid=24457#page=6">p. 6</a></td>
 <td><code>kSupplyMinMv</code>, <code>kSupplyMaxMv</code>, the <code>Power</code> pin hook</td>
-<td><a href="../hardware/">Hardware</a></td>
+<td><a href="../hardware/">Hardware</a>, <a href="../bus/">On the bus</a></td>
 </tr>
 <tr>
 <td>Temperature and pressure limits, humidity</td>
@@ -1141,14 +1077,14 @@ are the datasheet's own (the printed page numbers).</p>
 <td>Datasheet_FDO2-G2: 4.1 General Definitions</td>
 <td><a href="https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2-G2.pdf&amp;cid=24457#page=10">p. 10</a></td>
 <td><code>LineAssembler</code>, <code>EncodeCommand()</code>, <code>VerifyEcho()</code></td>
-<td><a href="../protocol/">Protocol</a>, <a href="../porting/">Porting</a></td>
+<td><a href="../protocol/">Protocol</a>, <a href="../porting/">Porting</a>, <a href="../bus/">On the bus</a></td>
 </tr>
 <tr>
 <td>Power-up time</td>
 <td>Datasheet_FDO2-G2: 4 Communication Interface</td>
 <td><a href="https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2-G2.pdf&amp;cid=24457#page=10">p. 10</a></td>
 <td><code>Config::power_up_ms</code>, <code>BeginInitialize()</code></td>
-<td><a href="../quickstart/">Quickstart</a>, <a href="../hardware/">Hardware</a>, <a href="../non-blocking/">Non-blocking use</a></td>
+<td><a href="../quickstart/">Quickstart</a>, <a href="../hardware/">Hardware</a>, <a href="../non-blocking/">Non-blocking use</a>, <a href="../bus/">On the bus</a></td>
 </tr>
 <tr>
 <td>Numbers in a reply</td>
@@ -1162,7 +1098,7 @@ are the datasheet's own (the printed page numbers).</p>
 <td>Datasheet_FDO2-G2: 4.2 Detecting communication errors and optional CRC</td>
 <td><a href="https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2-G2.pdf&amp;cid=24457#page=11">p. 11</a></td>
 <td><code>Crc16Modbus()</code>, <code>CrcMode</code>, <code>CrcActive()</code></td>
-<td><a href="../protocol/">Protocol</a>, <a href="../settings/">Settings</a></td>
+<td><a href="../protocol/">Protocol</a>, <a href="../settings/">Settings</a>, <a href="../bus/">On the bus</a></td>
 </tr>
 <tr>
 <td>#VERS: device, channels, firmware, sensors</td>
@@ -1183,7 +1119,7 @@ are the datasheet's own (the printed page numbers).</p>
 <td>Datasheet_FDO2-G2: 4.3 Commands, #MOXY</td>
 <td><a href="https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2-G2.pdf&amp;cid=24457#page=11">p. 11</a></td>
 <td><code>MeasureOxygen()</code>, <code>Oxygen</code></td>
-<td><a href="../protocol/">Protocol</a>, <a href="../api-guide/">API guide</a></td>
+<td><a href="../protocol/">Protocol</a>, <a href="../api-guide/">API guide</a>, <a href="../bus/">On the bus</a></td>
 </tr>
 <tr>
 <td>#MRAW: phase, signals, pressure, humidity</td>
@@ -1225,7 +1161,7 @@ are the datasheet's own (the printed page numbers).</p>
 <td>Datasheet_FDO2-G2: 4.3 Commands, #BAUD</td>
 <td><a href="https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2-G2.pdf&amp;cid=24457#page=14">p. 14</a></td>
 <td><code>SetBaudRate()</code>, <code>kBaudRates</code>, <code>Resync()</code></td>
-<td><a href="../settings/">Settings</a>, <a href="../porting/">Porting</a></td>
+<td><a href="../settings/">Settings</a>, <a href="../porting/">Porting</a>, <a href="../bus/">On the bus</a></td>
 </tr>
 <tr>
 <td>#CALO: zero calibration</td>
@@ -1260,7 +1196,7 @@ are the datasheet's own (the printed page numbers).</p>
 <td>Datasheet_FDO2-G2: 4.3 Commands, #SETM, modes</td>
 <td><a href="https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2-G2.pdf&amp;cid=24457#page=16">p. 16</a></td>
 <td><code>Config::measurement_ms</code></td>
-<td><a href="../configuration/">Configuration</a>, <a href="../non-blocking/">Non-blocking use</a></td>
+<td><a href="../configuration/">Configuration</a>, <a href="../non-blocking/">Non-blocking use</a>, <a href="../bus/">On the bus</a></td>
 </tr>
 <tr>
 <td>Flash endurance and interrupted writes</td>

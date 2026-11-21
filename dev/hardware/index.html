@@ -16,7 +16,7 @@
         <link rel="prev" href="../platforms/">
       
       
-        <link rel="next" href="../protocol/">
+        <link rel="next" href="../bus/">
       
       
         
@@ -102,72 +102,6 @@
   <meta property="og:description" content="C++20 driver for the PyroScience FDO2-G2 and FDO2 optical oxygen sensor modules on UART.">
   <meta property="og:url" content="https://kokeb-labs-drivers.github.io/driver-fdo2/latest/hardware/">
   <meta name="twitter:card" content="summary">
-  <script>
-(function () {
-  if (typeof mermaid != "undefined" && !(mermaid instanceof Element)) return;
-  var SRC = "https://unpkg.com/mermaid@11.17.2/dist/mermaid.min.js",
-      SRI = "sha384-EOXBFmc3gx5mb+vn0vPvvGqACToJD24hhacX5Yx+8NUUQrHIle/Qi5Bg9o3zKwW2", config = {}, real, loading;
-  var waiting = [], io = null, ahead = false, ENGAGE = ["scroll", "keydown", "pointerdown", "touchstart"];
-  var stub = {
-    initialize: function (c) { config = c || {}; if (real) real.initialize(config); },
-    render: function (id, text) {
-      var el = null, pres = document.querySelectorAll("pre.mermaid:not([data-kb-mermaid])");
-      for (var i = 0; i < pres.length && !el; i++) if (pres[i].textContent === text) el = pres[i];
-      if (el) el.setAttribute("data-kb-mermaid", "");
-      return near(el).then(load).then(function (m) { return m.render(id, text); });
-    }
-  };
-  function load() {
-    return loading || (loading = new Promise(function (resolve, reject) {
-      var s = document.createElement("script");
-      s.src = SRC;
-      s.integrity = SRI;
-      s.crossOrigin = "anonymous";
-      s.onload = function () {
-        real = window.mermaid;
-        window.mermaid = stub;
-        real.initialize(config);
-        resolve(real);
-      };
-      s.onerror = function () { loading = null; reject(new Error("Mermaid did not load")); };
-      document.head.appendChild(s);
-    }));
-  }
-  // One observer for the diagrams still waiting: on the screen only until the reader engages, then a screen ahead.
-  function watch() {
-    if (io) io.disconnect();
-    io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) release(function (w) { return w.el === e.target; });
-      });
-    }, { rootMargin: ahead ? "100% 0px" : "0px" });
-    waiting.forEach(function (w) { io.observe(w.el); });
-  }
-  function release(which) {
-    waiting = waiting.filter(function (w) {
-      if (!which(w)) return true;
-      io.unobserve(w.el);
-      w.go();
-      return false;
-    });
-  }
-  function near(el) {
-    if (real || !el || !("IntersectionObserver" in window)) return Promise.resolve();
-    return new Promise(function (resolve) {
-      waiting.push({ el: el, go: resolve });
-      if (io) io.observe(el); else watch();
-    });
-  }
-  function engaged() {
-    ENGAGE.forEach(function (t) { window.removeEventListener(t, engaged, true); });
-    ahead = true;
-    if (io) watch();
-  }
-  ENGAGE.forEach(function (t) { window.addEventListener(t, engaged, { capture: true, passive: true }); });
-  window.addEventListener("beforeprint", function () { if (io) release(function () { return true; }); });
-  window.mermaid = stub;
-})();
-</script>
 
   </head>
   
@@ -518,6 +452,8 @@
       
         
       
+        
+      
     
     
     
@@ -799,6 +735,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    On the bus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1212,7 +1176,7 @@ this page does not give a part number. Not verified on hardware: the wiring belo
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The FDO2 seen from the top, in its Module, 4-pin package. Pin 1 is marked by the dot; the numbers run counter-clockwise from it. Each pad is coloured by the pin's electrical type (legend below). Next to it is the pin's name and, in mono, the hook of the driver's port that drives or reads it; a pin without a hook is not used by the driver.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
 </details>
 <!-- generated: chip-pins -->
 <p>Module, 4-pin, 4 pins (7 Mechanical Dimensions and Electrical Interface, drawing and pin table, <a href="https://www.pyroscience.com/en/products/all-meters/fdo2-g2?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2-G2.pdf&amp;cid=24457#page=20">p. 20</a>).</p>
@@ -1321,7 +1285,7 @@ is drawn in the outline figure as a square of that size, because the figure syst
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The FDO2 package seen from the top and, when the height is known, from the side, drawn to scale: 28.5 x 28.5 x 27.5 mm. The arrows carry the datasheet's dimensions, the dot marks pin 1 and the pads are numbered counter-clockwise from it, coloured by the pin's electrical type (legend below). Pads sit centred on each side, evenly spaced; the datasheet's land pattern is the reference for a board.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
 </details>
 <h2 id="inside-the-module">Inside the module<a class="headerlink" href="#inside-the-module" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1332,7 +1296,7 @@ is drawn in the outline figure as a square of that size, because the figure syst
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The FDO2's function blocks inside its outline. Arrows between blocks carry signals or data in the direction they point (both ways where they have two heads). The package pins stand on the left and right edges with their numbers, each wired to the block it reaches.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
 </details>
 <p>The datasheets have no block diagram; this one is drawn from their text, and its blocks are marked as unverified in
 <a href="../hardware.yml"><code>hardware.yml</code></a>.</p>
@@ -1345,7 +1309,7 @@ is drawn in the outline figure as a square of that size, because the figure syst
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>A schematic. The MCU is on the left, each of its pins level with the chip pin it connects to; above each wire is the hook of the driver's port that drives or reads it. Supply pins point up to their supply and decoupling, ground pins down. Pins on the right carry the loads and the pins tied to a supply or ground; a cross marks a pin left open. A dot is a junction; wires that cross without a dot are not connected.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
 </details>
 <figure class="kb-figure">
 <img src="../diagrams/chip-circuit-shifted.svg#only-light" alt="Schematic of the FDO2 connection to a 5-volt controller through a divider: the chip with U2 MCU (5 V), R1 resistor 10 kΩ, R2 resistor 12 kΩ, C1 capacitor 100 nF; the MCU wires carry the port hooks GpioSet(CtrlPin::Power), Read(), Write()." width="800" height="716" loading="lazy"><img src="../diagrams/chip-circuit-shifted.dark.svg#only-dark" alt="Schematic of the FDO2 connection to a 5-volt controller through a divider: the chip with U2 MCU (5 V), R1 resistor 10 kΩ, R2 resistor 12 kΩ, C1 capacitor 100 nF; the MCU wires carry the port hooks GpioSet(CtrlPin::Power), Read(), Write()." width="800" height="716" loading="lazy">
@@ -1355,7 +1319,7 @@ is drawn in the outline figure as a square of that size, because the figure syst
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>A schematic. The MCU is on the left, each of its pins level with the chip pin it connects to; above each wire is the hook of the driver's port that drives or reads it. Supply pins point up to their supply and decoupling, ground pins down. Pins on the right carry the loads and the pins tied to a supply or ground; a cross marks a pin left open. A dot is a junction; wires that cross without a dot are not connected.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/aab3765e8582eda24324bff0bae9f4482cd94adf/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-fdo2/blob/c8fc3d5b1e4191749a85b6bb3d5560402bc512dc/inc/fdo2_uart_interface.hpp"><code>inc/fdo2_uart_interface.hpp</code></a>.</p>
 </details>
 <!-- generated: chip-parts -->
 <p><strong>Direct connection to a 3.3-volt controller</strong> (figure <code>chip-circuit-direct</code>)</p>
@@ -1402,7 +1366,7 @@ is drawn in the outline figure as a square of that size, because the figure syst
 <td>U2</td>
 <td>MCU (5 V)</td>
 <td>-</td>
-<td>VDD: +5V, GND: GND, TX: MCU TX, RX: TXD to MCU RX</td>
+<td>VDD: +5V, GND: GND, RX: TXD to MCU RX, TX: MCU TX</td>
 <td>6.2, <a href="https://www.pyroscience.com/en/downloads/legacy?file=files/website_data/Downloads/Manuals/Meters/Datasheet_FDO2.pdf&amp;cid=24471#page=19">p. 19</a></td>
 </tr>
 <tr>
@@ -1539,13 +1503,13 @@ of the driver is in the datasheet: <a href="../datasheet/">Datasheet map</a>.</p
         
         
           
-          <a href="../protocol/" class="md-footer__link md-footer__link--next" aria-label="Next: Protocol">
+          <a href="../bus/" class="md-footer__link md-footer__link--next" aria-label="Next: On the bus">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Protocol
+                On the bus
               </div>
             </div>
             <div class="md-footer__button md-icon">
